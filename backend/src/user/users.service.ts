@@ -33,4 +33,9 @@ export class UsersService {
 //   async updateMusician(id: string, updateMusicianDto: CreateMusicianDto) {
 //     await this.musicianModel.findByIdAndUpdate(id, updateMusicianDto).exec();
 //   }
+
+async findOne(email: string): Promise<User | undefined> {
+  return this.userModel.findOne({email}).exec();
+}
+
 }
