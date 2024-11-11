@@ -1,12 +1,9 @@
-import { Input } from "./components/atoms/Input";
-import { PrimaryButton } from "./components/atoms/PrimaryButton";
+import { RegisterForm } from "./components/RegisterForm";
 
 function App() {
   return (
     <>
-      <Input inputPlaceholder="Email" />
-      <Input inputPlaceholder="Password" />
-      <PrimaryButton buttonText="Submit" />
+    <RegisterForm />
     </>
   );
 }
