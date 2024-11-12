@@ -13,7 +13,7 @@ export class AuthService {
     email: string,
     password: string,
   ): Promise<{ message: string; access_token: string }> {
-    const user = await this.usersService.findOne(email);
+    const user = await this.usersService.findByEmail(email);
     if (user?.password !== password) {
       throw new UnauthorizedException();
     }
