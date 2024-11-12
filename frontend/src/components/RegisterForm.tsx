@@ -15,6 +15,7 @@ export function RegisterForm({}: FormProps) {
   // Define the event handlers for the form fields.
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
+    console.log("Email changed to:", event.target.value);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
