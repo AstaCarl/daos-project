@@ -4,5 +4,9 @@ type PrimaryButtonProps = {
 };
 
 export function PrimaryButton({ buttonText, type }: PrimaryButtonProps) {
-  return <button type={type}>{buttonText}</button>;
+  return (
+    <button className="bg-blue-500" type={type}>
+      {buttonText}
+    </button>
+  );
 }
