@@ -1,5 +1,3 @@
-
-
 function Index() {
   return (
     <>
