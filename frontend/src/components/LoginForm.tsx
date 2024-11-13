@@ -39,7 +39,6 @@ export default function LoginForm({}: Props) {
 
   return (
     <>
-      <Logo />
       <form onSubmit={handleSubmit} action="">
         <Input
           onChange={handleEmailChange}
