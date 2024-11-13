@@ -2,6 +2,7 @@ import { Input } from "./atoms/Input";
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import { useState } from "react";
 import { post } from "../utils/api";
+import { Logo } from "./atoms/Logo";
 
 type Props = {};
 
@@ -38,6 +39,7 @@ export default function LoginForm({}: Props) {
 
   return (
     <>
+      <Logo />
       <form onSubmit={handleSubmit} action="">
         <Input
           onChange={handleEmailChange}
