@@ -6,13 +6,15 @@ export default {
       fontFamily: {
         display: "oswald, sans-serif",
         sans: "montserrat, sans-serif",
-
+      },
+      fontSize: {
+        xs: ["10px", "10px"],
       },
       colors: {
         red: "#BF1E2E",
         blue: "#353A5D",
         grey: "#F0F0F0",
-        "dark-grey": "#777777"
+        "dark-grey": "#777777",
       },
     },
   },
