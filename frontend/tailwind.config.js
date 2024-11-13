@@ -2,7 +2,19 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        display: "oswald, sans-serif",
+        sans: "montserrat, sans-serif",
+
+      },
+      colors: {
+        red: "#BF1E2E",
+        blue: "#353A5D",
+        grey: "#F0F0F0",
+        "dark-grey": "#777777"
+      },
+    },
   },
   plugins: [],
 };
