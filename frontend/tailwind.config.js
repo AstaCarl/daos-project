@@ -15,6 +15,8 @@ export default {
         blue: "#353A5D",
         grey: "#F0F0F0",
         "dark-grey": "#777777",
+        'border-gray': "#DDDDDD"
+
       },
     },
   },

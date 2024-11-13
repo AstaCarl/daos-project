@@ -21,6 +21,7 @@ export function Input({
       name={inputName}
       type="text"
       placeholder={inputPlaceholder}
+      className="border border-border-gray rounded-md p-2 font-sans text-base placeholder:font-sans placeholder:text-dark-grey shadow-md"
     />
   );
 }
