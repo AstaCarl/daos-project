@@ -1,5 +1,6 @@
 import { post } from "../utils/api";
 import Anchor from "./atoms/Anchor";
+import Icon from "./atoms/Icon";
 import { Input } from "./atoms/Input";
 import Paragraf from "./atoms/Paragraf";
 import { PrimaryButton } from "./atoms/PrimaryButton";
@@ -13,6 +14,15 @@ export function RegisterForm({}: FormProps) {
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
+  const [type, setType] = useState('password');
+
+  const handleToggle = () => {
+    if (type==='password'){
+       setType('text')
+    } else {
+       setType('password')
+    }
+ }
 
   // Define the event handlers for the form fields.
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,44 +57,54 @@ export function RegisterForm({}: FormProps) {
   };
 
   return (
-    <form className="flex flex-col gap-6 pt-6 w-full" onSubmit={handleSubmit} action="">
+    <form
+      className="flex flex-col gap-6 pt-6 w-full"
+      onSubmit={handleSubmit}
+      action=""
+    >
       <div className="space-y-4">
-      <div className="flex w-full gap-5">
-      <Input
-        type="text"
-        onChange={handleNameChange}
-        value={name}
-        inputName="name"
-        id="name"
-        inputPlaceholder="Fornavn"
-      />
-      <Input
-        type="text"
-        onChange={handleLastnameChange}
-        value={lastname}
-        inputName="lastname"
-        id="lastname"
-        inputPlaceholder="Efternavn"
-      />
+        <div className="flex w-full gap-5">
+          <Input
+            type="text"
+            onChange={handleNameChange}
+            value={name}
+            inputName="name"
+            id="name"
+            inputPlaceholder="Fornavn"
+          />
+          <Input
+            type="text"
+            onChange={handleLastnameChange}
+            value={lastname}
+            inputName="lastname"
+            id="lastname"
+            inputPlaceholder="Efternavn"
+          />
+        </div>
+        <Input
+          type="email"
+          onChange={handleEmailChange}
+          value={email}
+          inputName="email"
+          id="email"
+          inputPlaceholder="E-mail"
+        />
+        <Input
+          type={type}
+          onChange={handlePasswordChange}
+          value={password}
+          inputName="password"
+          id="password"
+          inputPlaceholder="Adgangskode"
+        />
+        <span className="flex justify-around items-center">
+          <div onClick={handleToggle} className="absolute cursor-pointer -mt-[80px] right-[27px]">
+          <Icon variant="showPassword" />
+          </div>
+        </span>
       </div>
-      <Input
-        type="email"
-        onChange={handleEmailChange}
-        value={email}
-        inputName="email"
-        id="email"
-        inputPlaceholder="E-mail"
-      />
-      <Input
-        type="password"
-        onChange={handlePasswordChange}
-        value={password}
-        inputName="password"
-        id="password"
-        inputPlaceholder="Adgangskode"
-      />
-      </div>
-      <Paragraf variant="body-small" paragrafText="Har du allerede en profil? "><Anchor href="/login" anchorText="Log ind her" variant="default"/>
+      <Paragraf variant="body-small" paragrafText="Har du allerede en profil? ">
+        <Anchor href="/login" anchorText="Log ind her" variant="default" />
       </Paragraf>
       <PrimaryButton type="submit" buttonText="Opret profil" />
     </form>
