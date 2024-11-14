@@ -7,7 +7,7 @@ type Props = {}
 
 export default function Footer({}: Props) {
   return (
-    <footer className="bg-red flex flex-col gap-6 pt-7 ps-3 pb-7">
+    <footer className="bg-red flex flex-col gap-6 py-7 ps-3">
         <Subtitle variant="footer" subtitle="Musik samspil" />
         <div className="flex flex-col gap-2">
         <Anchor href="/about" anchorText="Hjem" variant="footer" />
