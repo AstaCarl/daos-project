@@ -1,12 +1,14 @@
 import { post } from "../utils/api";
+import Anchor from "./atoms/Anchor";
 import { Input } from "./atoms/Input";
+import Paragraf from "./atoms/Paragraf";
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import { useState } from "react";
 
 type FormProps = {};
 
 export function RegisterForm({}: FormProps) {
-    // Define the state variables for the form fields.
+  // Define the state variables for the form fields.
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -34,8 +36,8 @@ export function RegisterForm({}: FormProps) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Form submitted");
-    
-//    Make a POST request to the /user endpoint with the form data. The function post is imported from the utils/api module.
+
+    //    Make a POST request to the /user endpoint with the form data. The function post is imported from the utils/api module.
     try {
       const response = await post("/user", { name, lastname, email, password });
       console.log("User registered successfully!", response);
@@ -45,8 +47,11 @@ export function RegisterForm({}: FormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} action="">
+    <form className="flex flex-col gap-6 pt-6 w-full" onSubmit={handleSubmit} action="">
+      <div className="space-y-4">
+      <div className="flex w-full gap-5">
       <Input
+        type="text"
         onChange={handleNameChange}
         value={name}
         inputName="name"
@@ -54,27 +59,34 @@ export function RegisterForm({}: FormProps) {
         inputPlaceholder="Fornavn"
       />
       <Input
+        type="text"
         onChange={handleLastnameChange}
         value={lastname}
         inputName="lastname"
         id="lastname"
         inputPlaceholder="Efternavn"
       />
+      </div>
       <Input
+        type="email"
         onChange={handleEmailChange}
         value={email}
         inputName="email"
         id="email"
-        inputPlaceholder="Email"
+        inputPlaceholder="E-mail"
       />
       <Input
+        type="password"
         onChange={handlePasswordChange}
         value={password}
         inputName="password"
         id="password"
-        inputPlaceholder="Password"
+        inputPlaceholder="Adgangskode"
       />
-      <PrimaryButton type="submit" buttonText="Submit" />
+      </div>
+      <Paragraf variant="body-small" paragrafText="Har du allerede en profil? "><Anchor href="/login" anchorText="Log ind her" variant="default"/>
+      </Paragraf>
+      <PrimaryButton type="submit" buttonText="Opret profil" />
     </form>
   );
 }

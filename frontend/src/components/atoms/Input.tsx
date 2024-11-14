@@ -27,7 +27,7 @@ export function Input({
       name={inputName}
       type={type}
       placeholder={inputPlaceholder}
-      className="p-3 border border-border-gray rounded-md font-sans text-base placeholder:font-sans placeholder:text-dark-grey shadow-md"
+      className="p-3 border w-full border-border-gray rounded-md font-sans text-base placeholder:font-sans placeholder:text-dark-grey shadow-md"
     />
     </div>
   );
