@@ -1,14 +1,14 @@
 import Anchor from "./atoms/Anchor";
 import { Logo } from "./atoms/Logo";
 import { PrimaryButton } from "./atoms/PrimaryButton";
-import { BurgerButton } from "./atoms/BurgerButton";
+import Icon from "./atoms/Icon";
 
 type Props = {};
 
 export default function Header({}: Props) {
   return (
     <>
-      <div className="flex justify-between items-center bg-slate-500 h-20 w-full py-[12px] px-[19px]">
+      <div className="flex justify-between items-center bg-white border border-gray h-20 w-full py-[12px] px-[19px]">
         <div>
           <Logo />
         </div>
@@ -34,7 +34,7 @@ export default function Header({}: Props) {
             {PrimaryButton({ buttonText: "Log ind", type: "button" })}
           </ul>
         </div>
-        <BurgerButton />
+        <Icon variant="burger" />
       </div>
     </>
   );
