@@ -5,15 +5,18 @@ import "./index.css";
 import Index from "./routes/index";
 import Login from "./routes/login";
 import Register from "./routes/register";
+import Layout from "./components/Layout";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
+    <Layout>
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      </Layout>
     </BrowserRouter>
   </StrictMode>
 );

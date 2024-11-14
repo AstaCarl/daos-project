@@ -2,6 +2,8 @@ import { Input } from "./atoms/Input";
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import { useState } from "react";
 import { post } from "../utils/api";
+import Anchor from "./atoms/Anchor";
+import Paragraf from "./atoms/Paragraf";
 
 type Props = {};
 
@@ -38,22 +40,36 @@ export default function LoginForm({}: Props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit} action="">
-        <Input
-          onChange={handleEmailChange}
-          value={email}
-          inputName="email"
-          id="email"
-          inputPlaceholder="Email"
-        />
-        <Input
-          onChange={handlePasswordChange}
-          value={password}
-          inputName="password"
-          id="password"
-          inputPlaceholder="Password"
-        />
-        <PrimaryButton type="submit" buttonText="Submit" />
+      <form className="flex flex-col gap-6 pt-6" onSubmit={handleSubmit}>
+        <div className="flex flex-col space-y-4">
+          <Input
+            type="email"
+            labelText="E-mail"
+            onChange={handleEmailChange}
+            value={email}
+            inputName="email"
+            id="email"
+            inputPlaceholder="Email"
+          />
+
+          <Input
+            type="password"
+            labelText="Adgangskode"
+            onChange={handlePasswordChange}
+            value={password}
+            inputName="password"
+            id="password"
+            inputPlaceholder="Password"
+          />
+        </div>
+        <Paragraf variant="body-small" paragrafText="Har du ikke en bruger? ">
+          <Anchor
+            href="/register"
+            anchorText="Opret bruger"
+            variant="default"
+          />
+        </Paragraf>
+        <PrimaryButton type="submit" buttonText="Log ind" />
       </form>
     </>
   );
