@@ -40,13 +40,10 @@ export default function LoginForm({}: Props) {
 
   return (
     <>
-      <form
-        className="flex flex-col gap-6 pt-6"
-        onSubmit={handleSubmit}
-      >
+      <form className="flex flex-col gap-6 pt-6" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-4">
           <Input
-          type="email"
+            type="email"
             labelText="E-mail"
             onChange={handleEmailChange}
             value={email}
