@@ -4,12 +4,22 @@ import { useState } from "react";
 import { post } from "../utils/api";
 import Anchor from "./atoms/Anchor";
 import Paragraf from "./atoms/Paragraf";
+import Icon from "./atoms/Icon";
 
 type Props = {};
 
 export default function LoginForm({}: Props) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [type, setType] = useState('password');
+
+  const handleToggle = () => {
+    if (type==='password'){
+       setType('text')
+    } else {
+       setType('password')
+    }
+ }
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -53,7 +63,7 @@ export default function LoginForm({}: Props) {
           />
 
           <Input
-            type="password"
+            type={type}
             labelText="Adgangskode"
             onChange={handlePasswordChange}
             value={password}
@@ -61,6 +71,11 @@ export default function LoginForm({}: Props) {
             id="password"
             inputPlaceholder="Password"
           />
+                  <span className="flex justify-around items-center">
+          <div onClick={handleToggle} className="absolute cursor-pointer -mt-[80px] right-[27px]">
+          <Icon variant="showPassword" />
+          </div>
+        </span>
         </div>
         <Paragraf variant="body-small" paragrafText="Har du ikke en bruger? ">
           <Anchor
