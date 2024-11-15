@@ -5,7 +5,6 @@ import burgerIcon from "../../assets/icons8-menu.svg";
 import showPasswordIcon from "../../assets/show-password.svg";
 
 type Props = {
-  variant: "facebook" | "instagram" | "linkedIn" | "burger";
   onClick?: () => void;
   variant: "facebook" | "instagram" | "linkedIn" | "burger" | "showPassword";
 };
