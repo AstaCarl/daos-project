@@ -4,8 +4,8 @@ import {
   Body,
   Get,
   Delete,
-  Patch,
   Param,
+  BadRequestException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
@@ -23,6 +23,10 @@ export class UserController {
   //Post a new user
   @Post('')
   async create(@Body() createUserDto: CreateUserDto) {
+    const existingUser = await this.usersService.findByEmail(createUserDto.email);
+    if (existingUser) {
+        throw new BadRequestException('User with this email already exists');
+    }
     return await this.usersService.create(createUserDto);
   }
 
