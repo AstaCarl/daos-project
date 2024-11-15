@@ -5,9 +5,10 @@ import burgerIcon from "../../assets/icons8-menu.svg";
 
 type Props = {
   variant: "facebook" | "instagram" | "linkedIn" | "burger";
+  onClick?: () => void;
 };
 
-export default function Icon({ variant }: Props) {
+export default function Icon({ variant, onClick }: Props) {
   const variantIcon = {
     facebook: facebookIcon,
     instagram: instagramIcon,
@@ -15,7 +16,7 @@ export default function Icon({ variant }: Props) {
     burger: burgerIcon,
   };
   return (
-    <div className="">
+    <div onClick={onClick} className="">
       <img src={variantIcon[variant]} alt="" />
     </div>
   );
