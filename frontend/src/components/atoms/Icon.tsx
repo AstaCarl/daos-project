@@ -5,10 +5,12 @@ import burgerIcon from "../../assets/icons8-menu.svg";
 import showPasswordIcon from "../../assets/show-password.svg";
 
 type Props = {
+  variant: "facebook" | "instagram" | "linkedIn" | "burger";
+  onClick?: () => void;
   variant: "facebook" | "instagram" | "linkedIn" | "burger" | "showPassword";
 };
 
-export default function Icon({ variant }: Props) {
+export default function Icon({ variant, onClick }: Props) {
   const variantIcon = {
     facebook: facebookIcon,
     instagram: instagramIcon,
@@ -17,7 +19,7 @@ export default function Icon({ variant }: Props) {
     showPassword: showPasswordIcon,
   };
   return (
-    <div className="">
+    <div onClick={onClick} className="">
       <img src={variantIcon[variant]} alt="" />
     </div>
   );
