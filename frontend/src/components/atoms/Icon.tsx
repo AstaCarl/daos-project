@@ -2,11 +2,18 @@ import facebookIcon from "../../assets/footer-facebook.svg";
 import instagramIcon from "../../assets/footer-instagram.svg";
 import linkedInIcon from "../../assets/footer-linkedin.svg";
 import burgerIcon from "../../assets/icons8-menu.svg";
+import closeIcon from "../../assets/close-icon.svg";
 import showPasswordIcon from "../../assets/show-password.svg";
 
 type Props = {
   onClick?: () => void;
-  variant: "facebook" | "instagram" | "linkedIn" | "burger" | "showPassword";
+  variant:
+    | "facebook"
+    | "instagram"
+    | "linkedIn"
+    | "burger"
+    | "close"
+    | "showPassword";
 };
 
 export default function Icon({ variant, onClick }: Props) {
@@ -15,6 +22,7 @@ export default function Icon({ variant, onClick }: Props) {
     instagram: instagramIcon,
     linkedIn: linkedInIcon,
     burger: burgerIcon,
+    close: closeIcon,
     showPassword: showPasswordIcon,
   };
   return (
