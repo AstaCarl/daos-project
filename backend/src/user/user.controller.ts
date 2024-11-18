@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
+import { CreateMyInstrumentDto } from 'src/my_instruments/dto/create-my_instrument.dto';
 
 @Controller('user')
 export class UserController {
@@ -16,9 +17,15 @@ export class UserController {
 
   //Get all users
   @Get('')
-  findAll() {
+  async findAll() {
     return this.usersService.findAll();
   }
+
+  @Post('/:id/my-instruments')
+  createMyInstrument(@Param('id') id: string, @Body() createMyInstrumentDto: CreateMyInstrumentDto) {
+    return this.usersService.linkMyInstrumentToUser(id, createMyInstrumentDto);
+  }
+  
 
   //Post a new user
   @Post('')
