@@ -46,7 +46,11 @@ export default function Header({}: Props) {
             {PrimaryButton({ buttonText: "Log ind", type: "button" })}
           </ul>
         </div>
-        <Icon onClick={toggleMenu} variant="burger" />
+        {isMenuOpen ? (
+          <Icon onClick={toggleMenu} variant="close" />
+        ) : (
+          <Icon onClick={toggleMenu} variant="burger" />
+        )}
       </div>
     </>
   );
