@@ -11,15 +11,15 @@ type Props = {};
 export default function LoginForm({}: Props) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [type, setType] = useState('password');
+  const [type, setType] = useState("password");
 
   const handleToggle = () => {
-    if (type==='password'){
-       setType('text')
+    if (type === "password") {
+      setType("text");
     } else {
-       setType('password')
+      setType("password");
     }
- }
+  };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -71,11 +71,14 @@ export default function LoginForm({}: Props) {
             id="password"
             inputPlaceholder="Password"
           />
-                  <span className="flex justify-around items-center">
-          <div onClick={handleToggle} className="absolute cursor-pointer -mt-[80px] right-[27px]">
-          <Icon variant="showPassword" />
-          </div>
-        </span>
+          <span className="flex justify-around items-center">
+            <div
+              onClick={handleToggle}
+              className="absolute cursor-pointer -mt-[80px] right-[27px]"
+            >
+              <Icon variant="showPassword" />
+            </div>
+          </span>
         </div>
         <Paragraf variant="body-small" paragrafText="Har du ikke en bruger? ">
           <Anchor
