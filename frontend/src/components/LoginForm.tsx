@@ -6,12 +6,14 @@ import Anchor from "./atoms/Anchor";
 import Paragraf from "./atoms/Paragraf";
 import Icon from "./atoms/Icon";
 import useAuthStore from "../hooks/store/auth-store.ts";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm({}) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [type, setType] = useState("password");
   const { login } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     if (type === "password") {
@@ -50,6 +52,7 @@ export default function LoginForm({}) {
         console.log("Login successful:", data);
         localStorage.setItem("accessToken", data.access_token);
         login();
+        navigate("/profile");
       } else {
         // Handle error response
         const errorData = await response.json();
