@@ -10,17 +10,12 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async linkMyInstrumentToUser(id: string, createMyInstrumentDto: CreateMyInstrumentDto) {
-    // const user: UserDocument = await this.userModel.findById(id);
-    // user.myInstruments.push(createMyInstrumentDto);
-    // return user.save();
-    
     return this.userModel.findByIdAndUpdate(id, { $push: { myInstruments: createMyInstrumentDto } });
   }
 
   async findOne(id: string): Promise<User | undefined> {
     return this.userModel.findById(id).populate('myInstruments').exec();
   }
-  
 
   async findAll() {
     return this.userModel.find().populate('myInstruments');
