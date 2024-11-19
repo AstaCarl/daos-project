@@ -1,12 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Type } from 'class-transformer';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { Type, Transform } from 'class-transformer';
+import mongoose, { HydratedDocument, ObjectId } from 'mongoose';
 import { MyInstruments } from 'src/my_instruments/entities/my_instrument.entity';
 
 export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User {
+  @Transform(({ value }) => value.toString())
+  _id: ObjectId;
+
   @Prop()
   name: string;
 

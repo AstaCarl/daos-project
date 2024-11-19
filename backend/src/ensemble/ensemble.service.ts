@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateEnsembleDto } from './dto/create-ensemble.dto';
 import { UpdateEnsembleDto } from './dto/update-ensemble.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { Ensemble } from './schema/ensemble.schema';
 
 @Injectable()
@@ -10,8 +10,9 @@ export class EnsembleService {
   constructor(
     @InjectModel('Ensemble') private ensembleModel: Model<Ensemble>,
   ) {}
-  create(createEnsembleDto: CreateEnsembleDto) {
+  create(createEnsembleDto: CreateEnsembleDto, userId: any) {
     const createdEnsemble = new this.ensembleModel(createEnsembleDto);
+    createdEnsemble.activeUsers = userId;
     return createdEnsemble.save();
   }
 
