@@ -5,7 +5,7 @@ import { post } from "../hooks/api";
 import Anchor from "./atoms/Anchor";
 import Paragraf from "./atoms/Paragraf";
 import Icon from "./atoms/Icon";
-import { useAuthStore } from "../hooks/store/auth-store";
+import useAuthStore from "../hooks/store/auth-store.ts";
 
 type Props = {};
 
@@ -13,7 +13,8 @@ export default function LoginForm({}: Props) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [type, setType] = useState("password");
-  const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  // const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const { login } = useAuthStore();
 
   const handleToggle = () => {
     if (type === "password") {
@@ -40,15 +41,12 @@ export default function LoginForm({}: Props) {
     try {
       const response = await post("/auth/login", { email, password });
       const data = await response.json();
-      console.log("User logged in successfully!", response);
-      console.log("data-object", data);
-      // Assuming the access token is in data.token
-      // Assuming the access token is in data.token
       if (data.access_token) {
-        setAccessToken(data.access_token);
-      } else {
-        console.log("No token found in response data");
+        localStorage.setItem("accessToken", data.access_token);
+        login();
+        console.log("Login function called");
       }
+      console.log("Redirect function called");
     } catch (error) {
       console.error("Error login user:", error);
     }
