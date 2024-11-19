@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from './schema/user.schema';
+import { User } from './schema/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateMyInstrumentDto } from 'src/my_instruments/dto/create-my_instrument.dto';
 
@@ -9,8 +9,13 @@ import { CreateMyInstrumentDto } from 'src/my_instruments/dto/create-my_instrume
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async linkMyInstrumentToUser(id: string, createMyInstrumentDto: CreateMyInstrumentDto) {
-    return this.userModel.findByIdAndUpdate(id, { $push: { myInstruments: createMyInstrumentDto } });
+  async linkMyInstrumentToUser(
+    id: string,
+    createMyInstrumentDto: CreateMyInstrumentDto,
+  ) {
+    return this.userModel.findByIdAndUpdate(id, {
+      $push: { myInstruments: createMyInstrumentDto },
+    });
   }
 
   async findOne(id: string): Promise<User | undefined> {
@@ -21,19 +26,11 @@ export class UsersService {
     return this.userModel.find().populate('myInstruments');
   }
 
-  // // Get all musicians
-  // async findAll(): Promise<User[]> {
-  //   return this.userModel.find().exec();
-  // }
-
-  //   // Find a musician by id
-  //   async findOne(id: string): Promise<Musician> {
-  //     return this.musicianModel.findById(id).exec();
-  //   }
-
-  // Create a musician
+  // Create a user
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const existingUser = await this.userModel.findOne({email: createUserDto.email}).exec();
+    const existingUser = await this.userModel
+      .findOne({ email: createUserDto.email })
+      .exec();
     const createdUser = new this.userModel(createUserDto);
     if (createdUser.email === existingUser.email) {
       throw new NotFoundException('User with this email already exists');
@@ -50,12 +47,8 @@ export class UsersService {
     return deletedUser;
   }
 
-  // async findOne(id: string): Promise<User | undefined> {
-  //   return this.userModel.findById(id).exec();
-  // }
-
   async findByEmail(email: string): Promise<User | undefined> {
-    return this.userModel.findOne({email}).exec();
+    return this.userModel.findOne({ email }).exec();
   }
 
   async deleteMany() {
