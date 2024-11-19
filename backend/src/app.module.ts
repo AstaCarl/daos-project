@@ -7,17 +7,16 @@ import { AuthModule } from './auth/auth.module';
 // import { UserDataModule } from './userData/userData.module';
 import { MyInstrumentsModule } from './my_instruments/my_instruments.module';
 import { InstrumentsModule } from './instruments/instruments.module';
-import { LevelsModule } from './levels/levels.module';
+import { EnsembleModule } from './ensemble/ensemble.module';
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost/daos'),
     UserModule,
     AuthModule,
-    LevelsModule,
     // UserDataModule,
     MyInstrumentsModule,
     InstrumentsModule,
-    LevelsModule,
+    EnsembleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

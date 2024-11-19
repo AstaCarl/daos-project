@@ -3,6 +3,7 @@ import { Logo } from "./atoms/Logo";
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import Icon from "./atoms/Icon";
 import { useState } from "react";
+import ProfileIcon from "../assets/profile-icon.png";
 
 type Props = {};
 
@@ -45,6 +46,9 @@ export default function Header({}: Props) {
             {PrimaryButton({ buttonText: "Opret bruger", type: "button" })}
             {PrimaryButton({ buttonText: "Log ind", type: "button" })}
           </ul>
+        </div>
+        <div>
+          <ProfileIcon />
         </div>
         {isMenuOpen ? (
           <Icon onClick={toggleMenu} variant="close" />
