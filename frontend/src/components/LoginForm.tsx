@@ -105,7 +105,6 @@ export default function LoginForm({}) {
             anchorText="Opret bruger"
             variant="default"
           />
-          <Anchor href="/profile" anchorText="profil" variant="default" />
         </Paragraf>
         <PrimaryButton type="submit" buttonText="Log ind" />
       </form>
