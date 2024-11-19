@@ -1,15 +1,13 @@
 import { Input } from "./atoms/Input";
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import { useState } from "react";
-import { post } from "../hooks/api";
+import { useFetch } from "../hooks/use-fetch.ts";
 import Anchor from "./atoms/Anchor";
 import Paragraf from "./atoms/Paragraf";
 import Icon from "./atoms/Icon";
 import useAuthStore from "../hooks/store/auth-store.ts";
 
-type Props = {};
-
-export default function LoginForm({}: Props) {
+export default function LoginForm({}) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [type, setType] = useState("password");
@@ -31,25 +29,40 @@ export default function LoginForm({}: Props) {
     setPassword(event.target.value);
   };
 
-  // Define the event handler for the form submission.
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("Form submitted");
-
-    //    Make a POST request to the /user endpoint with the form data. The function post is imported from the utils/api module.
+    event.preventDefault(); // Prevent default form submission behavior
+  
     try {
-      const response = await post("/auth/login", { email, password });
-      const data = await response.json();
-      if (data.access_token) {
+      // Prepare the login data
+      const loginData = {
+        email: email,
+        password: password,
+      };
+  
+      // Call the useFetch function to send the login request
+      const response = await useFetch("/auth/login", "POST", {
+        "Content-Type": "application/json",
+      }, loginData);
+  
+      // Check if the response is successful
+      if (response.ok) {
+        const data = await response.json(); // Parse the response JSON
+        console.log("Login successful:", data);
         localStorage.setItem("accessToken", data.access_token);
         login();
-        console.log("Login function called");
+      } else {
+        // Handle error response
+        const errorData = await response.json();
+        console.error("Login failed:", errorData.message);
+        alert("Login failed: " + errorData.message);
       }
-      console.log("Redirect function called");
     } catch (error) {
-      console.error("Error login user:", error);
+      // Handle network or other errors
+      console.error("Error during login:", error);
+      alert("An unexpected error occurred. Please try again.");
     }
   };
+
 
   return (
     <>
