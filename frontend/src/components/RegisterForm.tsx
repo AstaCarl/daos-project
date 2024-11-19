@@ -142,7 +142,7 @@ export function RegisterForm({}) {
         <span className="flex justify-around items-center">
           <div
             onClick={handleToggle}
-            className="absolute cursor-pointer -mt-[80px] right-[27px]"
+            className="absolute cursor-pointer top-[43.5%] right-[27px]"
           >
             <Icon variant="showPassword" />
           </div>
