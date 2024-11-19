@@ -5,7 +5,6 @@ import useAuthStore from "../hooks/store/auth-store";
 type Props = {}
 
 export default function profile({}: Props) {
-    // const accessToken = useAuthStore((state) => state.accessToken);
     const navigate = useNavigate();
     const {login} = useAuthStore()
 

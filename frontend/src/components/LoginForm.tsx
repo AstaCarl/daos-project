@@ -13,7 +13,6 @@ export default function LoginForm({}: Props) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [type, setType] = useState("password");
-  // const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const { login } = useAuthStore();
 
   const handleToggle = () => {
