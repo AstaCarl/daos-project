@@ -5,30 +5,31 @@ import { Input } from "./atoms/Input";
 import Paragraf from "./atoms/Paragraf";
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-type FormProps = {};
 
-export function RegisterForm({}: FormProps) {
+export function RegisterForm({}) {
   // Define the state variables for the form fields.
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
-  const [type, setType] = useState('password');
-  // const { login } = useAuthStore();
+  const [type, setType] = useState("password");
+  const [errors, setErrors] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   const handleToggle = () => {
-    if (type==='password'){
-       setType('text')
+    if (type === "password") {
+      setType("text");
     } else {
-       setType('password')
+      setType("password");
     }
- }
+  };
 
   // Define the event handlers for the form fields.
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
-    console.log("Email changed to:", event.target.value);
+    setErrors([]); // Reset errors on submit
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +46,6 @@ export function RegisterForm({}: FormProps) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
-  
     try {
       // Prepare the register data
       const registerData = {
@@ -54,21 +54,24 @@ export function RegisterForm({}: FormProps) {
         email: email,
         password: password,
       };
-  
+
       // Call the useFetch function to send the post request
-      const response = await useFetch("/user", "POST", {
-        "Content-Type": "application/json",
-      }, registerData);
-  
+      const response = await useFetch(
+        "/user",
+        "POST",
+        {
+          "Content-Type": "application/json",
+        },
+        registerData
+      );
       // Check if the response is successful
       if (response.ok) {
-        const data = await response.json(); // Parse the response JSON
-        console.log("register successful:", data);
+        alert("Din profil er oprettet");
+        navigate("/login");
       } else {
         // Handle error response
         const errorData = await response.json();
-        console.error("register failed:", errorData.message);
-        alert("register failed: " + errorData.message);
+        setErrors(errorData.message || ["An error occurred."]);
       }
     } catch (error) {
       // Handle network or other errors
@@ -92,6 +95,9 @@ export function RegisterForm({}: FormProps) {
             inputName="name"
             id="name"
             inputPlaceholder="Fornavn"
+            {...(errors.includes("name should not be empty") && {
+              errorMessage: "Fornavn skal udfyldes",
+            })}
           />
           <Input
             type="text"
@@ -100,15 +106,27 @@ export function RegisterForm({}: FormProps) {
             inputName="lastname"
             id="lastname"
             inputPlaceholder="Efternavn"
+            {...(errors.includes("lastname should not be empty") && {
+              errorMessage: "Efternavn skal udfyldes",
+            })}
           />
         </div>
         <Input
-          type="email"
+          type="text"
           onChange={handleEmailChange}
           value={email}
           inputName="email"
           id="email"
           inputPlaceholder="E-mail"
+          errorMessage={
+            errors && errors.includes("email should not be empty")
+              ? "Email skal udfyldes"
+              : errors && errors.includes("email must be an email")
+              ? "Email skal være en gyldig email"
+              : errors && errors.includes("User with this email already exists")
+              ? "En bruger med denne email eksisterer allerede."
+              : undefined
+          }
         />
         <Input
           type={type}
@@ -117,17 +135,27 @@ export function RegisterForm({}: FormProps) {
           inputName="password"
           id="password"
           inputPlaceholder="Adgangskode"
+          {...(errors.includes("password should not be empty") && {
+            errorMessage: "Adgangskode skal udfyldes",
+          })}
         />
         <span className="flex justify-around items-center">
-          <div onClick={handleToggle} className="absolute cursor-pointer -mt-[80px] right-[27px]">
-          <Icon variant="showPassword" />
+          <div
+            onClick={handleToggle}
+            className="absolute cursor-pointer top-[43.5%] right-[27px]"
+          >
+            <Icon variant="showPassword" />
           </div>
         </span>
       </div>
       <Paragraf variant="body-small" paragrafText="Har du allerede en profil? ">
         <Anchor href="/login" anchorText="Log ind her" variant="default" />
       </Paragraf>
-      <PrimaryButton type="submit" buttonText="Opret profil" variant="primary" />
+      <PrimaryButton
+        type="submit"
+        buttonText="Opret profil"
+        variant="primary"
+      />
     </form>
   );
 }
