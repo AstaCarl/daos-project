@@ -31,10 +31,10 @@ export class UsersService {
     const existingUser = await this.userModel
       .findOne({ email: createUserDto.email })
       .exec();
-    const createdUser = new this.userModel(createUserDto);
-    if (createdUser.email === existingUser.email) {
+    if (existingUser) {
       throw new NotFoundException('User with this email already exists');
     }
+    const createdUser = new this.userModel(createUserDto);
     return createdUser.save();
   }
 
