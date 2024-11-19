@@ -127,7 +127,7 @@ export function RegisterForm({}: FormProps) {
       <Paragraf variant="body-small" paragrafText="Har du allerede en profil? ">
         <Anchor href="/login" anchorText="Log ind her" variant="default" />
       </Paragraf>
-      <PrimaryButton type="submit" buttonText="Opret profil" />
+      <PrimaryButton type="submit" buttonText="Opret profil" variant="primary" />
     </form>
   );
 }

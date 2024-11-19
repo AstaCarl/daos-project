@@ -106,7 +106,7 @@ export default function LoginForm({}) {
             variant="default"
           />
         </Paragraf>
-        <PrimaryButton type="submit" buttonText="Log ind" />
+        <PrimaryButton type="submit" buttonText="Log ind" variant="primary" />
       </form>
     </>
   );

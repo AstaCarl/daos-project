@@ -23,27 +23,27 @@ export default function Header({}: Props) {
         <div>
           <ul
             className={`absolute w-full top-20 pt-[32px] pb-[24px] left-0 flex flex-col gap-3 items-center transform transition:transition bg-white ${
-              isMenuOpen ? "opacity-100 h-fit" : "opacity-0 h-0"
+              isMenuOpen ? "opacity-100 h-fit z-10" : "opacity-0 h-0"
             }`}
           >
             <li>
               <Anchor href="/" anchorText="Hjem" variant="navigation" />
             </li>
             <li>
-              <Anchor href="/" anchorText="Find musiker" variant="navigation" />
+              <Anchor href="#" anchorText="Find musiker" variant="navigation" />
             </li>
             <li>
               <Anchor
-                href="/"
+                href="#"
                 anchorText="Find ensemble"
                 variant="navigation"
               />
             </li>
             <li>
-              <Anchor href="/" anchorText="Profil" variant="navigation" />
+              <Anchor href="/profile" anchorText="Profil" variant="navigation" />
             </li>
-            {PrimaryButton({ buttonText: "Opret bruger", type: "button" })}
-            {PrimaryButton({ buttonText: "Log ind", type: "button" })}
+            {PrimaryButton({ buttonText: "Opret bruger", type: "button", href: "/register", variant: "primary" })}
+            {PrimaryButton({ buttonText: "Log ind", type: "button", href: "/login", variant: "secondary" })}
           </ul>
         </div>
         {isMenuOpen ? (
