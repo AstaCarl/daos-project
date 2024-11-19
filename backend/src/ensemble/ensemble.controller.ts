@@ -22,6 +22,8 @@ export class EnsembleController {
     private readonly ensembleService: EnsembleService,
     private readonly usersService: UsersService
   ) {}
+
+  
   @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createEnsembleDto: CreateEnsembleDto, @Req() req) {
@@ -34,6 +36,8 @@ export class EnsembleController {
     return this.ensembleService.create(createEnsembleDto, userId);
   }
 
+  
+
   @Get()
   findAll() {
     return this.ensembleService.findAll();
@@ -44,12 +48,19 @@ export class EnsembleController {
     return this.ensembleService.findOne(+id);
   }
 
+
+  @UseGuards(AuthGuard)
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
-    @Body() updateEnsembleDto: UpdateEnsembleDto,
+    @Body() updateEnsembleDto: UpdateEnsembleDto, @Req() req
   ) {
-    return this.ensembleService.update(+id, updateEnsembleDto);
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.decode(token) as any;
+    const email = decodedToken.email;
+    const userResponse = await this.usersService.findByEmail(email);
+    const userId = userResponse._id;
+    return this.ensembleService.update(id, updateEnsembleDto, userId);
   }
 
   @Delete(':id')

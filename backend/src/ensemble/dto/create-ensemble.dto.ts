@@ -4,5 +4,5 @@ export class CreateEnsembleDto {
   website: string;
   zipCode: string;
   city: string;
-  activeUsers: string;
+  activeUsers: string[];
 }

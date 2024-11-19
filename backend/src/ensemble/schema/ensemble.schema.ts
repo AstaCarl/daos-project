@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, ObjectId } from 'mongoose';
+import { Document, ObjectId, Types } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Transform, Type } from 'class-transformer';
 import { User } from 'src/user/schema/user.schema';
@@ -26,9 +26,9 @@ export class Ensemble {
   @Prop()
   city: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  @Type(() => User)
-  activeUsers: User;
+  @Prop({ type: [{ type: Types.ObjectId, ref: User.name }] })
+  activeUsers: Types.ObjectId[];
+  
 }
 
 export const EnsembleSchema = SchemaFactory.createForClass(Ensemble);

@@ -24,8 +24,21 @@ export class EnsembleService {
     return `This action returns a #${id} ensemble`;
   }
 
-  update(id: number, updateEnsembleDto: UpdateEnsembleDto) {
-    return `This action updates a #${id} ensemble`;
+  async update(
+    id: string,
+    updateEnsembleDto: UpdateEnsembleDto,
+    userId: any,
+  ): Promise<Ensemble> {
+    const ensemble = await this.ensembleModel.findById(id).exec()
+    if (!ensemble) {
+      throw new Error('Ensemble not found');
+    }
+    Object.assign(ensemble, updateEnsembleDto);
+
+    if (!ensemble.activeUsers.includes(userId)) {
+      ensemble.activeUsers.push(userId);
+    }
+    return ensemble.save();
   }
 
   remove(id: number) {
