@@ -12,6 +12,7 @@ export default function LoginForm({}) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [type, setType] = useState("password");
+  const [errors, setErrors] = useState<string[]>([]);
   const { login } = useAuthStore();
   const navigate = useNavigate();
 
@@ -33,19 +34,24 @@ export default function LoginForm({}) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
-  
+
     try {
       // Prepare the login data
       const loginData = {
         email: email,
         password: password,
       };
-  
+
       // Call the useFetch function to send the login request
-      const response = await useFetch("/auth/login", "POST", {
-        "Content-Type": "application/json",
-      }, loginData);
-  
+      const response = await useFetch(
+        "/auth/login",
+        "POST",
+        {
+          "Content-Type": "application/json",
+        },
+        loginData
+      );
+
       // Check if the response is successful
       if (response.ok) {
         const data = await response.json(); // Parse the response JSON
@@ -53,19 +59,15 @@ export default function LoginForm({}) {
         localStorage.setItem("accessToken", data.access_token);
         login();
         navigate("/profile");
-      } else {
-        // Handle error response
-        const errorData = await response.json();
-        console.error("Login failed:", errorData.message);
-        alert("Login failed: " + errorData.message);
-      }
+      } else if (response.status === 401) {
+          setErrors(["Ugyldig email eller adgangskode."]);
+      };
     } catch (error) {
       // Handle network or other errors
       console.error("Error during login:", error);
       alert("An unexpected error occurred. Please try again.");
     }
   };
-
 
   return (
     <>
@@ -89,11 +91,12 @@ export default function LoginForm({}) {
             inputName="password"
             id="password"
             inputPlaceholder="Password"
+            errorMessage={errors[0]}
           />
           <span className="flex justify-around items-center">
             <div
               onClick={handleToggle}
-              className="absolute cursor-pointer -mt-[80px] right-[27px]"
+              className="absolute cursor-pointer top-[40%] right-[27px]"
             >
               <Icon variant="showPassword" />
             </div>
