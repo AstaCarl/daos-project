@@ -33,7 +33,11 @@ export class UsersService {
 
   // Create a musician
   async create(createUserDto: CreateUserDto): Promise<User> {
+    const existingUser = await this.userModel.findOne({email: createUserDto.email}).exec();
     const createdUser = new this.userModel(createUserDto);
+    if (createdUser.email === existingUser.email) {
+      throw new NotFoundException('User with this email already exists');
+    }
     return createdUser.save();
   }
 
