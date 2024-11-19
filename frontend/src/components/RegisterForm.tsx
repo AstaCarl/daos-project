@@ -1,4 +1,4 @@
-import { post } from "../utils/api";
+import { post } from "../hooks/api";
 import Anchor from "./atoms/Anchor";
 import Icon from "./atoms/Icon";
 import { Input } from "./atoms/Input";

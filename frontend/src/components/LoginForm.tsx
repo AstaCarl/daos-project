@@ -1,10 +1,11 @@
 import { Input } from "./atoms/Input";
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import { useState } from "react";
-import { post } from "../utils/api";
+import { post } from "../hooks/api";
 import Anchor from "./atoms/Anchor";
 import Paragraf from "./atoms/Paragraf";
 import Icon from "./atoms/Icon";
+import { useAuthStore } from "../hooks/store/auth-store";
 
 type Props = {};
 
@@ -12,6 +13,7 @@ export default function LoginForm({}: Props) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [type, setType] = useState("password");
+  const setAccessToken = useAuthStore((state) => state.setAccessToken);
 
   const handleToggle = () => {
     if (type === "password") {
@@ -23,13 +25,10 @@ export default function LoginForm({}: Props) {
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
-    console.log("Email changed to:", event.target.value);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
-
-    console.log("Password changed to:", event.target.value);
   };
 
   // Define the event handler for the form submission.
@@ -43,6 +42,13 @@ export default function LoginForm({}: Props) {
       const data = await response.json();
       console.log("User logged in successfully!", response);
       console.log("data-object", data);
+      // Assuming the access token is in data.token
+      // Assuming the access token is in data.token
+      if (data.access_token) {
+        setAccessToken(data.access_token);
+      } else {
+        console.log("No token found in response data");
+      }
     } catch (error) {
       console.error("Error login user:", error);
     }
@@ -86,6 +92,7 @@ export default function LoginForm({}: Props) {
             anchorText="Opret bruger"
             variant="default"
           />
+          <Anchor href="/profile" anchorText="profil" variant="default" />
         </Paragraf>
         <PrimaryButton type="submit" buttonText="Log ind" />
       </form>
