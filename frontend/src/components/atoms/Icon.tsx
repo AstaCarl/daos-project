@@ -4,6 +4,7 @@ import linkedInIcon from "../../assets/footer-linkedin.svg";
 import burgerIcon from "../../assets/icons8-menu.svg";
 import closeIcon from "../../assets/close-icon.svg";
 import showPasswordIcon from "../../assets/show-password.svg";
+import postsEmptyIcon from "../../assets/posts-empty.svg";
 
 type Props = {
   onClick?: () => void;
@@ -13,7 +14,8 @@ type Props = {
     | "linkedIn"
     | "burger"
     | "close"
-    | "showPassword";
+    | "showPassword"
+    | "postsEmpty";
 };
 
 export default function Icon({ variant, onClick }: Props) {
@@ -24,6 +26,7 @@ export default function Icon({ variant, onClick }: Props) {
     burger: burgerIcon,
     close: closeIcon,
     showPassword: showPasswordIcon,
+    postsEmpty: postsEmptyIcon,
   };
   return (
     <div onClick={onClick} className="">

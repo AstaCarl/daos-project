@@ -3,7 +3,7 @@ import { Logo } from "./atoms/Logo";
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import Icon from "./atoms/Icon";
 import { useState } from "react";
-import ProfileIcon from "../assets/profile-icon.png";
+// import ProfileIcon from "../assets/profile-icon.png";
 
 type Props = {};
 
@@ -48,7 +48,7 @@ export default function Header({}: Props) {
           </ul>
         </div>
         <div>
-          <ProfileIcon />
+          {/* <ProfileIcon /> */}
         </div>
         {isMenuOpen ? (
           <Icon onClick={toggleMenu} variant="close" />
