@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateEnsembleDto } from './dto/create-ensemble.dto';
 import { UpdateEnsembleDto } from './dto/update-ensemble.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import { Model, ObjectId, Types } from 'mongoose';
 import { Ensemble } from './schema/ensemble.schema';
 
 @Injectable()
@@ -17,11 +17,17 @@ export class EnsembleService {
   }
 
   findAll() {
-    return `This action returns all ensemble`;
+    return this.ensembleModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} ensemble`;
+  async findOne(id: string) {
+    const objectId = new Types.ObjectId(id);
+    const ensembles = await this.ensembleModel.find({ activeUsers: objectId }).exec();
+    if (ensembles.length > 0) {
+      return ensembles;
+    } else {
+      return `No ensemble found with user ID #${id}`;
+    }
   }
 
   async update(

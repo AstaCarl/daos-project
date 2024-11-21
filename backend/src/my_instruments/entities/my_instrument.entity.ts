@@ -5,7 +5,6 @@ import {
   Instrument,
   InstrumentSchema,
 } from '../../instruments/schema/instrument.schema';
-import { Instrument, InstrumentSchema } from '../../instruments/entities/instrument.entity';
  
 export type MyInstrumentsDocument = MyInstruments & Document;
 
