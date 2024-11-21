@@ -12,7 +12,7 @@ export class AuthService {
   async signIn(
     email: string,
     password: string,
-  ): Promise<{ message: string; access_token: string }> {
+  ): Promise<{ message: string; access_token: string; user: any }> {
     const user = await this.usersService.findByEmail(email);
     if (user?.password !== password) {
       throw new UnauthorizedException();
@@ -21,6 +21,7 @@ export class AuthService {
     return {
       message: `User signed in successfully!`,
       access_token: await this.jwtService.signAsync(payload),
+      user: user,
     };
   }
 }

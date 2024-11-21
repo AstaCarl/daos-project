@@ -57,6 +57,7 @@ export default function LoginForm({}) {
         const data = await response.json(); // Parse the response JSON
         console.log("Login successful:", data);
         localStorage.setItem("accessToken", data.access_token);
+        localStorage.setItem("user", JSON.stringify(data.user));
         login();
         navigate("/profile");
       } else if (response.status === 401) {

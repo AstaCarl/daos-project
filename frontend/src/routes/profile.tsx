@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAuthStore from "../hooks/store/auth-store";
 import CreateCard from "../components/CreateCard";
 import CreateEmsembleForm  from "../components/CreateEmsembleForm";
+import { useFetch } from "../hooks/use-fetch";
 
 export default function profile({}) {
     const navigate = useNavigate();
@@ -10,7 +11,11 @@ export default function profile({}) {
     const { isLoggedIn } = useAuthStore();
     const [openEmsenbleForm, setOpenEnsembleForm] = useState(false);
 
-  
+    const handleOpenEnsembleForm = () => {
+      console.log("Open ensemble form")
+      setOpenEnsembleForm(true);
+    };
+
     useEffect(() => {
       // Redirect to login if the user is not logged in
       if (!isLoggedIn) {
@@ -19,10 +24,36 @@ export default function profile({}) {
       
     }, [isLoggedIn, navigate]);
 
-    const handleOpenEnsembleForm = () => {
-      console.log("Open ensemble form")
-      setOpenEnsembleForm(true);
-    }
+    useEffect(() => {
+ getEnsemble();
+    }, []);
+
+    const getEnsemble = async () => {
+      try {
+        const user = localStorage.getItem("user");
+        if (!user) {
+          throw new Error("User is missing");
+        }
+        const userId = JSON.parse(user)._id;
+
+          const response = await useFetch(
+            `/ensemble/${userId}`,
+            "GET",
+            {
+              "Content-Type": "application/json",
+            },
+          );
+    
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Create ensemble successful:", data);
+          } else {
+            console.error("Create ensemble error:", response.statusText);
+          }
+        } catch (error) {
+          console.error("Create ensemble error:", error);
+        }
+      }
 
   return (
     <div>

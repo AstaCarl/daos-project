@@ -13,6 +13,14 @@ const CreateEmsembleForm: React.FC<Props> = () => {
     console.log(title);
   };
 
+  const accessToken = localStorage.getItem("accessToken");
+  console.log(accessToken);
+  if (!accessToken) {
+    throw new Error("Access token is missing");
+  }
+  const extractedToken = accessToken.split(" ")[1];
+  console.log("hello", extractedToken);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
 
