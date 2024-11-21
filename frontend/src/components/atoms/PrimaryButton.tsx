@@ -1,26 +1,38 @@
 type PrimaryButtonProps = {
-  buttonText: string;
+  buttonText: string | undefined;
   type?: "button" | "submit" | "reset";
   href?: string;
   variant: "primary" | "secondary";
+  size?: "small" | "medium" | "large";
+  onClick?: () => void;
 };
 
-export function PrimaryButton({ buttonText, type = "button", href, variant }: PrimaryButtonProps) {
+export function PrimaryButton({ buttonText, type = "button", href, variant, size="medium", onClick }: PrimaryButtonProps) {
   const variantClasses = {
     primary: "bg-blue text-white",
     secondary: "bg-white text-blue border border-gray",
   };
 
+  const sizeClasses = {
+    small: "px-4 py-1 text-sm",
+    medium: "pl-10 pr-10 pt-2 pb-2",
+    large: "px-8 py-4 text-lg",
+  };
+
+  const classes = `rounded-lg shadow-md font-bold ${variantClasses[variant]} ${sizeClasses[size]}`;
+
+
+
   if (href) {
     return (
-      <a href={href} className={`pl-10 pr-10 pt-2 pb-2 rounded-lg shadow-md font-bold ${variantClasses[variant]}`}>
+      <a href={href} className={classes}>
         {buttonText}
       </a>
     );
   }
 
   return (
-    <button className={`pl-10 pr-10 pt-2 pb-2 rounded-lg shadow-md font-bold ${variantClasses[variant]}`} type={type}>
+    <button onClick={onClick} className={classes} type={type}>
       {buttonText}
     </button>
   );

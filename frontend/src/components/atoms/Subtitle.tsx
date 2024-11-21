@@ -5,7 +5,7 @@ type Props = {
 
 export default function Subtitle({variant, subtitle}: Props) {
     const variantClasses = {
-        default: 'font-sans text-dark-grey text-lg',
+        default: 'font-sans text-blue text-base font-bold ',
         footer: 'font-display uppercase font-[500] text-white text-xl'
     }
   return (
