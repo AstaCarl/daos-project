@@ -26,6 +26,7 @@ export default function profile({}) {
 
     useEffect(() => {
  getEnsemble();
+ 
     }, []);
 
     const getEnsemble = async () => {
