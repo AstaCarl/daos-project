@@ -22,17 +22,21 @@ export class UserController {
   }
 
   @Post('/:id/my-instruments')
-  createMyInstrument(@Param('id') id: string, @Body() createMyInstrumentDto: CreateMyInstrumentDto) {
+  createMyInstrument(
+    @Param('id') id: string,
+    @Body() createMyInstrumentDto: CreateMyInstrumentDto,
+  ) {
     return this.usersService.linkMyInstrumentToUser(id, createMyInstrumentDto);
   }
-  
 
   //Post a new user
   @Post('')
   async create(@Body() createUserDto: CreateUserDto) {
-    const existingUser = await this.usersService.findByEmail(createUserDto.email);
+    const existingUser = await this.usersService.findByEmail(
+      createUserDto.email,
+    );
     if (existingUser) {
-        throw new BadRequestException('User with this email already exists');
+      throw new BadRequestException('User with this email already exists');
     }
     return await this.usersService.create(createUserDto);
   }
@@ -41,6 +45,11 @@ export class UserController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
+  }
+
+  @Get('email/:email')
+  findByEmail(@Param('email') email: string) {
+    return this.usersService.findByEmail(email);
   }
 
   // Delete one user by id

@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Instrument, InstrumentSchema } from './entities/instrument.entity';
+import { Instrument, InstrumentSchema } from './schema/instrument.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Instrument.name, schema: InstrumentSchema }]),
+    MongooseModule.forFeature([
+      { name: Instrument.name, schema: InstrumentSchema },
+    ]),
   ],
   exports: [MongooseModule],
 })

@@ -6,11 +6,15 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { MyInstrumentsModule } from './my_instruments/my_instruments.module';
 import { InstrumentsModule } from './instruments/instruments.module';
+import { EnsembleModule } from './ensemble/ensemble.module';
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost/daos'),
     UserModule,
     AuthModule,
+    MyInstrumentsModule,
+    InstrumentsModule,
+    EnsembleModule,
     MyInstrumentsModule,
     InstrumentsModule,
   ],
