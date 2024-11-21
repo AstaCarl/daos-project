@@ -4,8 +4,10 @@ import { RegisterForm } from "../components/RegisterForm";
 function Register() {
   return (
     <>
-    <Title title="Opret profil" />
-      <RegisterForm />
+      <main className="padding">
+        <Title title="Opret profil" />
+        <RegisterForm />
+      </main>
     </>
   );
 }
