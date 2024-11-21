@@ -1,33 +1,35 @@
-import { post } from "../utils/api";
+import { useFetch } from "../hooks/use-fetch";
 import Anchor from "./atoms/Anchor";
 import Icon from "./atoms/Icon";
 import { Input } from "./atoms/Input";
 import Paragraf from "./atoms/Paragraf";
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-type FormProps = {};
 
-export function RegisterForm({}: FormProps) {
+export function RegisterForm({}) {
   // Define the state variables for the form fields.
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
-  const [type, setType] = useState('password');
+  const [type, setType] = useState("password");
+  const [errors, setErrors] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   const handleToggle = () => {
-    if (type==='password'){
-       setType('text')
+    if (type === "password") {
+      setType("text");
     } else {
-       setType('password')
+      setType("password");
     }
- }
+  };
 
   // Define the event handlers for the form fields.
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
-    console.log("Email changed to:", event.target.value);
+    setErrors([]); // Reset errors on submit
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,17 +44,39 @@ export function RegisterForm({}: FormProps) {
     setLastname(event.target.value);
   };
 
-  // Define the event handler for the form submission.
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("Form submitted");
-
-    //    Make a POST request to the /user endpoint with the form data. The function post is imported from the utils/api module.
+    event.preventDefault(); // Prevent default form submission behavior
     try {
-      const response = await post("/user", { name, lastname, email, password });
-      console.log("User registered successfully!", response);
+      // Prepare the register data
+      const registerData = {
+        name: name,
+        lastname: lastname,
+        email: email,
+        password: password,
+      };
+
+      // Call the useFetch function to send the post request
+      const response = await useFetch(
+        "/user",
+        "POST",
+        {
+          "Content-Type": "application/json",
+        },
+        registerData
+      );
+      // Check if the response is successful
+      if (response.ok) {
+        alert("Din profil er oprettet");
+        navigate("/login");
+      } else {
+        // Handle error response
+        const errorData = await response.json();
+        setErrors(errorData.message || ["An error occurred."]);
+      }
     } catch (error) {
-      console.error("Error registering user:", error);
+      // Handle network or other errors
+      console.error("Error during register:", error);
+      alert("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -71,6 +95,9 @@ export function RegisterForm({}: FormProps) {
             inputName="name"
             id="name"
             inputPlaceholder="Fornavn"
+            {...(errors.includes("name should not be empty") && {
+              errorMessage: "Fornavn skal udfyldes",
+            })}
           />
           <Input
             type="text"
@@ -79,15 +106,27 @@ export function RegisterForm({}: FormProps) {
             inputName="lastname"
             id="lastname"
             inputPlaceholder="Efternavn"
+            {...(errors.includes("lastname should not be empty") && {
+              errorMessage: "Efternavn skal udfyldes",
+            })}
           />
         </div>
         <Input
-          type="email"
+          type="text"
           onChange={handleEmailChange}
           value={email}
           inputName="email"
           id="email"
           inputPlaceholder="E-mail"
+          errorMessage={
+            errors && errors.includes("email should not be empty")
+              ? "Email skal udfyldes"
+              : errors && errors.includes("email must be an email")
+              ? "Email skal være en gyldig email"
+              : errors && errors.includes("User with this email already exists")
+              ? "En bruger med denne email eksisterer allerede."
+              : undefined
+          }
         />
         <Input
           type={type}
@@ -96,17 +135,27 @@ export function RegisterForm({}: FormProps) {
           inputName="password"
           id="password"
           inputPlaceholder="Adgangskode"
+          {...(errors.includes("password should not be empty") && {
+            errorMessage: "Adgangskode skal udfyldes",
+          })}
         />
         <span className="flex justify-around items-center">
-          <div onClick={handleToggle} className="absolute cursor-pointer -mt-[80px] right-[27px]">
-          <Icon variant="showPassword" />
+          <div
+            onClick={handleToggle}
+            className="absolute cursor-pointer top-[43.5%] right-[27px]"
+          >
+            <Icon variant="showPassword" />
           </div>
         </span>
       </div>
       <Paragraf variant="body-small" paragrafText="Har du allerede en profil? ">
         <Anchor href="/login" anchorText="Log ind her" variant="default" />
       </Paragraf>
-      <PrimaryButton type="submit" buttonText="Opret profil" />
+      <PrimaryButton
+        type="submit"
+        buttonText="Opret profil"
+        variant="primary"
+      />
     </form>
   );
 }

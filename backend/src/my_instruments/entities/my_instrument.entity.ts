@@ -1,13 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId } from 'mongoose';
-import * as mongoose from 'mongoose';
-import { User } from '../../user/schema/user.schema';
 import { Transform, Type } from 'class-transformer';
 import {
   Instrument,
   InstrumentSchema,
 } from '../../instruments/schema/instrument.schema';
-
+import { Instrument, InstrumentSchema } from '../../instruments/entities/instrument.entity';
+ 
 export type MyInstrumentsDocument = MyInstruments & Document;
 
 @Schema()

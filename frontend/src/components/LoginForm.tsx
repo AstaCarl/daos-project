@@ -1,17 +1,20 @@
 import { Input } from "./atoms/Input";
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import { useState } from "react";
-import { post } from "../utils/api";
+import { useFetch } from "../hooks/use-fetch.ts";
 import Anchor from "./atoms/Anchor";
 import Paragraf from "./atoms/Paragraf";
 import Icon from "./atoms/Icon";
+import useAuthStore from "../hooks/store/auth-store.ts";
+import { useNavigate } from "react-router-dom";
 
-type Props = {};
-
-export default function LoginForm({}: Props) {
+export default function LoginForm({}) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [type, setType] = useState("password");
+  const [errors, setErrors] = useState<string[]>([]);
+  const { login } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     if (type === "password") {
@@ -23,28 +26,46 @@ export default function LoginForm({}: Props) {
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
-    console.log("Email changed to:", event.target.value);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
-
-    console.log("Password changed to:", event.target.value);
   };
 
-  // Define the event handler for the form submission.
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("Form submitted");
+    event.preventDefault(); // Prevent default form submission behavior
 
-    //    Make a POST request to the /user endpoint with the form data. The function post is imported from the utils/api module.
     try {
-      const response = await post("/auth/login", { email, password });
-      const data = await response.json();
-      console.log("User logged in successfully!", response);
-      console.log("data-object", data);
+      // Prepare the login data
+      const loginData = {
+        email: email,
+        password: password,
+      };
+
+      // Call the useFetch function to send the login request
+      const response = await useFetch(
+        "/auth/login",
+        "POST",
+        {
+          "Content-Type": "application/json",
+        },
+        loginData
+      );
+
+      // Check if the response is successful
+      if (response.ok) {
+        const data = await response.json(); // Parse the response JSON
+        console.log("Login successful:", data);
+        localStorage.setItem("accessToken", data.access_token);
+        login();
+        navigate("/profile");
+      } else if (response.status === 401) {
+          setErrors(["Ugyldig email eller adgangskode."]);
+      };
     } catch (error) {
-      console.error("Error login user:", error);
+      // Handle network or other errors
+      console.error("Error during login:", error);
+      alert("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -70,11 +91,12 @@ export default function LoginForm({}: Props) {
             inputName="password"
             id="password"
             inputPlaceholder="Password"
+            errorMessage={errors[0]}
           />
           <span className="flex justify-around items-center">
             <div
               onClick={handleToggle}
-              className="absolute cursor-pointer -mt-[80px] right-[27px]"
+              className="absolute cursor-pointer top-[40%] right-[27px]"
             >
               <Icon variant="showPassword" />
             </div>
@@ -87,7 +109,7 @@ export default function LoginForm({}: Props) {
             variant="default"
           />
         </Paragraf>
-        <PrimaryButton type="submit" buttonText="Log ind" />
+        <PrimaryButton type="submit" buttonText="Log ind" variant="primary" />
       </form>
     </>
   );
