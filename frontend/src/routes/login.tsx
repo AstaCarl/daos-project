@@ -4,8 +4,10 @@ import LoginForm from "../components/LoginForm";
 function Login() {
   return (
     <>
-      <Title title="Log ind" />
-      <LoginForm />
+      <main className="padding">
+        <Title title="Log ind" />
+        <LoginForm />
+      </main>
     </>
   );
 }

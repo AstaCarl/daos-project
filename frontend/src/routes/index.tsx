@@ -1,9 +1,10 @@
-import Footer from "../components/Footer";
 
 function Index() {
   return (
     <>
-<h1 className="font-sans text-blue">Landing page</h1>
+      <main className="padding">
+        <h1 className="font-sans text-blue">Landing page</h1>
+      </main>
     </>
   );
 }
