@@ -47,10 +47,6 @@ const hanldeEnsembleIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
 
-    // const ensembleData = {
-    //   ensembleId: ensembleId.
-    // };
-
     try {
       const response = await useFetch(
         `/ensemble/${ensembleId}`,
@@ -80,7 +76,7 @@ const hanldeEnsembleIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => 
         <label htmlFor="hej">Choose a pet:</label>
         <select onChange={hanldeEnsembleIdChange} name="hej" id="hej">
           {ensembles.map((ensemble) => (
-            <option  value={ensemble._id}>{ensemble.title}</option>
+            <option key={ensemble._id} value={ensemble._id}>{ensemble.title}</option>
           ))}
         </select>
         <PrimaryButton type="submit" variant="primary" buttonText="Registrer" />
