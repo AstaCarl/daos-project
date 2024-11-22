@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../hooks/store/auth-store";
-import CreateCard from "../components/CreateCard";
+import ActionCard from "../components/ActionCard";
 import CreateEmsembleForm from "../components/CreateEmsembleForm";
 import MyEnsembles from "../components/MyEnsembles";
 import { useFetch } from "../hooks/use-fetch";
@@ -13,7 +13,6 @@ interface Ensemble {
   city?: string;
   description?: string;
   zipCode?: string;
-  __v?: number;
 }
 
 export default function profile({}) {
@@ -76,7 +75,7 @@ export default function profile({}) {
   return (
     <div className="flex flex-col gap-10 py-16">
       {ensembles.length === 0 && (
-        <CreateCard
+        <ActionCard
           buttonText="Opret ensemble"
           paragrafText="Hvis du repræsenterer et ensemble kan du oprette det her, så du kan lave et opslag på vegne af ensemblet."
           subtitle="Mine ensembler"

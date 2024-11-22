@@ -13,7 +13,6 @@ interface Ensemble {
   city?: string;
   description?: string;
   zipCode?: string;
-  __v?: number;
 }
 
 type Props = {
@@ -33,7 +32,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    console.log(title);
   };
 
   const handleDescriptionChange = (
@@ -54,14 +52,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
     setCity(event.target.value);
   };
 
-  const accessToken = localStorage.getItem("accessToken");
-  console.log(accessToken);
-  if (!accessToken) {
-    throw new Error("Access token is missing");
-  }
-  const extractedToken = accessToken.split(" ")[1];
-  console.log("hello", extractedToken);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
 
@@ -73,12 +63,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
         zipcode: zipcode,
         city: city,
       };
-
-      const accessToken = localStorage.getItem("accessToken");
-      console.log(accessToken);
-      if (!accessToken) {
-        throw new Error("Access token is missing");
-      }
 
       const response = await useFetch(
         "/ensemble",

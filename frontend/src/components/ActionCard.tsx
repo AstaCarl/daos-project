@@ -12,7 +12,7 @@ type Props = {
   handleToggleEnsembleForm?: () => void;
 };
 
-export default function CreateCard({
+export default function ActionCard({
   buttonText,
   paragrafText,
   subtitle,
