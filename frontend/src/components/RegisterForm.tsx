@@ -46,7 +46,6 @@ export function RegisterForm({}) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
-    try {
       // Prepare the register data
       const registerData = {
         name: name,
@@ -73,11 +72,6 @@ export function RegisterForm({}) {
         const errorData = await response.json();
         setErrors(errorData.message || ["An error occurred."]);
       }
-    } catch (error) {
-      // Handle network or other errors
-      console.error("Error during register:", error);
-      alert("An unexpected error occurred. Please try again.");
-    }
   };
 
   return (

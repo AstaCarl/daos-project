@@ -21,7 +21,7 @@ export class Ensemble {
   website: string;
 
   @Prop()
-  zipCode: string;
+  zipcode: string;
 
   @Prop()
   city: string;
