@@ -77,13 +77,14 @@ const CreateEmsembleForm: React.FC<Props> = ({
         const data = await response.json();
         console.log("Create ensemble successful:", data);
         onEnsembleCreated(data);
-      } else {
+      } 
+      else {
         console.error("Create ensemble error:", response.statusText);
       }
   };
 
   return (
-    <div className="absolute bg-light-gray h-screen w-screen flex flex-col gap-6 padding">
+    <div className="absolute bg-light-gray h-fit w-screen flex flex-col gap-6 pb-16 padding">
       <div>
         <PrimaryButton
           buttonText="Tilbage"

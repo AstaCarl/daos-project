@@ -3,6 +3,7 @@ import { useFetch } from "../hooks/use-fetch";
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import { Title } from "./atoms/Title";
 import Select from "./atoms/Select";
+import Subtitle from "./atoms/Subtitle";
 
 interface Ensemble {
   _id: string;
@@ -18,6 +19,7 @@ type Props = {
 export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRegistered,}: Props) {
   const [ensembles, setEnsembles] = useState<Ensemble[]>([]);
   const [ensembleId, setEnsembleId] = useState<string>("");
+  const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
     getEnsembles();
@@ -58,10 +60,12 @@ export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRe
         console.log("Create ensemble successful:", data);
         onEnsembleRegistered(data);
         onEnsembleFormClosed();
-      } else {
+      } 
+      else {
         const errorData = await response.json();
         console.error("Create ensemble error:", errorData.message);
-        alert(`${errorData.message}`);
+        // alert(`${errorData.message}`);
+        setErrors(errorData.message || ["An error occurred."]);
       }
   };
 
@@ -77,10 +81,14 @@ export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRe
       </div>
       <Title title="Registrer dig i et eksisterende ensemble" />
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+        <div>
+        <Subtitle variant="default" subtitle="Vælg et ensemble fra listen" />
         <Select
           name="ensembles"
-          label="Vælg ensemble"
           onChange={hanldeEnsembleIdChange}
+          {...(errors.includes("User already registered in this ensemble") && {
+            errorMessage: "Du er allerede registreret i dette ensemble",
+          })}
         >
           {ensembles.map((ensemble) => (
             <option
@@ -92,6 +100,7 @@ export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRe
             </option>
           ))}
         </Select>
+        </div>
         <PrimaryButton type="submit" variant="primary" buttonText="Registrer" />
       </form>
     </div>
