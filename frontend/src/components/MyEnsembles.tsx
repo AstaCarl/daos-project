@@ -9,9 +9,10 @@ interface Ensemble {
   _id: string;
   title: string;
   activeUsers: string[];
-  city?: string;
-  description?: string;
-  zipCode?: string;
+  city: string;
+  description: string;
+  website: string;
+  zipcode: string;
   __v?: number;
 }
 
@@ -44,7 +45,7 @@ export default function MyEnsembles({ ensembles, onOpenCreateEnsembleForm, onOpe
           </div>
         </div>
         {ensembles.map((ensemble) => (
-          <EnsembleCard key={ensemble._id} title={ensemble.title} />
+          <EnsembleCard key={ensemble._id} title={ensemble.title} description={ensemble.description} zipcode={ensemble.zipcode} city={ensemble.city} activeUsers={ensemble.activeUsers.length} href={ensemble.website}/>
         ))}
       </section>
     </>
