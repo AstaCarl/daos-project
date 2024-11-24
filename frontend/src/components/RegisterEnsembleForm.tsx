@@ -24,7 +24,6 @@ export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRe
   }, []);
 
   const getEnsembles = async () => {
-    try {
       const response = await useFetch(`/ensemble`, "GET", {
         "Content-Type": "application/json",
       });
@@ -37,9 +36,6 @@ export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRe
       } else {
         console.error("Create ensemble error:", response.statusText);
       }
-    } catch (error) {
-      console.error("Create ensemble error:", error);
-    }
   };
 
   const hanldeEnsembleIdChange = (
@@ -52,7 +48,6 @@ export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRe
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
       const response = await useFetch(`/ensemble/${ensembleId}`, "PATCH", {
         "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -68,9 +63,6 @@ export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRe
         console.error("Create ensemble error:", errorData.message);
         alert(`${errorData.message}`);
       }
-    } catch (error) {
-      console.error("Create ensemble error:", error);
-    }
   };
 
   return (

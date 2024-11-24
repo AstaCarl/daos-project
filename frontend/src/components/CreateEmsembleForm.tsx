@@ -55,7 +55,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
 
-    try {
       const ensembleData = {
         title: title,
         description: description,
@@ -81,9 +80,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
       } else {
         console.error("Create ensemble error:", response.statusText);
       }
-    } catch (error) {
-      console.error("Create ensemble error:", error);
-    }
   };
 
   return (
