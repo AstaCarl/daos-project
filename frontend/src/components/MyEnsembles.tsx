@@ -1,6 +1,9 @@
 import { PrimaryButton } from "./atoms/PrimaryButton";
 import Subtitle from "./atoms/Subtitle";
 import EnsembleCard from "../components/EnsembleCard";
+// import RegisterEnsembleForm from "./RegisterEnsembleForm";
+// import { useState } from "react";
+// import { on } from "events";
 
 interface Ensemble {
   _id: string;

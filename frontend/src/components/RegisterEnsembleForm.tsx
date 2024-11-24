@@ -64,7 +64,6 @@ export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRe
       else {
         const errorData = await response.json();
         console.error("Create ensemble error:", errorData.message);
-        // alert(`${errorData.message}`);
         setErrors(errorData.message || ["An error occurred."]);
       }
   };
