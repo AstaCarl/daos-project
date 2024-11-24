@@ -5,6 +5,8 @@ import ActionCard from "../components/ActionCard";
 import CreateEmsembleForm from "../components/CreateEmsembleForm";
 import MyEnsembles from "../components/MyEnsembles";
 import { useFetch } from "../hooks/use-fetch";
+import Register from "./register";
+import RegisterEnsembleForm from "../components/RegisterEnsembleForm";
 
 interface Ensemble {
   _id: string;
@@ -19,21 +21,38 @@ export default function profile({}) {
   const navigate = useNavigate();
   // Get the isLoggedIn state variable and the login function from the auth store
   const { isLoggedIn } = useAuthStore();
-  const [openEnsembleForm, setOpenEnsembleForm] = useState(false);
+  const [openCreateEnsembleForm, setOpenCreateEnsembleForm] = useState(false);
+  const [openRegisterEnsembleForm, setOpenRegisterEnsembleForm] = useState(false);
   const [ensembles, setEnsembles] = useState<Ensemble[]>([]);
 
-  const handleOpenEnsembleForm = () => {
+  const handleOpenCreateEnsembleForm = () => {
     console.log("Open ensemble form");
-    setOpenEnsembleForm(true);
+    setOpenCreateEnsembleForm(true);
   };
 
-  const handleEnsembleCreated = (newEnsemble: Ensemble) => {
+  const handleOpenRegisterEnsembleForm = () => {
+    console.log("Open ensemble form");
+    setOpenRegisterEnsembleForm(true);
+  };
+
+  const handleEnsembleCreated = async (newEnsemble: Ensemble) => {
     setEnsembles((prevEnsembles) => [...prevEnsembles, newEnsemble]);
-    setOpenEnsembleForm(false);
+    setOpenCreateEnsembleForm(false);
+    await getEnsemble();
   };
 
-  const handleCloseEnsembleForm = () => {
-    setOpenEnsembleForm(false);
+  const handleEnsembleRegistered = async (newEnsemble: Ensemble) => {
+    setEnsembles((prevEnsembles) => [...prevEnsembles, newEnsemble]);
+    setOpenRegisterEnsembleForm(false);
+    await getEnsemble();
+  };
+
+  const handleCloseCreateEnsembleForm = async () => {
+    setOpenCreateEnsembleForm(false);
+  };
+
+  const handleCloseRegisterEnsembleForm = async () => {
+    setOpenRegisterEnsembleForm(false);
   };
 
   useEffect(() => {
@@ -46,6 +65,7 @@ export default function profile({}) {
   useEffect(() => {
     getEnsemble();
   }, []);
+
 
   const getEnsemble = async () => {
     try {
@@ -61,7 +81,6 @@ export default function profile({}) {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Create ensemble successful:", data);
         setEnsembles(data);
         return ensembles;
       } else {
@@ -80,19 +99,26 @@ export default function profile({}) {
           paragrafText="Hvis du repræsenterer et ensemble kan du oprette det her, så du kan lave et opslag på vegne af ensemblet."
           subtitle="Mine ensembler"
           smallButtonText="Tilføj"
-          onClick={handleOpenEnsembleForm}
+          onClick={handleOpenCreateEnsembleForm}
         />
       )}
-      {openEnsembleForm && (
+      {openCreateEnsembleForm && (
         <CreateEmsembleForm
           onEnsembleCreated={handleEnsembleCreated}
-          onEnsembleFormClosed={handleCloseEnsembleForm}
+          onEnsembleFormClosed={handleCloseCreateEnsembleForm}
+        />
+      )}
+            {openRegisterEnsembleForm && (
+        <RegisterEnsembleForm
+          onEnsembleRegistered={handleEnsembleRegistered}
+          onEnsembleFormClosed={handleCloseRegisterEnsembleForm}
         />
       )}
       {ensembles.length > 0 && (
         <MyEnsembles
           ensembles={ensembles}
-          onOpenEnsembleForm={handleOpenEnsembleForm}
+          onOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
+          onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
         />
       )}
     </div>

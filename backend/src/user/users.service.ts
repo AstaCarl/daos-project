@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -32,7 +32,7 @@ export class UsersService {
       .findOne({ email: createUserDto.email })
       .exec();
     if (existingUser) {
-      throw new NotFoundException('User with this email already exists');
+      throw new ConflictException('User with this email already exists');
     }
     const createdUser = new this.userModel(createUserDto);
     return createdUser.save();
