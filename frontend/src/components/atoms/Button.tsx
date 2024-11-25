@@ -1,4 +1,4 @@
-type PrimaryButtonProps = {
+type ButtonProps = {
   buttonText: string | undefined;
   type?: "button" | "submit" | "reset";
   href?: string;
@@ -7,7 +7,7 @@ type PrimaryButtonProps = {
   onClick?: () => void;
 };
 
-export function PrimaryButton({ buttonText, type = "button", href, variant, size="medium", onClick }: PrimaryButtonProps) {
+export function Button({ buttonText, type = "button", href, variant, size="medium", onClick }: ButtonProps) {
   const variantClasses = {
     primary: "bg-blue text-white",
     secondary: "bg-white text-blue border border-gray",

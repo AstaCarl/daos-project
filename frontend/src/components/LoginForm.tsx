@@ -1,5 +1,5 @@
 import { Input } from "./atoms/Input";
-import { PrimaryButton } from "./atoms/PrimaryButton";
+import { Button } from "./atoms/Button.tsx";
 import { useState } from "react";
 import { useFetch } from "../hooks/use-fetch.ts";
 import Anchor from "./atoms/Anchor";
@@ -54,10 +54,9 @@ export default function LoginForm({}) {
       // Check if the response is successful
       if (response.ok) {
         const data = await response.json(); // Parse the response JSON
-        console.log("Login successful:", data);
-        localStorage.setItem("accessToken", data.access_token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        login();
+        const user = data.user;
+        const token = data.access_token;
+        login(user, token);
         navigate("/profile");
       } else if (response.status === 401) {
           setErrors(["Ugyldig email eller adgangskode."]);
@@ -78,7 +77,6 @@ export default function LoginForm({}) {
             id="email"
             inputPlaceholder="Email"
           />
-
           <Input
             type={type}
             labelText="Adgangskode"
@@ -89,14 +87,12 @@ export default function LoginForm({}) {
             inputPlaceholder="Password"
             errorMessage={errors[0]}
           />
-          <span className="flex justify-around items-center">
-            <div
+            <span
               onClick={handleToggle}
-              className="absolute cursor-pointer top-[40%] right-[27px]"
+              className="cursor-pointer absolute items-center top-[35.5%] right-[30px]"
             >
               <Icon variant="showPassword" />
-            </div>
-          </span>
+            </span>
         </div>
         <Paragraf variant="body-small" paragrafText="Har du ikke en bruger? ">
           <Anchor
@@ -105,7 +101,7 @@ export default function LoginForm({}) {
             variant="default"
           />
         </Paragraf>
-        <PrimaryButton type="submit" buttonText="Log ind" variant="primary" />
+        <Button type="submit" buttonText="Log ind" variant="primary" />
       </form>
     </>
   );

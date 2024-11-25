@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Input } from "./atoms/Input";
-import { PrimaryButton } from "./atoms/PrimaryButton";
+import { Button } from "./atoms/Button";
 import { useFetch } from "../hooks/use-fetch";
 import { Title } from "./atoms/Title";
 import Subtitle from "./atoms/Subtitle";
@@ -90,7 +90,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
   return (
     <div className="absolute bg-light-gray h-fit w-screen flex flex-col gap-6 pb-16 padding">
       <div>
-        <PrimaryButton
+        <Button
           buttonText="Tilbage"
           variant="secondary"
           size="small"
@@ -164,7 +164,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
             />
           </div>
         </div>
-        <PrimaryButton
+        <Button
           buttonText="Opret ensemble"
           variant="primary"
           size="medium"

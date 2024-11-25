@@ -53,12 +53,12 @@ export default function profile() {
 
   const handleCloseRegisterEnsembleForm = () => {
     setOpenRegisterEnsembleForm(false);
-    getEnsemble(); // Refresh the list of ensembles
+    getEnsemble();
   };
 
   const handleCloseCreateEnsembleForm = () => {
     setOpenCreateEnsembleForm(false);
-    getEnsemble(); // Refresh the list of ensembles
+    getEnsemble();
   };
 
   useEffect(() => {
