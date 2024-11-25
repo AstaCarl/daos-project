@@ -12,7 +12,7 @@ import {
 import { EnsembleService } from './ensemble.service';
 import { CreateEnsembleDto } from './dto/create-ensemble.dto';
 import { UpdateEnsembleDto } from './dto/update-ensemble.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 import * as jwt from 'jsonwebtoken';
 import { UsersService } from '../user/users.service';
 
