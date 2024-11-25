@@ -5,7 +5,7 @@ function Login() {
   return (
     <>
       <main className="padding">
-        <Title title="Log ind" />
+        <Title variant="default" title="Log ind" />
         <LoginForm />
       </main>
     </>

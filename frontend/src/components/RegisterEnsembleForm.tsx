@@ -78,7 +78,7 @@ export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRe
           onClick={onEnsembleFormClosed}
         />
       </div>
-      <Title title="Registrer dig i et eksisterende ensemble" />
+      <Title variant="default" title="Registrer dig i et eksisterende ensemble" />
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <div>
         <Subtitle variant="default" subtitle="Vælg et ensemble fra listen" />

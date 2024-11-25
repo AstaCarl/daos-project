@@ -5,7 +5,7 @@ function Register() {
   return (
     <>
       <main className="padding">
-        <Title title="Opret profil" />
+        <Title variant="default" title="Opret profil" />
         <RegisterForm />
       </main>
     </>

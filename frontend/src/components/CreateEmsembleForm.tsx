@@ -97,7 +97,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
           onClick={onEnsembleFormClosed}
         />
       </div>
-      <Title title="Opret ensemble" />
+      <Title variant="default" title="Opret ensemble" />
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <Input
           onChange={handleTitleChange}
