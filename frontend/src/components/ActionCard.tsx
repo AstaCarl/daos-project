@@ -1,6 +1,6 @@
 import Icon from "./atoms/Icon";
 import Paragraf from "./atoms/Paragraf";
-import { PrimaryButton } from "./atoms/PrimaryButton";
+import { Button } from "./atoms/Button";
 import Subtitle from "./atoms/Subtitle";
 
 type Props = {
@@ -23,7 +23,7 @@ export default function ActionCard({
     <section className="bg-white  flex flex-col items-center gap-2 w-full padding border-y border-border-gray">
       <div className="flex justify-between w-full">
         <Subtitle subtitle={subtitle} variant="default" />
-        <PrimaryButton
+        <Button
           variant="secondary"
           buttonText={smallButtonText}
           size="small"
@@ -37,7 +37,7 @@ export default function ActionCard({
           paragrafText={paragrafText}
           variant="body"
         />
-        <PrimaryButton
+        <Button
           variant="primary"
           buttonText={buttonText}
           size="medium"

@@ -1,16 +1,14 @@
 import { UserIcon } from "./atoms/UserIcon";
-import { PrimaryButton } from "./atoms/PrimaryButton";
+import { Button } from "./atoms/Button";
 import Paragraf from "./atoms/Paragraf";
 import { Title } from "./atoms/Title";
+import useAuthStore from "../hooks/store/auth-store";
 
 export default function ProfileHeader() {
-  if (!localStorage.getItem("user")) {
-    return null;
-  }
-  const user = JSON.parse(localStorage.getItem("user") || "");
+  const { user } = useAuthStore();
+
   const userName = user.name;
   const userLastname = user.lastname;
-  console.log(user);
 
   return (
     <div className="flex py-[30px] flex-col items-center w-full bg-white padding gap-5 border-y border-border-gray">
@@ -36,12 +34,12 @@ export default function ProfileHeader() {
       </div>
 
       <div className="flex item-center justify-start gap-3 w-full">
-        <PrimaryButton
+        <Button
           variant="secondary"
           buttonText="Rediger profil"
           size="small"
         />
-        <PrimaryButton
+        <Button
           variant="secondary"
           buttonText="Indstillinger"
           size="small"

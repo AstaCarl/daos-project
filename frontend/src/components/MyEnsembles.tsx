@@ -1,9 +1,6 @@
-import { PrimaryButton } from "./atoms/PrimaryButton";
+import { Button } from "./atoms/Button";
 import Subtitle from "./atoms/Subtitle";
 import EnsembleCard from "../components/EnsembleCard";
-// import RegisterEnsembleForm from "./RegisterEnsembleForm";
-// import { useState } from "react";
-// import { on } from "events";
 
 interface Ensemble {
   _id: string;
@@ -29,13 +26,13 @@ export default function MyEnsembles({ data, onOpenCreateEnsembleForm, onOpenRegi
         <div className="flex justify-between">
           <Subtitle variant="default" subtitle="Mine ensembler" />
           <div className="flex gap-2">
-            <PrimaryButton
+            <Button
               variant="secondary"
               buttonText="Tilføj"
               size="small"
               onClick={onOpenRegisterEnsembleForm}
             />
-            <PrimaryButton
+            <Button
               variant="secondary"
               buttonText="Opret"
               size="small"

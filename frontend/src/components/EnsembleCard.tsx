@@ -1,6 +1,6 @@
 import Image from "./atoms/Image";
 import Paragraf from "./atoms/Paragraf";
-import { PrimaryButton } from "./atoms/PrimaryButton";
+import { Button } from "./atoms/Button";
 import Subtitle from "./atoms/Subtitle";
 
 type Props = {
@@ -39,7 +39,7 @@ export default function EnsembleCard({
             <Paragraf variant="body-small" paragrafText={activeUsers} />
           </div>
           <div>
-            <PrimaryButton
+            <Button
               href={href}
               variant="secondary"
               buttonText="Læs mere"

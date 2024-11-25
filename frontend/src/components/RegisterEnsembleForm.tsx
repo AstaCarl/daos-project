@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFetch } from "../hooks/use-fetch";
-import { PrimaryButton } from "./atoms/PrimaryButton";
+import { Button } from "./atoms/Button";
 import { Title } from "./atoms/Title";
 import Select from "./atoms/Select";
 import Subtitle from "./atoms/Subtitle";
@@ -71,7 +71,7 @@ export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRe
   return (
     <div className="absolute bg-light-gray h-screen w-screen flex flex-col gap-6 padding">
       <div>
-        <PrimaryButton
+        <Button
           buttonText="Tilbage"
           variant="secondary"
           size="small"
@@ -100,7 +100,7 @@ export default function RegisterEnsembleForm({onEnsembleFormClosed, onEnsembleRe
           ))}
         </Select>
         </div>
-        <PrimaryButton type="submit" variant="primary" buttonText="Registrer" />
+        <Button type="submit" variant="primary" buttonText="Registrer" />
       </form>
     </div>
   );

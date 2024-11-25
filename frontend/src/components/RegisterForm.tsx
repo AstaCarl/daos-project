@@ -3,7 +3,7 @@ import Anchor from "./atoms/Anchor";
 import Icon from "./atoms/Icon";
 import { Input } from "./atoms/Input";
 import Paragraf from "./atoms/Paragraf";
-import { PrimaryButton } from "./atoms/PrimaryButton";
+import { Button } from "./atoms/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -136,7 +136,7 @@ export function RegisterForm({}) {
         <span className="flex justify-around items-center">
           <div
             onClick={handleToggle}
-            className="absolute cursor-pointer top-[43.5%] right-[27px]"
+            className="absolute cursor-pointer top-[41.5%] right-[30px]"
           >
             <Icon variant="showPassword" />
           </div>
@@ -145,7 +145,7 @@ export function RegisterForm({}) {
       <Paragraf variant="body-small" paragrafText="Har du allerede en profil? ">
         <Anchor href="/login" anchorText="Log ind her" variant="default" />
       </Paragraf>
-      <PrimaryButton
+      <Button
         type="submit"
         buttonText="Opret profil"
         variant="primary"
