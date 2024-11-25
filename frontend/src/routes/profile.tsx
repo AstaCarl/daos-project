@@ -20,7 +20,7 @@ interface Ensemble {
 
 export default function profile() {
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuthStore();
+  const { isLoggedIn, user } = useAuthStore();
   const [openCreateEnsembleForm, setOpenCreateEnsembleForm] = useState(false);
   const [openRegisterEnsembleForm, setOpenRegisterEnsembleForm] =
     useState(false);
@@ -66,12 +66,7 @@ export default function profile() {
   }, []);
 
   const getEnsemble = async () => {
-    try {
-      const user = localStorage.getItem("user");
-      if (!user) {
-        throw new Error("User is missing");
-      }
-      const userId = JSON.parse(user)._id;
+      const userId = user._id;
 
       const response = await useFetch(`/ensemble/${userId}`, "GET", {
         "Content-Type": "application/json",
@@ -79,28 +74,27 @@ export default function profile() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Create ensemble successful:", data);
+        console.log("Get ensembles successful:", data);
         setEnsembles(data);
         return ensembles;
-      } else {
-        console.error("Create ensemble error:", response.statusText);
+      } else{
+        console.error("Get ensembles error:", response.statusText);
       }
-    } catch (error) {
-      console.error("Create ensemble error:", error);
-    }
   };
 
   return (
     <div className="flex flex-col gap-10 pb-16">
       <ProfileHeader />
       {ensembles.length === 0 && (
-        <ActionCard
-          buttonText="Opret ensemble"
-          paragrafText="Hvis du repræsenterer et ensemble kan du oprette det her, så du kan lave et opslag på vegne af ensemblet."
-          subtitle="Mine ensembler"
-          smallButtonText="Tilføj"
-          onClick={handleOpenCreateEnsembleForm}
-        />
+          <ActionCard
+            buttonTextCreate="Opret nyt ensemble"
+            buttonTextRegister="Registrer i ensemble"
+            paragrafText="Hvis du repræsenterer et ensemble kan du oprette det her, eller registrere dig i et eksisterende ensemble."
+            subtitle="Mine ensembler"
+            smallButtonText="Tilføj"
+            onClickCreate={handleOpenCreateEnsembleForm}
+            onClickRegister={handleOpenRegisterEnsembleForm}
+          />
       )}
       {openCreateEnsembleForm && (
         <CreateEmsembleForm

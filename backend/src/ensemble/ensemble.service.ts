@@ -20,13 +20,13 @@ export class EnsembleService {
     return this.ensembleModel.find().exec();
   }
 
-  async findOne(id: string) {
+  async findEnsembleByUserId(id: string) {
     const objectId = new Types.ObjectId(id);
     const ensembles = await this.ensembleModel.find({ activeUsers: objectId }).exec();
     if (ensembles.length > 0) {
       return ensembles;
     } else {
-      return `No ensemble found with user ID #${id}`;
+      return [];
     }
   }
 

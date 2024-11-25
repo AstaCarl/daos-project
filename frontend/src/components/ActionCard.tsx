@@ -4,20 +4,23 @@ import { Button } from "./atoms/Button";
 import Subtitle from "./atoms/Subtitle";
 
 type Props = {
-  buttonText: string;
+  buttonTextCreate: string;
+  buttonTextRegister: string;
   paragrafText: string;
   subtitle: string;
   smallButtonText?: string;
-  onClick?: () => void;
-  handleToggleEnsembleForm?: () => void;
+  onClickCreate: () => void;
+  onClickRegister: () => void;
 };
 
 export default function ActionCard({
-  buttonText,
+  buttonTextCreate,
+  buttonTextRegister,
   paragrafText,
   subtitle,
   smallButtonText,
-  onClick,
+  onClickCreate,
+  onClickRegister,
 }: Props) {
   return (
     <section className="bg-white  flex flex-col items-center gap-2 w-full padding border-y border-border-gray">
@@ -39,9 +42,15 @@ export default function ActionCard({
         />
         <Button
           variant="primary"
-          buttonText={buttonText}
+          buttonText={buttonTextCreate}
           size="medium"
-          onClick={onClick}
+          onClick={onClickCreate}
+        />
+                <Button
+          variant="secondary"
+          buttonText={buttonTextRegister}
+          size="medium"
+          onClick={onClickRegister}
         />
       </div>
     </section>
