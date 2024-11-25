@@ -33,7 +33,6 @@ export default function profile() {
     }
   }, [isLoggedIn, navigate]);
 
-
   const handleOpenCreateEnsembleForm = () => {
     setOpenCreateEnsembleForm(true);
   };
@@ -61,7 +60,6 @@ export default function profile() {
     setOpenCreateEnsembleForm(false);
     getEnsemble(); // Refresh the list of ensembles
   };
-
 
   useEffect(() => {
     getEnsemble();
@@ -93,8 +91,8 @@ export default function profile() {
   };
 
   return (
-    <div className="flex flex-col gap-10 py-16">
-      <ProfileHeader/>
+    <div className="flex flex-col gap-10 pb-16">
+      <ProfileHeader />
       {ensembles.length === 0 && (
         <ActionCard
           buttonText="Opret ensemble"
@@ -116,13 +114,15 @@ export default function profile() {
           onEnsembleFormClosed={handleCloseRegisterEnsembleForm}
         />
       )}
-      {!openCreateEnsembleForm && !openRegisterEnsembleForm && ensembles.length > 0 && (
-        <MyEnsembles
-          data={ensembles}
-          onOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
-          onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
-        />
-      )}
+      {!openCreateEnsembleForm &&
+        !openRegisterEnsembleForm &&
+        ensembles.length > 0 && (
+          <MyEnsembles
+            data={ensembles}
+            onOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
+            onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
+          />
+        )}
     </div>
-  )
+  );
 }

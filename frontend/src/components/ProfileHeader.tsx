@@ -1,5 +1,7 @@
 import { UserIcon } from "./atoms/UserIcon";
 import { PrimaryButton } from "./atoms/PrimaryButton";
+import Paragraf from "./atoms/Paragraf";
+import { Title } from "./atoms/Title";
 
 export default function ProfileHeader() {
   if (!localStorage.getItem("user")) {
@@ -11,27 +13,29 @@ export default function ProfileHeader() {
   console.log(user);
 
   return (
-    <div className="flex flex-col items-center w-full bg-white pb-[24px]">
-      <div className="flex items-center">
-        <div className="flex pl-2">
+    <div className="flex py-[30px] flex-col items-center w-full bg-white padding gap-5 border-y border-border-gray">
+      <div className="flex items-center w-full justify-between">
+        <div className="flex w-[22%]">
           <UserIcon />
         </div>
-        <div className="flex flex-col pl-[20px]">
+        <div className="flex flex-col w-[70%]">
           <div>
-            <h1 className="font-display font-medium text-red text-xl">
-              {userName} {userLastname}
-            </h1>
+            <Title variant="red" title={`${userName} ${userLastname}`} />
           </div>
-          <div className="flex">
-            <p>
-              Medlem siden maj 2020 <br />
-              Sidst logget ind 1 time siden
-            </p>
+          <div className="">
+            <Paragraf
+              variant="body-small"
+              paragrafText="Medlem siden maj 2020"
+            />
+            <Paragraf
+              variant="body-small"
+              paragrafText="Sidst logget ind 1 time siden"
+            />
           </div>
         </div>
       </div>
 
-      <div className="flex item-center pt-[20px] gap-[21px]">
+      <div className="flex item-center justify-start gap-3 w-full">
         <PrimaryButton
           variant="secondary"
           buttonText="Rediger profil"
