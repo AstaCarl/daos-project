@@ -11,9 +11,10 @@ interface Ensemble {
   _id: string;
   title: string;
   activeUsers: string[];
-  city?: string;
-  description?: string;
-  zipCode?: string;
+  city: string;
+  website: string;
+  description: string;
+  zipcode: string;
 }
 
 export default function profile({}) {
@@ -114,7 +115,7 @@ export default function profile({}) {
         !openRegisterEnsembleForm &&
         ensembles.length > 0 && (
           <MyEnsembles
-            ensembles={ensembles}
+            data={ensembles}
             onOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
             onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
           />

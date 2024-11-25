@@ -10,19 +10,18 @@ interface Ensemble {
   title: string;
   activeUsers: string[];
   city: string;
-  description: string;
   website: string;
+  description: string;
   zipcode: string;
-  __v?: number;
 }
 
 type Props = {
-  ensembles: Ensemble[];
+  data: Ensemble[];
   onOpenCreateEnsembleForm: () => void;
   onOpenRegisterEnsembleForm: () => void;
 };
 
-export default function MyEnsembles({ ensembles, onOpenCreateEnsembleForm, onOpenRegisterEnsembleForm }: Props) {
+export default function MyEnsembles({ data, onOpenCreateEnsembleForm, onOpenRegisterEnsembleForm }: Props) {
 
   return (
     <>
@@ -44,7 +43,7 @@ export default function MyEnsembles({ ensembles, onOpenCreateEnsembleForm, onOpe
             />
           </div>
         </div>
-        {ensembles.map((ensemble) => (
+        {data.map((ensemble) => (
           <EnsembleCard key={ensemble._id} title={ensemble.title} description={ensemble.description} zipcode={ensemble.zipcode} city={ensemble.city} activeUsers={ensemble.activeUsers.length} href={ensemble.website}/>
         ))}
       </section>
