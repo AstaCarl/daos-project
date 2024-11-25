@@ -20,7 +20,6 @@ export default function ActionCard({
   onClick,
 }: Props) {
   return (
-    <section className="bg-white  flex flex-col items-center gap-10 w-full">
     <section className="bg-white  flex flex-col items-center gap-2 w-full padding border-y border-border-gray">
       <div className="flex justify-between w-full">
         <Subtitle subtitle={subtitle} variant="default" />
@@ -31,8 +30,6 @@ export default function ActionCard({
         />
       </div>
       <Icon variant="postsEmpty" />
-      <div className="flex flex-col gap-6">
-        <Paragraf paragrafText={paragrafText} variant="body" />
       <Subtitle subtitle="Du har ingen ensembler" variant="default" />
       <div className="flex flex-col gap-4">
         <Paragraf

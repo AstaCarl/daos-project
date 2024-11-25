@@ -6,6 +6,7 @@ import CreateEmsembleForm from "../components/CreateEmsembleForm";
 import MyEnsembles from "../components/MyEnsembles";
 import { useFetch } from "../hooks/use-fetch";
 import RegisterEnsembleForm from "../components/RegisterEnsembleForm";
+import ProfileHeader from "../components/ProfileHeader";
 
 interface Ensemble {
   _id: string;
@@ -17,28 +18,9 @@ interface Ensemble {
   zipcode: string;
 }
 
-export default function profile({}) {
+export default function profile() {
   const navigate = useNavigate();
-  // Get the isLoggedIn state variable and the login function from the auth store
   const { isLoggedIn } = useAuthStore();
-  const [openEmsenbleForm, setOpenEnsembleForm] = useState(false);
-
-  const handleOpenEnsembleForm = () => {
-    console.log("Open ensemble form");
-    setOpenEnsembleForm(true);
-  };
-
-  useEffect(() => {
-    // Redirect to login if the user is not logged in
-    if (!isLoggedIn) {
-      navigate("/login");
-    }
-  }, [isLoggedIn, navigate]);
-
-  useEffect(() => {
-    getEnsemble();
-  }, []);
-
   const [openCreateEnsembleForm, setOpenCreateEnsembleForm] = useState(false);
   const [openRegisterEnsembleForm, setOpenRegisterEnsembleForm] =
     useState(false);
@@ -50,6 +32,7 @@ export default function profile({}) {
       navigate("/login");
     }
   }, [isLoggedIn, navigate]);
+
 
   const handleOpenCreateEnsembleForm = () => {
     setOpenCreateEnsembleForm(true);
@@ -69,12 +52,14 @@ export default function profile({}) {
     await getEnsemble();
   };
 
-  const handleCloseCreateEnsembleForm = async () => {
-    setOpenCreateEnsembleForm(false);
+  const handleCloseRegisterEnsembleForm = () => {
+    setOpenRegisterEnsembleForm(false);
+    getEnsemble(); // Refresh the list of ensembles
   };
 
-  const handleCloseRegisterEnsembleForm = async () => {
-    setOpenRegisterEnsembleForm(false);
+  const handleCloseCreateEnsembleForm = () => {
+    setOpenCreateEnsembleForm(false);
+    getEnsemble(); // Refresh the list of ensembles
   };
 
 
@@ -108,16 +93,8 @@ export default function profile({}) {
   };
 
   return (
-    <div>
-      <ActionCard
-        buttonText="Opret ensemble"
-        paragrafText="Hvis du repræsenterer et ensemble kan du oprette det her, så du kan lave et opslag på vegne af ensemblet."
-        subtitle="Mine ensembler"
-        smallButtonText="Tilføj"
-        onClick={handleOpenEnsembleForm}
-      />
-      {openEmsenbleForm && <CreateEmsembleForm />}
-    <div className="flex flex-col gap-10 py-10">
+    <div className="flex flex-col gap-10 py-16">
+      <ProfileHeader/>
       {ensembles.length === 0 && (
         <ActionCard
           buttonText="Opret ensemble"
@@ -139,15 +116,13 @@ export default function profile({}) {
           onEnsembleFormClosed={handleCloseRegisterEnsembleForm}
         />
       )}
-      {!openCreateEnsembleForm &&
-        !openRegisterEnsembleForm &&
-        ensembles.length > 0 && (
-          <MyEnsembles
-            data={ensembles}
-            onOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
-            onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
-          />
-        )}
+      {!openCreateEnsembleForm && !openRegisterEnsembleForm && ensembles.length > 0 && (
+        <MyEnsembles
+          data={ensembles}
+          onOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
+          onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
+        />
+      )}
     </div>
-  );
+  )
 }
