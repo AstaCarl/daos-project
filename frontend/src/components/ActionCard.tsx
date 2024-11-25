@@ -11,7 +11,7 @@ type Props = {
   onClick?: () => void;
 };
 
-export default function CreateCard({
+export default function ActionCard({
   buttonText,
   paragrafText,
   subtitle,
