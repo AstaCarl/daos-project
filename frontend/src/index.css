@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  main {
-    @apply bg-light-gray px-[15px]
+  .padding {
+    @apply bg-light-gray px-[16px] py-[16px];
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateEnsembleDto } from './dto/create-ensemble.dto';
 import { UpdateEnsembleDto } from './dto/update-ensemble.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -41,9 +41,11 @@ export class EnsembleService {
     }
     Object.assign(ensemble, updateEnsembleDto);
 
-    if (!ensemble.activeUsers.includes(userId)) {
+    if (ensemble.activeUsers.includes(userId)) {
+      throw new HttpException('User already registered in this ensemble', HttpStatus.BAD_REQUEST);
+    } else {
       ensemble.activeUsers.push(userId);
-    }
+    } 
     return ensemble.save();
   }
 

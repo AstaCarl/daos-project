@@ -1,8 +1,15 @@
+import { IsNotEmpty } from 'class-validator';
+
 export class CreateEnsembleDto {
+  @IsNotEmpty()
   title: string;
+  @IsNotEmpty()
   description: string;
+  @IsNotEmpty()
   website: string;
-  zipCode: string;
+  @IsNotEmpty()
+  zipcode: string;
+  @IsNotEmpty()
   city: string;
   activeUsers: string[];
 }

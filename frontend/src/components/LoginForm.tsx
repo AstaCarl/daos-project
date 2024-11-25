@@ -35,7 +35,6 @@ export default function LoginForm({}) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
 
-    try {
       // Prepare the login data
       const loginData = {
         email: email,
@@ -63,11 +62,7 @@ export default function LoginForm({}) {
       } else if (response.status === 401) {
           setErrors(["Ugyldig email eller adgangskode."]);
       };
-    } catch (error) {
-      // Handle network or other errors
-      console.error("Error during login:", error);
-      alert("An unexpected error occurred. Please try again.");
-    }
+  
   };
 
   return (

@@ -9,6 +9,7 @@ type Props = {
   subtitle: string;
   smallButtonText?: string;
   onClick?: () => void;
+  handleToggleEnsembleForm?: () => void;
 };
 
 export default function ActionCard({
@@ -20,6 +21,7 @@ export default function ActionCard({
 }: Props) {
   return (
     <section className="bg-white  flex flex-col items-center gap-10 w-full">
+    <section className="bg-white  flex flex-col items-center gap-2 w-full padding border-y border-border-gray">
       <div className="flex justify-between w-full">
         <Subtitle subtitle={subtitle} variant="default" />
         <PrimaryButton
@@ -31,6 +33,13 @@ export default function ActionCard({
       <Icon variant="postsEmpty" />
       <div className="flex flex-col gap-6">
         <Paragraf paragrafText={paragrafText} variant="body" />
+      <Subtitle subtitle="Du har ingen ensembler" variant="default" />
+      <div className="flex flex-col gap-4">
+        <Paragraf
+          className="text-center"
+          paragrafText={paragrafText}
+          variant="body"
+        />
         <PrimaryButton
           variant="primary"
           buttonText={buttonText}

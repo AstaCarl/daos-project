@@ -1,29 +1,20 @@
 import { Model } from 'mongoose';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
-import { CreateMyInstrumentDto } from 'src/my_instruments/dto/create-my_instrument.dto';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async linkMyInstrumentToUser(
-    id: string,
-    createMyInstrumentDto: CreateMyInstrumentDto,
-  ) {
-    return this.userModel.findByIdAndUpdate(id, {
-      $push: { myInstruments: createMyInstrumentDto },
-    });
-  }
 
   async findOne(id: string): Promise<User | undefined> {
-    return this.userModel.findById(id).populate('myInstruments').exec();
+    return this.userModel.findById(id).exec();
   }
 
   async findAll() {
-    return this.userModel.find().populate('myInstruments');
+    return this.userModel.find().exec();
   }
 
   // Create a user
@@ -32,7 +23,7 @@ export class UsersService {
       .findOne({ email: createUserDto.email })
       .exec();
     if (existingUser) {
-      throw new NotFoundException('User with this email already exists');
+      throw new ConflictException('User with this email already exists');
     }
     const createdUser = new this.userModel(createUserDto);
     return createdUser.save();

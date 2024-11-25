@@ -27,29 +27,45 @@ export default function Header({}: Props) {
               isMenuOpen ? "opacity-100 h-fit z-10" : "opacity-0 h-0"
             }`}
           >
-            <li>
+            <li className={`${isMenuOpen ? "block" : "hidden"}`}>
               <Anchor href="/" anchorText="Hjem" variant="navigation" />
             </li>
-            <li>
+            <li className={`${isMenuOpen ? "block" : "hidden"}`}>
               <Anchor href="#" anchorText="Find musiker" variant="navigation" />
             </li>
-            <li>
+            <li className={`${isMenuOpen ? "block" : "hidden"}`}>
               <Anchor
                 href="#"
                 anchorText="Find ensemble"
                 variant="navigation"
               />
             </li>
-            <li>
-              <Anchor href="/profile" anchorText="Profil" variant="navigation" />
+            <li className={`${isMenuOpen ? "block" : "hidden"}`}>
+              <Anchor
+                href="/profile"
+                anchorText="Profil"
+                variant="navigation"
+              />
             </li>
-            {PrimaryButton({ buttonText: "Opret bruger", type: "button", href: "/register", variant: "primary" })}
-            {PrimaryButton({ buttonText: "Log ind", type: "button", href: "/login", variant: "secondary" })}
+            <li className={`${isMenuOpen ? "block pb-3" : "hidden"}`}>
+              {PrimaryButton({
+                buttonText: "Opret bruger",
+                type: "button",
+                href: "/register",
+                variant: "primary",
+              })}
+            </li>
+            <li className={`${isMenuOpen ? "block" : "hidden"}`}>
+              {PrimaryButton({
+                buttonText: "Log ind",
+                type: "button",
+                href: "/login",
+                variant: "secondary",
+              })}
+            </li>
           </ul>
         </div>
-        <div>
-          {/* <ProfileIcon /> */}
-        </div>
+        <div>{/* <ProfileIcon /> */}</div>
         {isMenuOpen ? (
           <Icon onClick={toggleMenu} variant="close" />
         ) : (

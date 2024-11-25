@@ -1,8 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, Types } from 'mongoose';
-import * as mongoose from 'mongoose';
-import { Transform, Type } from 'class-transformer';
-import { User } from 'src/user/schema/user.schema';
+import { Transform } from 'class-transformer';
+import { User } from '../../user/schema/user.schema';
 
 export type EnsembleDocument = Ensemble & Document;
 
@@ -21,7 +20,7 @@ export class Ensemble {
   website: string;
 
   @Prop()
-  zipCode: string;
+  zipcode: string;
 
   @Prop()
   city: string;
