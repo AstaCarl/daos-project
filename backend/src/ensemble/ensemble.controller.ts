@@ -45,7 +45,7 @@ export class EnsembleController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.ensembleService.findOne(id);
+    return this.ensembleService.findEnsembleByUserId(id);
   }
 
 
