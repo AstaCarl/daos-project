@@ -5,6 +5,7 @@ import burgerIcon from "../../assets/icons8-menu.svg";
 import closeIcon from "../../assets/close-icon.svg";
 import showPasswordIcon from "../../assets/show-password.svg";
 import postsEmptyIcon from "../../assets/posts-empty.svg";
+import userIcon from "../../assets/user-icon.svg";
 
 type Props = {
   onClick?: () => void;
@@ -15,7 +16,8 @@ type Props = {
     | "burger"
     | "close"
     | "showPassword"
-    | "postsEmpty";
+    | "postsEmpty"
+    | "userIcon";
 };
 
 export default function Icon({ variant, onClick }: Props) {
@@ -27,6 +29,7 @@ export default function Icon({ variant, onClick }: Props) {
     close: closeIcon,
     showPassword: showPasswordIcon,
     postsEmpty: postsEmptyIcon,
+    userIcon: userIcon,
   };
   return (
     <div onClick={onClick} className="">
