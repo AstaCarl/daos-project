@@ -12,7 +12,7 @@ interface Ensemble {
   activeUsers: string[];
   city?: string;
   description?: string;
-  zipCode?: string;
+  zipcode?: string;
 }
 
 type Props = {
@@ -29,6 +29,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const [website, setWebsite] = useState<string>("");
   const [zipcode, setZipcode] = useState<string>("");
   const [city, setCity] = useState<string>("");
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -55,7 +56,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
 
-    try {
       const ensembleData = {
         title: title,
         description: description,
@@ -78,16 +78,17 @@ const CreateEmsembleForm: React.FC<Props> = ({
         const data = await response.json();
         console.log("Create ensemble successful:", data);
         onEnsembleCreated(data);
-      } else {
-        console.error("Create ensemble error:", response.statusText);
+      } 
+      else {
+        const errorData = await response.json();
+        // console.error("Create ensemble error:", response.statusText);
+        console.error("Create ensemble error:", errorData.message);
+        setErrors(errorData.message || ["An error occurred."]);
       }
-    } catch (error) {
-      console.error("Create ensemble error:", error);
-    }
   };
 
   return (
-    <div className="absolute bg-light-gray h-screen w-screen flex flex-col gap-6 padding">
+    <div className="absolute bg-light-gray h-fit w-screen flex flex-col gap-6 pb-16 padding">
       <div>
         <PrimaryButton
           buttonText="Tilbage"
@@ -105,6 +106,9 @@ const CreateEmsembleForm: React.FC<Props> = ({
           id="title"
           type="text"
           inputPlaceholder="Ensemblets navn"
+          {...(errors.includes("title should not be empty") && {
+            errorMessage: "Navnet skal udfyldes",
+          })}
         />
         <div>
           <Subtitle variant="default" subtitle="Beskrivelse" />
@@ -114,6 +118,9 @@ const CreateEmsembleForm: React.FC<Props> = ({
             value={description}
             id="description"
             inputPlaceholder="Beskrivelse"
+            {...(errors.includes("description should not be empty") && {
+              errorMessage: "Beskrivelse skal udfyldes",
+            })}
           />
         </div>
         <div>
@@ -125,6 +132,9 @@ const CreateEmsembleForm: React.FC<Props> = ({
             id="website"
             type="text"
             inputPlaceholder="Hjemmeside"
+            {...(errors.includes("website should not be empty") && {
+              errorMessage: "Hjemmeside skal udfyldes",
+            })}
           />
         </div>
         <div>
@@ -137,6 +147,9 @@ const CreateEmsembleForm: React.FC<Props> = ({
               id="zipcode"
               type="text"
               inputPlaceholder="Postnr."
+              {...(errors.includes("zipCode should not be empty") && {
+                errorMessage: "Postnummer skal udfyldes",
+              })}
             />
             <Input
               onChange={handleCityChange}
@@ -145,6 +158,9 @@ const CreateEmsembleForm: React.FC<Props> = ({
               id="by"
               type="text"
               inputPlaceholder="By"
+              {...(errors.includes("city should not be empty") && {
+                errorMessage: "By skal udfyldes",
+              })}
             />
           </div>
         </div>
