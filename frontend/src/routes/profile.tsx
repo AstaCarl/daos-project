@@ -53,7 +53,6 @@ export default function profile({}) {
 
   return (
     <div>
-      <ProfileHeader />
       <CreateCard
         buttonText="Opret ensemble"
         paragrafText="Hvis du repræsenterer et ensemble kan du oprette det her, så du kan lave et opslag på vegne af ensemblet."
