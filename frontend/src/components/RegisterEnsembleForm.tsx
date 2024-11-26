@@ -73,7 +73,7 @@ export default function RegisterEnsembleForm({
   };
 
   return (
-    <div className="absolute bg-light-gray h-screen w-screen flex flex-col gap-6 padding">
+    <div className="absolute bg-light-grey h-screen w-screen flex flex-col gap-6 padding">
       <div>
         <Button
           buttonText="Tilbage"

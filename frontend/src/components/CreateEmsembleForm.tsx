@@ -88,7 +88,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
   };
 
   return (
-    <div className="absolute bg-light-gray h-fit w-screen flex flex-col gap-6 pb-16 padding">
+    <div className="absolute bg-light-grey h-fit w-screen flex flex-col gap-6 pb-16 padding">
       <div>
         <Button
           buttonText="Tilbage"

@@ -9,7 +9,7 @@ export default function Layout({ children }: Props) {
   return (
     <div>
       <Header />
-      <main className="bg-light-gray">
+      <main className="bg-light-grey">
         {children}
       </main>
       <Footer />

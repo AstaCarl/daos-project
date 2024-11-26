@@ -21,7 +21,7 @@ export default function EnsembleCard({
   href,
 }: Props) {
   return (
-    <div className="border border-border-gray shadow-md rounded-lg flex flex-col gap-3">
+    <div className="border border-border-grey shadow-md rounded-lg flex flex-col gap-3">
       <Image className="rounded-t-md" />
       <div className="px-4 pb-4 flex flex-col gap-2">
         <Subtitle variant="cardTitle" subtitle={title} />

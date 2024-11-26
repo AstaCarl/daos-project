@@ -4,6 +4,6 @@
 
 @layer base {
   .padding {
-    @apply bg-light-gray px-[16px] py-[16px];
+    @apply bg-light-grey px-[16px] py-[16px];
   }
 }

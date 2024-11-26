@@ -10,7 +10,7 @@ type ButtonProps = {
 export function Button({ buttonText, type = "button", href, variant, size="medium", onClick }: ButtonProps) {
   const variantClasses = {
     primary: "bg-blue text-white",
-    secondary: "bg-white text-blue border border-gray",
+    secondary: "bg-white text-blue border border-grey",
   };
 
   const sizeClasses = {

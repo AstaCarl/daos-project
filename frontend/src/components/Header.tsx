@@ -23,7 +23,7 @@ export default function Header({}: Props) {
 
   return (
     <>
-      <div className="flex justify-between items-center bg-white border border-gray h-20 w-full py-[12px] px-[19px]">
+      <div className="flex justify-between items-center bg-white border border-grey h-20 w-full py-[12px] px-[19px]">
         <div>
           <Logo />
         </div>
