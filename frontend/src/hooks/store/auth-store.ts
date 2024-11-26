@@ -9,6 +9,7 @@ interface AuthStore {
   logout: () => void;
 }
 
+
 const useAuthStore = create(
   persist<AuthStore>(
     (set) => ({

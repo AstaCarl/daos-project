@@ -23,7 +23,7 @@ export default function ActionCard({
   onClickRegister,
 }: Props) {
   return (
-    <section className="bg-white  flex flex-col items-center gap-2 w-full padding border-y border-border-grey">
+    <section className="bg-white  flex flex-col items-center gap-2 w-full padding border-y accent-grey">
       <div className="flex justify-between w-full">
         <Subtitle subtitle={subtitle} variant="default" />
         <Button

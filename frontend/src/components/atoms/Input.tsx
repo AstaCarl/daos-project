@@ -31,7 +31,7 @@ export function Input({
         name={inputName}
         type={type}
         placeholder={inputPlaceholder}
-        className={`p-3 border w-full border-border-grey rounded-md font-sans text-base placeholder:font-sans placeholder:text-dark-grey shadow-md  ${errorMessage ? 'border-red' : 'border-border-grey'}`}
+        className={`p-3 border w-full accent-grey rounded-md font-sans text-base placeholder:font-sans placeholder:text-dark-grey shadow-md  ${errorMessage ? 'border-red' : 'accent-grey'}`}
       />
       {errorMessage && (
         <span className="text-red text-sm">{errorMessage}</span>

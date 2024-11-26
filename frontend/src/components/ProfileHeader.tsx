@@ -11,7 +11,7 @@ export default function ProfileHeader() {
   const userLastname = user.lastname;
 
   return (
-    <div className="flex py-[30px] flex-col items-center w-full bg-white padding gap-5 border-y border-border-grey">
+    <div className="flex py-[30px] flex-col items-center w-full bg-white padding gap-5 border-y accent-grey">
       <div className="flex items-center w-full justify-between">
         <div className="flex w-[22%]">
           <UserIcon />

@@ -17,6 +17,10 @@ export default function Header({}: Props) {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleCloseMenu = () => {
+    setIsMenuOpen(false);
+  }
+
   const handleLogout = () => {
     logout();
   };
@@ -33,20 +37,20 @@ export default function Header({}: Props) {
               isMenuOpen ? "opacity-100 h-fit z-10" : "opacity-0 h-0"
             }`}
           >
-            <li className={`${isMenuOpen ? "block" : "hidden"}`}>
+            <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block" : "hidden"}`}>
               <Anchor href="/" anchorText="Hjem" variant="navigation" />
             </li>
-            <li className={`${isMenuOpen ? "block" : "hidden"}`}>
+            <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block" : "hidden"}`}>
               <Anchor href="#" anchorText="Find musiker" variant="navigation" />
             </li>
-            <li className={`${isMenuOpen ? "block" : "hidden"}`}>
+            <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block" : "hidden"}`}>
               <Anchor
                 href="#"
                 anchorText="Find ensemble"
                 variant="navigation"
               />
             </li>
-            <li className={`${isMenuOpen ? "block" : "hidden"}`}>
+            <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block" : "hidden"}`}>
               <Anchor
                 href="/profile"
                 anchorText="Profil"
@@ -55,7 +59,7 @@ export default function Header({}: Props) {
             </li>
             {!isLoggedIn ? (
               <>
-                <li className={`${isMenuOpen ? "block pb-3" : "hidden"}`}>
+                <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block pb-3" : "hidden"}`}>
                   <Button
                     buttonText="Opret bruger"
                     variant="primary"
@@ -63,7 +67,7 @@ export default function Header({}: Props) {
                     href="/register"
                   />
                 </li>
-                <li className={`${isMenuOpen ? "block" : "hidden"}`}>
+                <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block" : "hidden"}`}>
                   <Button
                     buttonText="Log ind"
                     variant="secondary"

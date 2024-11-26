@@ -22,7 +22,7 @@ export default function MyEnsembles({ data, onOpenCreateEnsembleForm, onOpenRegi
 
   return (
     <>
-      <section className="bg-white flex flex-col gap-7 padding border-y border-border-grey">
+      <section className="bg-white flex flex-col gap-7 padding border-y accent-grey">
         <div className="flex justify-between">
           <Subtitle variant="default" subtitle="Mine ensembler" />
           <div className="flex gap-2">
