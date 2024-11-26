@@ -9,6 +9,10 @@ export default function ProfileHeader() {
 
   const userName = user.name;
   const userLastname = user.lastname;
+  const createdAt = user.createdAt;
+  const date = new Date(createdAt);
+  const month = date.toLocaleString("da-DK", { month: "long" });
+  const year = date.getFullYear();
 
   return (
     <div className="flex py-[30px] flex-col items-center w-full bg-white padding gap-5 border-y accent-grey">
@@ -23,27 +27,15 @@ export default function ProfileHeader() {
           <div className="">
             <Paragraf
               variant="body-small"
-              paragrafText="Medlem siden maj 2020"
-            />
-            <Paragraf
-              variant="body-small"
-              paragrafText="Sidst logget ind 1 time siden"
+              paragrafText={`Medlem siden ${month} ${year}`}
             />
           </div>
         </div>
       </div>
 
       <div className="flex item-center justify-start gap-3 w-full">
-        <Button
-          variant="secondary"
-          buttonText="Rediger profil"
-          size="small"
-        />
-        <Button
-          variant="secondary"
-          buttonText="Indstillinger"
-          size="small"
-        />
+        <Button variant="secondary" buttonText="Rediger profil" size="small" />
+        <Button variant="secondary" buttonText="Indstillinger" size="small" />
       </div>
     </div>
   );
