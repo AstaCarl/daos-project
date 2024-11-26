@@ -8,7 +8,6 @@ type Props = {
   buttonTextRegister: string;
   paragrafText: string;
   subtitle: string;
-  smallButtonText?: string;
   onClickCreate: () => void;
   onClickRegister: () => void;
 };
@@ -18,7 +17,6 @@ export default function ActionCard({
   buttonTextRegister,
   paragrafText,
   subtitle,
-  smallButtonText,
   onClickCreate,
   onClickRegister,
 }: Props) {
@@ -26,11 +24,6 @@ export default function ActionCard({
     <section className="bg-white  flex flex-col items-center gap-2 w-full padding border-y accent-grey">
       <div className="flex justify-between w-full">
         <Subtitle subtitle={subtitle} variant="default" />
-        <Button
-          variant="secondary"
-          buttonText={smallButtonText}
-          size="small"
-        />
       </div>
       <Icon variant="postsEmpty" />
       <Subtitle subtitle="Du har ingen ensembler" variant="default" />

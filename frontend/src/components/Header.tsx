@@ -78,7 +78,7 @@ export default function Header({}: Props) {
               </>
             ) : (
               <>
-                <li className={`${isMenuOpen ? "block" : "hidden"}`}>
+                <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block" : "hidden"}`}>
                   <Button
                     buttonText="Log ud"
                     variant="primary"
