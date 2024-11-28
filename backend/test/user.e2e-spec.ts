@@ -4,6 +4,7 @@ import * as request from 'supertest';
 import { TestModule } from '../src/test.module';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UsersService } from '../src/user/users.service';
+import { after } from 'node:test';
 
 describe('userController (e2e)', () => {
   let app: INestApplication;
@@ -14,11 +15,12 @@ describe('userController (e2e)', () => {
       imports: [TestModule],
     }).compile();
     userService = moduleFixture.get<UsersService>(UsersService);
+    // Clear the database before each test
+    await userService.deleteMany();
 
     app = moduleFixture.createNestApplication();
     await app.init();
-    // Clear the database before each test
-    await userService.deleteMany();
+
   });
 
   //******************* Create user endpoint test *******************/

@@ -15,17 +15,21 @@ describe('authController (e2e)', () => {
     }).compile();
     userService = moduleFixture.get<UsersService>(UsersService);
 
-    app = moduleFixture.createNestApplication();
-    await app.init();
     // Clear the database before each test
     await userService.deleteMany();
+
+    app = moduleFixture.createNestApplication();
+
+    await app.init();
+
   });
+
   describe('authController /auth/login', () => {
     it('should return a token when logging in', async () => {
       const validUser: CreateUserDto = {
         name: 'Test',
         lastname: 'Testsen',
-        email: 'test@test.dk',
+        email: 'test4@test.dk',
         password: 'password',
       };
       await userService.create(validUser);
@@ -33,7 +37,7 @@ describe('authController (e2e)', () => {
       const { body } = await request(app.getHttpServer())
         .post('/auth/login')
         .send({
-          email: 'test@test.dk',
+          email: 'test4@test.dk',
           password: 'password',
         })
         .expect(200);
