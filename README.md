@@ -3,8 +3,9 @@
 
 **Project setup**
 
-1. Run `npm install` in both backend folder and frontend folder
-2. Create .env file in backend folder with secrets corresponding to the env.example.
+1. Make sure to be on the `main` branch of the project.
+2. Run `npm install` in both backend folder and frontend folder.
+3. Create .env file in backend folder with secrets corresponding to the env.example.
 
 
 **Run project**
@@ -15,4 +16,4 @@
 
 **Run tests**
 
-1. Navigate to backend folder and run `npm run test:e2e`
+1. Navigate to backend folder and run `npm run test:e2e`.
