@@ -22,7 +22,9 @@ export class EnsembleService {
 
   async findEnsembleByUserId(id: string) {
     const objectId = new Types.ObjectId(id);
-    const ensembles = await this.ensembleModel.find({ activeUsers: objectId }).exec();
+    const ensembles = await this.ensembleModel
+      .find({ activeUsers: objectId })
+      .exec();
     if (ensembles.length > 0) {
       return ensembles;
     } else {
@@ -35,21 +37,28 @@ export class EnsembleService {
     updateEnsembleDto: UpdateEnsembleDto,
     userId: any,
   ): Promise<Ensemble> {
-    const ensemble = await this.ensembleModel.findById(id).exec()
+    const ensemble = await this.ensembleModel.findById(id).exec();
     if (!ensemble) {
       throw new Error('Ensemble not found');
     }
     Object.assign(ensemble, updateEnsembleDto);
 
     if (ensemble.activeUsers.includes(userId)) {
-      throw new HttpException('User already registered in this ensemble', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'User already registered in this ensemble',
+        HttpStatus.BAD_REQUEST,
+      );
     } else {
       ensemble.activeUsers.push(userId);
-    } 
+    }
     return ensemble.save();
   }
 
   remove(id: number) {
     return `This action removes a #${id} ensemble`;
+  }
+
+  async deleteMany() {
+    return this.ensembleModel.deleteMany({}).exec();
   }
 }

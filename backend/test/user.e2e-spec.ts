@@ -4,7 +4,6 @@ import * as request from 'supertest';
 import { TestModule } from '../src/test.module';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UsersService } from '../src/user/users.service';
-import { after } from 'node:test';
 
 describe('userController (e2e)', () => {
   let app: INestApplication;
@@ -20,7 +19,6 @@ describe('userController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-
   });
 
   //******************* Create user endpoint test *******************/
@@ -67,11 +65,11 @@ describe('userController (e2e)', () => {
     const userId = createUserResponse.body._id;
 
     // Then, delete the user
-    const response = await request(app.getHttpServer())
+    const deletedResponse = await request(app.getHttpServer())
       .delete(`/user/${userId}`)
       .expect(200);
 
-    expect(response.body._id).toMatch(userId);
+    expect(deletedResponse.body._id).toMatch(userId);
   });
 
   //******************* Get user by ID *******************/
@@ -92,18 +90,18 @@ describe('userController (e2e)', () => {
     const userId = createUserResponse.body._id;
 
     // Act
-    const response = await request(app.getHttpServer())
+    const getUserResponse = await request(app.getHttpServer())
       .get(`/user/${userId}`)
       .expect(200);
 
     // Assert
-    expect(response.body._id).toMatch(userId);
+    expect(getUserResponse.body._id).toMatch(userId);
   });
 
   //******************* Get all users endpoint test *******************/
   it('should return all users', async () => {
     // Arrange
-    const validUser1: CreateUserDto = {
+    const validUser: CreateUserDto = {
       name: 'Test1',
       lastname: 'Testsen1',
       email: 'test1@test.dk',
@@ -118,7 +116,7 @@ describe('userController (e2e)', () => {
 
     await request(app.getHttpServer())
       .post('/user')
-      .send(validUser1)
+      .send(validUser)
       .expect(201);
     await request(app.getHttpServer())
       .post('/user')

@@ -66,35 +66,34 @@ export default function profile() {
   }, []);
 
   const getEnsemble = async () => {
-      const userId = user._id;
+    const userId = user._id;
 
-      const response = await useFetch(`/ensemble/${userId}`, "GET", {
-        "Content-Type": "application/json",
-      });
+    const response = await useFetch(`/ensemble/${userId}`, "GET", {
+      "Content-Type": "application/json",
+    });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Get ensembles successful:", data);
-        setEnsembles(data);
-        return ensembles;
-      } else{
-        console.error("Get ensembles error:", response.statusText);
-      }
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Get ensembles successful:", data);
+      setEnsembles(data);
+      return ensembles;
+    } else {
+      console.error("Get ensembles error:", response.statusText);
+    }
   };
 
   return (
     <div className="flex flex-col gap-10 pb-16">
       <ProfileHeader />
       {ensembles.length === 0 && (
-          <ActionCard
-            buttonTextCreate="Opret nyt ensemble"
-            buttonTextRegister="Registrer i ensemble"
-            paragrafText="Hvis du repræsenterer et ensemble kan du oprette det her, eller registrere dig i et eksisterende ensemble."
-            subtitle="Mine ensembler"
-            smallButtonText="Tilføj"
-            onClickCreate={handleOpenCreateEnsembleForm}
-            onClickRegister={handleOpenRegisterEnsembleForm}
-          />
+        <ActionCard
+          buttonTextCreate="Opret nyt ensemble"
+          buttonTextRegister="Registrer i ensemble"
+          paragrafText="Hvis du repræsenterer et ensemble kan du oprette det her, eller registrere dig i et eksisterende ensemble."
+          subtitle="Mine ensembler"
+          onClickCreate={handleOpenCreateEnsembleForm}
+          onClickRegister={handleOpenRegisterEnsembleForm}
+        />
       )}
       {openCreateEnsembleForm && (
         <CreateEmsembleForm
