@@ -3,7 +3,7 @@
 
 **Project setup**
 
-1. Run npm install in both backend folder and frontend folder
+1. Run `npm install` in both backend folder and frontend folder
 2. Create .env file in backend folder with secrets corresponding to the env.example.
 
 
