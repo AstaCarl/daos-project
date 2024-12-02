@@ -1,5 +1,5 @@
 type InputProps = {
-  inputPlaceholder: string;
+  inputPlaceholder?: string;
   inputName: string;
   id: string;
   value: string;

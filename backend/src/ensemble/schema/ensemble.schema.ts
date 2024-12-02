@@ -33,6 +33,9 @@ export class Ensemble {
 
   @Prop()
   rehearsalFrequency: string;
+
+  @Prop()
+  playType: string;
 }
 
 export const EnsembleSchema = SchemaFactory.createForClass(Ensemble);
