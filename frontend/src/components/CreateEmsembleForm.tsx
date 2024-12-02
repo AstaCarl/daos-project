@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "./atoms/Input";
 import { Button } from "./atoms/Button";
 import { useFetch } from "../hooks/use-fetch";
@@ -6,7 +6,7 @@ import { Title } from "./atoms/Title";
 import Subtitle from "./atoms/Subtitle";
 import { TextArea } from "./atoms/TextArea";
 import Select from "./atoms/Select";
-import Label from "./atoms/Label";
+import GenreSelector from "./GenreSelector";
 
 interface Ensemble {
   _id: string;
@@ -31,7 +31,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const [website, setWebsite] = useState<string>("");
   const [zipcode, setZipcode] = useState<string>("");
   const [city, setCity] = useState<string>("");
-  const [genre, setGenre] = useState<string>("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [rehearsalFrequency, setRehearsalFrequency] = useState<string>("");
   const [playType, setPlayType] = useState<string>("");
@@ -85,24 +84,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value);
   };
-
-useEffect(() => {
-  if (genre && !selectedGenres.includes(genre)) {
-    setSelectedGenres((prevSelectedGenres) => [...prevSelectedGenres, genre]);
-  }
-}, [genre]);
-
-  const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setGenre(event.target.value);
-  };
-
-  const handleRemoveGenre = (genreToRemove: string) => {
-    setSelectedGenres((prevSelectedGenres) =>
-      prevSelectedGenres.filter((genre) => genre !== genreToRemove)
-    );
-  };
-
-  const availableGenres = genres.filter((g) => !selectedGenres.includes(g));
 
   const handlePlayTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPlayType(event.target.value);
@@ -232,32 +213,11 @@ useEffect(() => {
 
         <div>
           <Subtitle variant="default" subtitle="Genrer" />
-          <Select
-            name="genres"
-            onChange={handleGenreChange}
-            {...(errors.includes("genre should not be empty") && {
-              errorMessage: "Genre skal udfyldes",
-            })}
-          >
-            {availableGenres.map((genre) => (
-              <option
-                className="font-sans text-dark-grey"
-                key={genre}
-                value={genre}
-              >
-                {genre}
-              </option>
-            ))}
-          </Select>
-          <div className="flex flex-wrap gap-3 pt-4">
-          {selectedGenres.map((selectedGenre) => (
-            <Label
-            key={selectedGenre}
-            labelText={selectedGenre}
-            onClick={() => handleRemoveGenre(selectedGenre)}
-            />
-          ))}
-          </div>
+          <GenreSelector
+            genres={genres}
+            selectedGenres={selectedGenres}
+            setSelectedGenres={setSelectedGenres}
+          />
         </div>
         <div>
           <Subtitle variant="default" subtitle="Øvefrekvens" />
