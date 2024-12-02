@@ -257,7 +257,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
             ))}
           </Select>
         </div>
-        <div>
+        <div className="flex flex-col gap-2">
           <Subtitle variant="default" subtitle="Ensemblet spiller..." />
           <Input
             onChange={handlePlayTypeChange}
