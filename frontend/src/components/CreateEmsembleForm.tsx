@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "./atoms/Input";
 import { Button } from "./atoms/Button";
 import { useFetch } from "../hooks/use-fetch";
@@ -6,6 +6,7 @@ import { Title } from "./atoms/Title";
 import Subtitle from "./atoms/Subtitle";
 import { TextArea } from "./atoms/TextArea";
 import Select from "./atoms/Select";
+import Label from "./atoms/Label";
 
 interface Ensemble {
   _id: string;
@@ -31,6 +32,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const [zipcode, setZipcode] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [rehearsalFrequency, setRehearsalFrequency] = useState<string>("");
   const [playType, setPlayType] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
@@ -62,8 +64,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
     continous = "Kontinuerlig",
   }
 
-  // console.log("Typer", ensembleTypes);
-
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
@@ -86,10 +86,23 @@ const CreateEmsembleForm: React.FC<Props> = ({
     setCity(event.target.value);
   };
 
+useEffect(() => {
+  if (genre && !selectedGenres.includes(genre)) {
+    setSelectedGenres((prevSelectedGenres) => [...prevSelectedGenres, genre]);
+  }
+}, [genre]);
+
   const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setGenre(event.target.value);
-    console.log(event.target.value);
   };
+
+  const handleRemoveGenre = (genreToRemove: string) => {
+    setSelectedGenres((prevSelectedGenres) =>
+      prevSelectedGenres.filter((genre) => genre !== genreToRemove)
+    );
+  };
+
+  const availableGenres = genres.filter((g) => !selectedGenres.includes(g));
 
   const handlePlayTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPlayType(event.target.value);
@@ -112,7 +125,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
       website: website,
       zipcode: zipcode,
       city: city,
-      genre: genre,
+      genre: selectedGenres,
       rehearsalFrequency: rehearsalFrequency,
       playType: playType,
     };
@@ -226,7 +239,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
               errorMessage: "Genre skal udfyldes",
             })}
           >
-            {genres.map((genre) => (
+            {availableGenres.map((genre) => (
               <option
                 className="font-sans text-dark-grey"
                 key={genre}
@@ -236,6 +249,15 @@ const CreateEmsembleForm: React.FC<Props> = ({
               </option>
             ))}
           </Select>
+          <div className="flex flex-wrap gap-3 pt-4">
+          {selectedGenres.map((selectedGenre) => (
+            <Label
+            key={selectedGenre}
+            labelText={selectedGenre}
+            onClick={() => handleRemoveGenre(selectedGenre)}
+            />
+          ))}
+          </div>
         </div>
         <div>
           <Subtitle variant="default" subtitle="Øvefrekvens" />
