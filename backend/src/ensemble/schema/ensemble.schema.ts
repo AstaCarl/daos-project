@@ -27,7 +27,15 @@ export class Ensemble {
 
   @Prop({ type: [{ type: Types.ObjectId, ref: User.name }] })
   activeUsers: Types.ObjectId[];
-  
+
+  @Prop()
+  genre: string[];
+
+  @Prop()
+  rehearsalFrequency: string;
+
+  @Prop()
+  playType: string;
 }
 
 export const EnsembleSchema = SchemaFactory.createForClass(Ensemble);
