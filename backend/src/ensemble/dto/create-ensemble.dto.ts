@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { ArrayNotEmpty, IsNotEmpty } from 'class-validator';
 
 export class CreateEnsembleDto {
   @IsNotEmpty()
@@ -18,7 +18,7 @@ export class CreateEnsembleDto {
 
   activeUsers: string[];
 
-  @IsNotEmpty()
+  @ArrayNotEmpty()
   genre: string[];
 
   @IsNotEmpty()

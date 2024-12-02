@@ -65,36 +65,41 @@ const CreateEmsembleForm: React.FC<Props> = ({
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setErrors([]);
   };
 
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setDescription(event.target.value);
+    setErrors([]);
   };
 
   const handleWebsiteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setWebsite(event.target.value);
+    setErrors([]);
   };
 
   const handleZipcodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setZipcode(event.target.value);
+    setErrors([]);
   };
 
   const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value);
+    setErrors([]);
   };
 
   const handlePlayTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPlayType(event.target.value);
-    console.log(event.target.value);
+    setErrors([]);
   };
 
   const handleRehearsalFrequencyChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setRehearsalFrequency(event.target.value);
-    console.log(event.target.value);
+    setErrors([]);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -214,6 +219,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
         <div>
           <Subtitle variant="default" subtitle="Genrer" />
           <GenreSelector
+            errors={errors}
             genres={genres}
             selectedGenres={selectedGenres}
             setSelectedGenres={setSelectedGenres}
@@ -223,6 +229,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
           <Subtitle variant="default" subtitle="Øvefrekvens" />
           <Select
             name="frequency"
+            defaultValue="Vælg øvefrekvens"
             onChange={handleRehearsalFrequencyChange}
             {...(errors.includes("rehearsalFrequency should not be empty") && {
               errorMessage: "Øvefrekvens skal udfyldes",
