@@ -29,10 +29,10 @@ export class Ensemble {
   activeUsers: Types.ObjectId[];
 
   @Prop()
-  genre: string;
+  genre: string[];
 
   @Prop()
-  rehearsalFrquency: string;
+  rehearsalFrequency: string;
 }
 
 export const EnsembleSchema = SchemaFactory.createForClass(Ensemble);

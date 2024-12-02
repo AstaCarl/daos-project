@@ -12,4 +12,8 @@ export class CreateEnsembleDto {
   @IsNotEmpty()
   city: string;
   activeUsers: string[];
+  @IsNotEmpty()
+  genre: string[];
+  @IsNotEmpty()
+  rehearsalFrequency: string;
 }

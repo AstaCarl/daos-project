@@ -5,6 +5,7 @@ import { useFetch } from "../hooks/use-fetch";
 import { Title } from "./atoms/Title";
 import Subtitle from "./atoms/Subtitle";
 import { TextArea } from "./atoms/TextArea";
+import Select from "./atoms/Select";
 
 interface Ensemble {
   _id: string;
@@ -29,7 +30,13 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const [website, setWebsite] = useState<string>("");
   const [zipcode, setZipcode] = useState<string>("");
   const [city, setCity] = useState<string>("");
+  const [genre, setGenre] = useState<string>("");
+  const [rehearsalFrequency, setRehearsalFrequency] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
+
+  const genres = ["Barok", "Senmoderne", "Jazz", "Klassisk", "Folkemusik", "Kammermusik", "Romantisk", "Senromantisk", "Symfonisk"];
+
+  const rehearsalFrequencys = ["Flere gange om ugen", "1 gang om ugen", "1 gang hver anden uge", "1 gang om måneden", "1 hver anden måned"];
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -53,6 +60,16 @@ const CreateEmsembleForm: React.FC<Props> = ({
     setCity(event.target.value);
   };
 
+  const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setGenre(event.target.value);
+    console.log(event.target.value);
+  }
+
+  const handleRehearsalFrequencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setRehearsalFrequency(event.target.value);
+    console.log(event.target.value);
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
 
@@ -62,6 +79,8 @@ const CreateEmsembleForm: React.FC<Props> = ({
         website: website,
         zipcode: zipcode,
         city: city,
+        genre: genre,
+        rehearsalFrequency: rehearsalFrequency,
       };
 
       const response = await useFetch(
@@ -147,7 +166,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
               id="zipcode"
               type="text"
               inputPlaceholder="Postnr."
-              {...(errors.includes("zipCode should not be empty") && {
+              {...(errors.includes("zipcode should not be empty") && {
                 errorMessage: "Postnummer skal udfyldes",
               })}
             />
@@ -162,7 +181,46 @@ const CreateEmsembleForm: React.FC<Props> = ({
                 errorMessage: "By skal udfyldes",
               })}
             />
+          
           </div>
+          <Select
+            name="genres"
+            onChange={handleGenreChange}
+            {...(errors.includes(
+              "genre should not be empty"
+            ) && {
+              errorMessage: "Genre skal udfyldes",
+            })}
+          >
+            {genres.map((genre) => (
+              <option
+                className="font-sans text-dark-grey"
+                key={genre}
+                value={genre}
+              >
+                {genre}
+              </option>
+            ))}
+          </Select>
+          <Select
+            name="frequency"
+            onChange={handleRehearsalFrequencyChange}
+            {...(errors.includes(
+              "rehearsalFrequency should not be empty"
+            ) && {
+              errorMessage: "Øvefrekvens skal udfyldes",
+            })}
+          >
+            {rehearsalFrequencys.map((rehearsalFrequency) => (
+              <option
+                className="font-sans text-dark-grey"
+                key={rehearsalFrequency}
+                value={rehearsalFrequency}
+              >
+                {rehearsalFrequency}
+              </option>
+            ))}
+          </Select>
         </div>
         <Button
           buttonText="Opret ensemble"

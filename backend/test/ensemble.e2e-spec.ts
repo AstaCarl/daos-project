@@ -58,7 +58,7 @@ describe('Controller (e2e)', () => {
       zipcode: '1234',
       city: 'City1',
       genre: 'Genre1',
-      rehearsalFrquency: 'Once a week',
+      rehearsalFrequency: 'Once a week',
     };
 
     const { body } = await request(app.getHttpServer())
@@ -92,7 +92,7 @@ describe('Controller (e2e)', () => {
       zipcode: '1234',
       city: 'City1',
       genre: 'Genre1',
-      rehearsalFrquency: 'Once a week',
+      rehearsalFrequency: 'Once a week',
     };
 
     const ensembleResponse = await request(app.getHttpServer())
@@ -146,7 +146,7 @@ describe('Controller (e2e)', () => {
       zipcode: '1234',
       city: 'City1',
       genre: 'Genre1',
-      rehearsalFrquency: 'Once a week',
+      rehearsalFrequency: 'Once a week',
     };
 
     await request(app.getHttpServer())
@@ -162,7 +162,7 @@ describe('Controller (e2e)', () => {
       zipcode: '1234',
       city: 'City1',
       genre: 'Genre1',
-      rehearsalFrquency: 'Once a week',
+      rehearsalFrequency: 'Once a week',
     };
 
     await request(app.getHttpServer())
