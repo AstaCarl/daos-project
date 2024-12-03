@@ -7,6 +7,7 @@ type InputProps = {
   type: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   errorMessage?: string;
+  checked?: boolean;
 };
 
 export function Input({
@@ -17,6 +18,7 @@ export function Input({
   onChange,
   value,
   type,
+  checked,
   errorMessage,
 }: InputProps) {
   if (type === "checkbox") {
@@ -28,6 +30,7 @@ export function Input({
           id={id}
           name={inputName}
           type={type}
+          checked={checked}
           className={`w-5 h-5  shadow-md`}
         />
         <label htmlFor={id} className="text-blue font-sans text-base">

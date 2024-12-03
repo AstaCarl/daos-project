@@ -6,6 +6,7 @@ import { Title } from "./atoms/Title";
 import Subtitle from "./atoms/Subtitle";
 import { TextArea } from "./atoms/TextArea";
 import Select from "./atoms/Select";
+import GenreSelector from "./GenreSelector";
 
 interface Ensemble {
   _id: string;
@@ -30,7 +31,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const [website, setWebsite] = useState<string>("");
   const [zipcode, setZipcode] = useState<string>("");
   const [city, setCity] = useState<string>("");
-  const [genre, setGenre] = useState<string>("");
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [rehearsalFrequency, setRehearsalFrequency] = useState<string>("");
   const [playType, setPlayType] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
@@ -62,45 +63,43 @@ const CreateEmsembleForm: React.FC<Props> = ({
     continous = "Kontinuerlig",
   }
 
-  // console.log("Typer", ensembleTypes);
-
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setErrors([]);
   };
 
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setDescription(event.target.value);
+    setErrors([]);
   };
 
   const handleWebsiteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setWebsite(event.target.value);
+    setErrors([]);
   };
 
   const handleZipcodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setZipcode(event.target.value);
+    setErrors([]);
   };
 
   const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value);
-  };
-
-  const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setGenre(event.target.value);
-    console.log(event.target.value);
+    setErrors([]);
   };
 
   const handlePlayTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPlayType(event.target.value);
-    console.log(event.target.value);
+    setErrors([]);
   };
 
   const handleRehearsalFrequencyChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setRehearsalFrequency(event.target.value);
-    console.log(event.target.value);
+    setErrors([]);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -112,7 +111,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
       website: website,
       zipcode: zipcode,
       city: city,
-      genre: genre,
+      genre: selectedGenres,
       rehearsalFrequency: rehearsalFrequency,
       playType: playType,
     };
@@ -219,28 +218,18 @@ const CreateEmsembleForm: React.FC<Props> = ({
 
         <div>
           <Subtitle variant="default" subtitle="Genrer" />
-          <Select
-            name="genres"
-            onChange={handleGenreChange}
-            {...(errors.includes("genre should not be empty") && {
-              errorMessage: "Genre skal udfyldes",
-            })}
-          >
-            {genres.map((genre) => (
-              <option
-                className="font-sans text-dark-grey"
-                key={genre}
-                value={genre}
-              >
-                {genre}
-              </option>
-            ))}
-          </Select>
+          <GenreSelector
+            errors={errors}
+            genres={genres}
+            selectedGenres={selectedGenres}
+            setSelectedGenres={setSelectedGenres}
+          />
         </div>
         <div>
           <Subtitle variant="default" subtitle="Øvefrekvens" />
           <Select
             name="frequency"
+            defaultValue="Vælg øvefrekvens"
             onChange={handleRehearsalFrequencyChange}
             {...(errors.includes("rehearsalFrequency should not be empty") && {
               errorMessage: "Øvefrekvens skal udfyldes",
@@ -277,6 +266,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
             value={playTypes.continous}
             id="playType"
             type="checkbox"
+            
             {...(errors.includes("city should not be empty") && {
               errorMessage: "By skal udfyldes",
             })}
