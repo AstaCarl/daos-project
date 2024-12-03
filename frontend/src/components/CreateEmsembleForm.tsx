@@ -33,8 +33,18 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const [city, setCity] = useState<string>("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [rehearsalFrequency, setRehearsalFrequency] = useState<string>("");
-  const [playType, setPlayType] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [checkboxStatus, setCheckboxStatus] = useState<string | null> (null);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    if (checkboxStatus === value) {
+      setCheckboxStatus(null);
+    } else {
+      setCheckboxStatus(value);
+    }
+  }
 
   const genres = [
     "Barok",
@@ -90,11 +100,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
     setErrors([]);
   };
 
-  const handlePlayTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPlayType(event.target.value);
-    setErrors([]);
-  };
-
   const handleRehearsalFrequencyChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -113,7 +118,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
       city: city,
       genre: selectedGenres,
       rehearsalFrequency: rehearsalFrequency,
-      playType: playType,
+      playType: checkboxStatus,
     };
 
     const response = await useFetch(
@@ -249,26 +254,28 @@ const CreateEmsembleForm: React.FC<Props> = ({
         <div className="flex flex-col gap-2">
           <Subtitle variant="default" subtitle="Ensemblet spiller..." />
           <Input
-            onChange={handlePlayTypeChange}
+            onChange={handleCheckboxChange}
             labelText="Projekt baseret"
             inputName="By"
             value={playTypes.projectBased}
-            id="by"
+            checked={checkboxStatus === playTypes.projectBased}
+            id="playType"
             type="checkbox"
-            {...(errors.includes("city should not be empty") && {
-              errorMessage: "By skal udfyldes",
+            {...(errors.includes("playType should not be empty") && {
+              errorMessage: "Der skal vælges en spille type",
             })}
           />
           <Input
             labelText="Kontinuerlig"
-            onChange={handlePlayTypeChange}
+            onChange={handleCheckboxChange}
             inputName="playType"
             value={playTypes.continous}
+            checked={checkboxStatus === playTypes.continous}
             id="playType"
             type="checkbox"
             
-            {...(errors.includes("city should not be empty") && {
-              errorMessage: "By skal udfyldes",
+            {...(errors.includes("playType should not be empty") && {
+              errorMessage: "Der skal vælges en spille type",
             })}
           />
         </div>
