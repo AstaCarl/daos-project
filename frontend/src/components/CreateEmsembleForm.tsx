@@ -32,7 +32,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const [city, setCity] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
   const [rehearsalFrequency, setRehearsalFrequency] = useState<string>("");
-  // const [playType, setPlayType] = useState<string>("");
   const [checkboxStatus, setCheckboxStatus] = useState<string | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
 
@@ -46,6 +45,11 @@ const CreateEmsembleForm: React.FC<Props> = ({
       setCheckboxStatus(value);
     }
   };
+
+  enum playTypes {
+    projectBased = "Projekt baseret",
+    continous = "Kontinuerlig",
+  }
 
   const genres = [
     "Barok",
@@ -68,11 +72,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
   ];
 
   // type ensembleType = "Projekt baseret" | "Kontinuerlig";
-
-  enum playTypes {
-    projectBased = "Projekt baseret",
-    continous = "Kontinuerlig",
-  }
 
   // console.log("Typer", ensembleTypes);
 
@@ -103,11 +102,6 @@ const CreateEmsembleForm: React.FC<Props> = ({
     console.log(event.target.value);
   };
 
-  // const setPlayType = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPlayType(event.target.value);
-  //   console.log(event.target.value);
-  // };
-
   const handleRehearsalFrequencyChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -126,7 +120,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
       city: city,
       genre: genre,
       rehearsalFrequency: rehearsalFrequency,
-      // playType: playType,
+      playType: checkboxStatus,
     };
 
     const response = await useFetch(
