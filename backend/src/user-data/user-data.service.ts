@@ -16,12 +16,8 @@ export class UserDataService {
     return createdUserData.save();
   }
 
-  findAll() {
-    return `This action returns all userData`;
-  }
-
-  findOne(id: string) {
-    return `This action returns a #${id} userdata`;
+  findOne(userId: any) {
+    return this.userDataModel.findOne({ user: userId }).exec();
   }
 
   async update(

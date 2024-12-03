@@ -34,14 +34,15 @@ export class UserDataController {
     return this.userDataService.create(createUserDataDto, userId);
   }
 
-  @Get()
-  findAll() {
-    return this.userDataService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userDataService.findOne(id);
+  @UseGuards(AuthGuard)
+  @Get('')
+  async findOne(@Req() req) {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.decode(token) as any;
+    const email = decodedToken.email;
+    const userResponse = await this.usersService.findByEmail(email);
+    const userId = userResponse._id;
+    return this.userDataService.findOne(userId);
   }
 
   @UseGuards(AuthGuard)
