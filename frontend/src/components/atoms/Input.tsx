@@ -7,6 +7,7 @@ type InputProps = {
   type: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   errorMessage?: string;
+  checked?: boolean;
 };
 
 export function Input({

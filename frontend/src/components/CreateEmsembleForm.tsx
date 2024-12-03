@@ -32,8 +32,20 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const [city, setCity] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
   const [rehearsalFrequency, setRehearsalFrequency] = useState<string>("");
-  const [playType, setPlayType] = useState<string>("");
+  // const [playType, setPlayType] = useState<string>("");
+  const [checkboxStatus, setCheckboxStatus] = useState<string | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    // setCheckboxStatus((prev) => (prev === value ? null : value));
+
+    if (checkboxStatus === value) {
+      setCheckboxStatus(null);
+    } else {
+      setCheckboxStatus(value);
+    }
+  };
 
   const genres = [
     "Barok",
@@ -91,10 +103,10 @@ const CreateEmsembleForm: React.FC<Props> = ({
     console.log(event.target.value);
   };
 
-  const handlePlayTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPlayType(event.target.value);
-    console.log(event.target.value);
-  };
+  // const setPlayType = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPlayType(event.target.value);
+  //   console.log(event.target.value);
+  // };
 
   const handleRehearsalFrequencyChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -114,7 +126,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
       city: city,
       genre: genre,
       rehearsalFrequency: rehearsalFrequency,
-      playType: playType,
+      // playType: playType,
     };
 
     const response = await useFetch(
@@ -250,25 +262,27 @@ const CreateEmsembleForm: React.FC<Props> = ({
             ))}
           </Select>
           <Input
-            onChange={handlePlayTypeChange}
+            onChange={handleCheckboxChange}
             labelText="Projekt baseret"
             inputName="By"
             value={playTypes.projectBased}
-            id="by"
+            checked={checkboxStatus === playTypes.projectBased}
+            id="playType"
             type="checkbox"
-            {...(errors.includes("city should not be empty") && {
-              errorMessage: "By skal udfyldes",
+            {...(errors.includes("Checkbox must be selected") && {
+              errorMessage: "Der skal vælges en spilletype",
             })}
           />
           <Input
-          labelText="Kontinuerlig"
-            onChange={handlePlayTypeChange}
+            labelText="Kontinuerlig"
+            onChange={handleCheckboxChange}
             inputName="playType"
             value={playTypes.continous}
+            checked={checkboxStatus === playTypes.continous}
             id="playType"
             type="checkbox"
-            {...(errors.includes("city should not be empty") && {
-              errorMessage: "By skal udfyldes",
+            {...(errors.includes("Checkbox must be selected") && {
+              errorMessage: "Der skal vælges en spilletype",
             })}
           />
         </div>
