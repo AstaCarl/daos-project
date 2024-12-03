@@ -227,6 +227,10 @@ const CreateEmsembleForm: React.FC<Props> = ({
               })}
             />
           </div>
+        </div>
+
+        <div>
+          <Subtitle variant="default" subtitle="Genrer" />
           <Select
             name="genres"
             onChange={handleGenreChange}
@@ -244,6 +248,9 @@ const CreateEmsembleForm: React.FC<Props> = ({
               </option>
             ))}
           </Select>
+        </div>
+        <div>
+          <Subtitle variant="default" subtitle="Øvefrekvens" />
           <Select
             name="frequency"
             onChange={handleRehearsalFrequencyChange}
@@ -261,6 +268,9 @@ const CreateEmsembleForm: React.FC<Props> = ({
               </option>
             ))}
           </Select>
+        </div>
+        <div className="flex flex-col gap-2">
+          <Subtitle variant="default" subtitle="Ensemblet spiller..." />
           <Input
             onChange={handleCheckboxChange}
             labelText="Projekt baseret"
