@@ -266,6 +266,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
             value={playTypes.continous}
             id="playType"
             type="checkbox"
+            
             {...(errors.includes("city should not be empty") && {
               errorMessage: "By skal udfyldes",
             })}

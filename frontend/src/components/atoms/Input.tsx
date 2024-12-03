@@ -23,6 +23,7 @@ export function Input({
     return (
       <div className="flex items-center gap-4">
         <input
+        checked={true}
           onChange={onChange}
           value={value}
           id={id}

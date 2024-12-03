@@ -38,11 +38,8 @@ export default function GenreSelector({
   };
 
   // Filter the genres to exclude the ones that are already selected
-  const availableGenres = genres.filter((g) => !selectedGenres.includes(g));
+  const availableGenres = genres.filter((genre) => !selectedGenres.includes(genre));
 
-  useEffect(() => {
-    console.log("Component re-rendered with selectedGenres:", selectedGenres);
-  }, [selectedGenres]);
 
   return (
     <div>
