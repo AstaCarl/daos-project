@@ -39,7 +39,7 @@ export default function ProfileSetting({ handleSettingsOpen }: Props) {
         />
       </div>
       <Title variant="default" title="Indstillinger" />
-        <div>
+        <div className="space-y-4">
           <Subtitle variant="default" subtitle="Adgangskode" />
           <Button
             type="button"
@@ -54,7 +54,7 @@ export default function ProfileSetting({ handleSettingsOpen }: Props) {
             />
           )}
         </div>
-        <div>
+        <div className="space-y-4">
           <Subtitle variant="default" subtitle="Profil" />
           <Button
             type="button"

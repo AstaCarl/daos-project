@@ -51,14 +51,23 @@ export default function PasswordModal({
       }`}
     >
       <div
-        className={`relative top-[15%] w-[80%] h-fit z-10 bg-white p-5 rounded-md shadow-md flex flex-col gap-4`}
+        className={`relative top-[10%] w-[80%] h-fit z-10 bg-white p-5 rounded-md shadow-md flex flex-col gap-5`}
       >
         <>
+        <div className="w-fit">
+        <Button
+              type="button"
+              variant="secondary"
+              size="small"
+              onClick={handleShowPasswordModal}
+              buttonText="Fortryd"
+            />
+            </div>
           <Subtitle
             variant="default"
             subtitle="Du er ved at ændre din adgangskode, er du sikker?"
           />
-          <form className="flex flex-col gap-2"   onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-4"   onSubmit={handleSubmit}>
             <Input
               labelText="Skriv din nuværende adgangskode"
               onChange={(e) => setCurrentPassword(e.target.value)}
@@ -76,13 +85,6 @@ export default function PasswordModal({
               id="newPassword"
               type="text"
               inputPlaceholder="Ny adgangskode"
-            />
-
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={handleShowPasswordModal}
-              buttonText="Fortryd"
             />
             <Button
               type="submit"
