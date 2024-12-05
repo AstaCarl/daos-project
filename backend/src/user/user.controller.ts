@@ -9,6 +9,7 @@ import {
   Patch,
   Put,
   Req,
+  BadRequestException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
@@ -62,9 +63,8 @@ export class UserController {
     if (updateUserDto.currentPassword === user.password) {
       user.password = updateUserDto.newPassword;
       return this.usersService.update(user);
-    } 
-    else {
-      throw new Error('User password not updated');
+    } else {
+      throw new BadRequestException('Passwords do not match');
     }
   }
 }

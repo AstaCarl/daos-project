@@ -2,20 +2,27 @@ import { Button } from "./atoms/Button";
 import Subtitle from "./atoms/Subtitle";
 import { Title } from "./atoms/Title";
 import { useState } from "react";
-import ConfirmModal from "./ConfirmModal";
+import PasswordModal from "./PasswordModal";
+import DeleteModal from "./DeleteModal";
 
 type Props = {
   handleSettingsOpen: () => void;
 };
 
 export default function ProfileSetting({ handleSettingsOpen }: Props) {
-  const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   const handleShowModal = () => {
-    console.log("showModal", showModal);
-    if (showModal) {
-      setShowModal(false);
-    } else setShowModal(true);
+    if (showDeleteModal) {
+      setShowDeleteModal(false);
+    } else setShowDeleteModal(true);
+  };
+
+  const handleShowPasswordModal = () => {
+    if (showPasswordModal) {
+      setShowPasswordModal(false);
+    } else setShowPasswordModal(true);
   };
 
   return (
@@ -32,10 +39,21 @@ export default function ProfileSetting({ handleSettingsOpen }: Props) {
         />
       </div>
       <Title variant="default" title="Indstillinger" />
-      <form
-        className="flex flex-col gap-6"
-        //   onSubmit={handleSubmit}
-      >
+        <div>
+          <Subtitle variant="default" subtitle="Adgangskode" />
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={handleShowPasswordModal}
+            buttonText="Skift adgangskode"
+          />
+          {showPasswordModal && (
+            <PasswordModal
+              handleShowPasswordModal={handleShowPasswordModal}
+              showPasswordModal={showPasswordModal}
+            />
+          )}
+        </div>
         <div>
           <Subtitle variant="default" subtitle="Profil" />
           <Button
@@ -44,14 +62,13 @@ export default function ProfileSetting({ handleSettingsOpen }: Props) {
             onClick={handleShowModal}
             buttonText="Slet profil"
           />
-          {showModal && (
-            <ConfirmModal
+          {showDeleteModal && (
+            <DeleteModal
               handleShowModal={handleShowModal}
-              showModal={showModal}
+              showDeleteModal={showDeleteModal}
             />
           )}
         </div>
-      </form>
     </div>
   );
 }

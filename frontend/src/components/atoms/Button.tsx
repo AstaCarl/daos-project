@@ -11,7 +11,7 @@ export function Button({ buttonText, type = "button", href, variant, size="mediu
   const variantClasses = {
     primary: "bg-blue text-white",
     secondary: "bg-white text-blue border border-grey w-full",
-    delete: "bg-white text-red border border-grey w-full",
+    delete: "bg-transparent text-red border border-grey w-full",
   };
 
   const sizeClasses = {
