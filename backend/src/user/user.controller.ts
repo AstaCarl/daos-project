@@ -6,10 +6,14 @@ import {
   Delete,
   Param,
   UseGuards,
+  Patch,
+  Put,
+  Req,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -43,5 +47,24 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
+  }
+
+  // Update one user by id
+  @UseGuards(AuthGuard)
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req,
+  ) {
+    const user = await this.usersService.findOne(id);
+    updateUserDto = req.body;
+    if (updateUserDto.currentPassword === user.password) {
+      user.password = updateUserDto.newPassword;
+      return this.usersService.update(user);
+    } 
+    else {
+      throw new Error('User password not updated');
+    }
   }
 }
