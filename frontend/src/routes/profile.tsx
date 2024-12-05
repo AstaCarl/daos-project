@@ -7,6 +7,7 @@ import MyEnsembles from "../components/MyEnsembles";
 import { useFetch } from "../hooks/use-fetch";
 import RegisterEnsembleForm from "../components/RegisterEnsembleForm";
 import ProfileHeader from "../components/ProfileHeader";
+import ProfileSetting from "../components/ProfileSetting";
 
 interface Ensemble {
   _id: string;
@@ -25,6 +26,7 @@ export default function profile() {
   const [openRegisterEnsembleForm, setOpenRegisterEnsembleForm] =
     useState(false);
   const [ensembles, setEnsembles] = useState<Ensemble[]>([]);
+  const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
     // Redirect to login if the user is not logged in
@@ -82,9 +84,24 @@ export default function profile() {
     }
   };
 
+  const handleSettingsOpen = () => {
+    console.log("Settings open");
+    if (showSettings) {
+      setShowSettings(false);
+    } else
+    setShowSettings(true);
+  }
+
   return (
     <div className="flex flex-col gap-10 pb-16">
-      <ProfileHeader />
+      <ProfileHeader
+      handleSettingsOpen={handleSettingsOpen}
+      />
+      {showSettings &&
+      <ProfileSetting
+      handleSettingsOpen={handleSettingsOpen}
+      />
+      }
       {ensembles.length === 0 && (
         <ActionCard
           buttonTextCreate="Opret nyt ensemble"

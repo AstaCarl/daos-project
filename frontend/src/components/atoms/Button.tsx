@@ -2,7 +2,7 @@ type ButtonProps = {
   buttonText: string | undefined;
   type?: "button" | "submit" | "reset";
   href?: string;
-  variant: "primary" | "secondary";
+  variant: "primary" | "secondary" | "delete";
   size?: "small" | "medium" | "large";
   onClick?: () => void;
 };
@@ -11,6 +11,7 @@ export function Button({ buttonText, type = "button", href, variant, size="mediu
   const variantClasses = {
     primary: "bg-blue text-white",
     secondary: "bg-white text-blue border border-grey w-full",
+    delete: "bg-white text-red border border-grey w-full",
   };
 
   const sizeClasses = {
