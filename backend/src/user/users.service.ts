@@ -17,8 +17,10 @@ export class UsersService {
     return (await this.userModel.findById(id)).populate('myInstruments');
   }
 
-  async findAll() {
-    return this.userModel.find().populate('myInstruments');
+  findMusicians() {
+    return this.userModel
+      .find({ myInstruments: {  $exists: true, $ne: [] }})
+      .populate('myInstruments');
   }
 
   // Create a user

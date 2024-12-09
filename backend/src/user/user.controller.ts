@@ -9,8 +9,8 @@ export class UserController {
 
   //Get all users
   @Get('')
-  async findAll() {
-    return this.usersService.findAll();
+  async findMusicians() {
+    return this.usersService.findMusicians();
   }
 
   //Post a new user
