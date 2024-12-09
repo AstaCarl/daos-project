@@ -7,17 +7,18 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
+import { CreateMyInstrumentsDto } from 'src/my-instruments/dto/create-my-instruments.dto';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async findOne(id: string): Promise<User | undefined> {
-    return this.userModel.findById(id).exec();
+    return (await this.userModel.findById(id)).populate('myInstruments');
   }
 
   async findAll() {
-    return this.userModel.find().exec();
+    return this.userModel.find().populate('myInstruments');
   }
 
   // Create a user
@@ -48,5 +49,16 @@ export class UsersService {
 
   async deleteMany() {
     return this.userModel.deleteMany({}).exec();
+  }
+
+  async linkMyInstrumentToUser(
+    id: string,
+    createMyInstrumentsDto: CreateMyInstrumentsDto,
+  ) {
+    return this.userModel
+      .findByIdAndUpdate(id, {
+        $push: { myInstruments: createMyInstrumentsDto },
+      })
+      .exec();
   }
 }

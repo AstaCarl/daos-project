@@ -7,7 +7,7 @@ import { ObjectId } from "mongoose";
 export class Instrument {
     @Transform(({ value }) => value.toString())
     _id: ObjectId;
-    
+
     @Prop()
     name: string;
 }
