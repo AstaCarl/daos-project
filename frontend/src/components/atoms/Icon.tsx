@@ -7,6 +7,8 @@ import closeIconWhite from "../../assets/close-icon-white.svg";
 import showPasswordIcon from "../../assets/show-password.svg";
 import postsEmptyIcon from "../../assets/posts-empty.svg";
 import userIcon from "../../assets/user-icon.svg";
+import checkIcon from "../../assets/check-icon.svg";
+import musicUserIcon from "../../assets/music-user-icon.png";
 
 type Props = {
   onClick?: () => void;
@@ -19,7 +21,9 @@ type Props = {
     | "showPassword"
     | "postsEmpty"
     | "userIcon"
-    | "closeIconWhite";
+    | "closeIconWhite"
+    | "checkIcon"
+    | "musicUserIcon";
 };
 
 export default function Icon({ variant, onClick }: Props) {
@@ -33,6 +37,8 @@ export default function Icon({ variant, onClick }: Props) {
     postsEmpty: postsEmptyIcon,
     userIcon: userIcon,
     closeIconWhite: closeIconWhite,
+    checkIcon: checkIcon,
+    musicUserIcon: musicUserIcon,
   };
   return (
     <div onClick={onClick} className="">

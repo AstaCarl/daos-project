@@ -24,7 +24,7 @@ export default function ProfileHeader() {
           <div>
             <Title variant="red" title={`${userName} ${userLastname}`} />
           </div>
-          <div className="">
+          <div>
             <Paragraf
               variant="body-small"
               paragrafText={`Medlem siden ${month} ${year}`}
