@@ -38,8 +38,9 @@ export default function GenreSelector({
   };
 
   // Filter the genres to exclude the ones that are already selected
-  const availableGenres = genres.filter((genre) => !selectedGenres.includes(genre));
-
+  const availableGenres = genres.filter(
+    (genre) => !selectedGenres.includes(genre)
+  );
 
   return (
     <div>
@@ -63,6 +64,7 @@ export default function GenreSelector({
             console.log("Selected genres:", selectedGenres);
             return (
               <Label
+                variant="default"
                 key={selectedGenre}
                 labelText={selectedGenre}
                 onClick={() => handleRemoveGenre(selectedGenre)}

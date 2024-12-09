@@ -5,9 +5,10 @@ import Subtitle from "./atoms/Subtitle";
 
 type Props = {
   buttonTextCreate: string;
-  buttonTextRegister: string;
+  buttonTextRegister?: string;
   paragrafText: string;
   subtitle: string;
+  status: string;
   onClickCreate: () => void;
   onClickRegister: () => void;
 };
@@ -17,6 +18,7 @@ export default function ActionCard({
   buttonTextRegister,
   paragrafText,
   subtitle,
+  status,
   onClickCreate,
   onClickRegister,
 }: Props) {
@@ -26,7 +28,7 @@ export default function ActionCard({
         <Subtitle subtitle={subtitle} variant="default" />
       </div>
       <Icon variant="postsEmpty" />
-      <Subtitle subtitle="Du har ingen ensembler" variant="default" />
+      <Subtitle subtitle={status} variant="default" />
       <div className="flex flex-col gap-4">
         <Paragraf
           className="text-center"
@@ -39,12 +41,14 @@ export default function ActionCard({
           size="medium"
           onClick={onClickCreate}
         />
+        {buttonTextRegister && (
                 <Button
           variant="secondary"
           buttonText={buttonTextRegister}
           size="medium"
           onClick={onClickRegister}
         />
+      )}
       </div>
     </section>
   );
