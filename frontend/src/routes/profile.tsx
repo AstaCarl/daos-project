@@ -7,6 +7,7 @@ import MyEnsembles from "../components/MyEnsembles";
 import { useFetch } from "../hooks/use-fetch";
 import RegisterEnsembleForm from "../components/RegisterEnsembleForm";
 import ProfileHeader from "../components/ProfileHeader";
+import ProfileStatus from "../components/ProfileStatus";
 
 interface Ensemble {
   _id: string;
@@ -82,9 +83,11 @@ export default function profile() {
     }
   };
 
+
   return (
     <div className="flex flex-col gap-10 pb-16">
       <ProfileHeader />
+      <ProfileStatus user={user} />
       {ensembles.length === 0 && (
         <ActionCard
           buttonTextCreate="Opret nyt ensemble"
