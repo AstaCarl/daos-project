@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { EnsembleModule } from './ensemble/ensemble.module';
 import { UserDataModule } from './user-data/user-data.module';
+import { InstrumentsModule } from './instruments/instruments.module';
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost/daos'),
@@ -13,6 +14,7 @@ import { UserDataModule } from './user-data/user-data.module';
     AuthModule,
     EnsembleModule,
     UserDataModule,
+    InstrumentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
