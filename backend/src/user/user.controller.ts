@@ -1,13 +1,7 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Get,
-  Delete,
-  Param,
-} from '@nestjs/common';
+import { Controller, Post, Body, Get, Delete, Param } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
+import { CreateMyInstrumentsDto } from 'src/my-instruments/dto/create-my-instruments.dto';
 
 @Controller('user')
 export class UserController {
@@ -25,6 +19,13 @@ export class UserController {
     return await this.usersService.create(createUserDto);
   }
 
+  @Post('/:id/my-instruments')
+  createMyInstruments(
+    @Param('id') id: string,
+    @Body() createMyInstrumentsDto: CreateMyInstrumentsDto,
+  ) {
+    return this.usersService.linkMyInstrumentToUser(id, createMyInstrumentsDto);
+  }
   //Get user by id
   @Get(':id')
   findOne(@Param('id') id: string) {
