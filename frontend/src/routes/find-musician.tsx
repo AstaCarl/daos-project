@@ -3,12 +3,21 @@ import { useFetch } from "../hooks/use-fetch";
 import { Title } from "../components/atoms/Title";
 import Paragraf from "../components/atoms/Paragraf";
 import MusicianCard from "../components/MusicianCard";
+import SearchForm from "../components/forms/SearchForm";
+
+interface Instrument {
+  _id: string;
+  name: string;
+}
 
 function FindMusician() {
   const [users, setUsers] = useState([]);
+  const [instruments, setInstruments] = useState<Instrument[]>([]);
+
 
   useEffect(() => {
     getUsers();
+    getInstruments();
   }, []);
 
   const getUsers = async () => {
@@ -28,6 +37,22 @@ function FindMusician() {
     }
   };
 
+
+
+  const getInstruments= async () => {
+    
+    const response = await fetch(`http://localhost:3000/instruments`,)
+    if (response.ok) {
+      const data = await response.json();
+      console.log("instruments successful:", data);
+      setInstruments(data);
+    } else {
+      console.error("instruments error:", response);
+    }
+
+  }
+
+
   return (
     <>
       <main className="padding flex flex-col gap-6">
@@ -38,6 +63,9 @@ function FindMusician() {
             paragrafText={`${users.length} musikere fundet`}
           />
         </section>
+        <SearchForm
+        instruments={instruments}
+        />
         <div className="flex flex-col gap-6">
           {users.map((user) => (
             <MusicianCard user={user} />
