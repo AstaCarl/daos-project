@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { Button } from "./atoms/Button";
 import Label from "./atoms/Label";
 import Paragraf from "./atoms/Paragraf";
 import Subtitle from "./atoms/Subtitle";
 import { Title } from "./atoms/Title";
 import { UserIcon } from "./atoms/UserIcon";
+import ContactModal from "./ContactModal";
 
 interface User {
   _id: string;
@@ -21,6 +23,14 @@ export default function MusicianCard({ user }: Props) {
   const date = new Date(createdAt);
   const month = date.toLocaleString("da-DK", { month: "long" });
   const year = date.getFullYear();
+
+  const [showContactModal, setShowContactModal] = useState(false);
+
+  const handleShowModal = () => {
+    if (showContactModal) {
+      setShowContactModal(false);
+    } else setShowContactModal(true);
+  };
 
   return (
     <>
@@ -44,15 +54,28 @@ export default function MusicianCard({ user }: Props) {
             </div>
           </div>
           <div className="flex p-1">
-            <Button variant="secondary" buttonText="Kontakt" size="small" />
+            <Button
+              type="button"
+              variant="secondary"
+              buttonText="Kontakt"
+              size="small"
+              onClick={handleShowModal}
+            />
           </div>
+          {showContactModal && (
+            <ContactModal
+              handleShowModal={handleShowModal}
+              showContactModal={showContactModal}
+              user={user}
+            />
+          )}
         </div>
 
         {/* <p>{user.email}</p> */}
-        <div className="flex flex-col bg-white gap-2 p-2">
+        <div className="flex flex-col bg-white gap-2 py-3 px-2">
           {user.myInstruments.map((instrument: any, index: number) => (
             <>
-              <div className="flex flex-col border-b border-accent">
+              <div className="flex flex-col border-b py-2 border-accent">
                 <Subtitle
                   key={index}
                   variant="instrument"
@@ -67,6 +90,7 @@ export default function MusicianCard({ user }: Props) {
           ))}
         </div>
       </div>
+      {/* kontakt form */}
     </>
   );
 }

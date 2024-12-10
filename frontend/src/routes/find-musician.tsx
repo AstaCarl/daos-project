@@ -12,8 +12,6 @@ function FindMusician() {
   }, []);
 
   const getUsers = async () => {
-    // const userId = user._id;
-
     const response = await useFetch(`/user`, "GET", {
       "Content-Type": "application/json",
     });

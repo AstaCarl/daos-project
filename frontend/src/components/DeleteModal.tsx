@@ -27,7 +27,7 @@ export default function DeleteModal({
     if (response.ok) {
       const data = await response.json();
       console.log("Deleted profile succesfully", data);
-        alert("Profilen er blevet slettet");
+      alert("Profilen er blevet slettet");
       logout();
     } else {
       console.error("Error deleting profile", response.statusText);
