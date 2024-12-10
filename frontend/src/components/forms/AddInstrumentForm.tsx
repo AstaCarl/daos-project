@@ -30,8 +30,7 @@ export default function AddInstrumentForm({
     console.log("Selected instrument", event.target.value);
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     const userId = user._id;
 
     try {
@@ -52,8 +51,7 @@ export default function AddInstrumentForm({
       }
 
       // Handle successful submission (e.g., close form, show success message)
-      alert("Instrument tilføjet");
-        handleOpenInstrumentForm();
+      //   handleOpenInstrumentForm();
     } catch (error) {
       console.error("Error submitting instruments:", error);
       // Handle error (e.g., show error message)
@@ -87,7 +85,6 @@ export default function AddInstrumentForm({
           buttonText="Tilføj instrument"
           variant="primary"
           size="medium"
-          type="submit"
         />
       </form>
     </>
