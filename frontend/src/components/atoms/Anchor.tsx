@@ -22,7 +22,6 @@ export default function Anchor({
   };
   return (
     <Link className={`cursor-pointer  ${variantClasses[variant]}`} to={href}>
-      <div className="w-10 h-10">{children}</div>
       {anchorText}
     </Link>
   );

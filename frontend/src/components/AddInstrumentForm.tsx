@@ -53,7 +53,7 @@ const handleSubmit = async () => {
 
 
   return (
-    <div className="absolute bg-light-grey h-screen w-screen flex flex-col gap-6 padding">
+    <div className=" bg-light-grey h-screen w-screen flex flex-col gap-6 padding">
       <div>
         <Button
           buttonText="Tilbage"

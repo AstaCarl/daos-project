@@ -1,4 +1,4 @@
-import FrontpageHero from "../components/frontpageHero";
+import FrontpageHero from "../components/FrontpageHero";
 
 function Index() {
   return (

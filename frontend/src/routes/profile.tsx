@@ -119,10 +119,11 @@ export default function profile() {
   };
 
   return (
-    <div className="flex flex-col gap-10 pb-16">
+    <div className="relative z-0 flex flex-col gap-10 pb-16">
       <ProfileHeader />
       <ProfileStatus user={user} />
-      {ensembles.length === 0 && (
+      {!openInstrumentForm &&
+      ensembles.length === 0 && (
         <ActionCard
           buttonTextCreate="Opret nyt ensemble"
           buttonTextRegister="Registrer i ensemble"
@@ -143,12 +144,14 @@ export default function profile() {
           onClickRegister={handleOpenRegisterEnsembleForm}
         />
       )}
+      <div className="absolute z-10">
       {openInstrumentForm && (
         <AddInstrumentForm
           instruments={instruments}
           handleOpenInstrumentForm={handleOpenInstrumentForm}
         />
       )}
+      </div>
 
       {openCreateEnsembleForm && (
         <CreateEmsembleForm
@@ -171,7 +174,8 @@ export default function profile() {
             onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
           />
         )}
-      {instruments.length > 0 && (
+      {!openInstrumentForm &&
+      instruments.length > 0 && (
         <MyInstruments
           instruments={instruments}
           handleOpenInstrumentForm={handleOpenInstrumentForm}
