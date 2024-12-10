@@ -9,6 +9,7 @@ import { User } from './schema/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateMyInstrumentsDto } from 'src/my-instruments/dto/create-my-instruments.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SearchDTO } from './dto/search-musician.dto';
 
 @Injectable()
 export class UsersService {
@@ -74,5 +75,17 @@ export class UsersService {
     }
     return updatedUser;
   }
+
+  searchMusician(search: SearchDTO): Promise<User[]> {
+    const filter: any = {};
+
+    if (search.instrumentId) {
+      filter.myInstruments = search.instrumentId;
+    }
+    
+    return this.userModel.find(filter).populate('myInstruments').exec();
+  }
+
+
 }
 
