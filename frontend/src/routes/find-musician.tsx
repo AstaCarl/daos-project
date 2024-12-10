@@ -30,7 +30,7 @@ function FindMusician() {
 
   return (
     <>
-      <main className="padding">
+      <main className="padding flex flex-col gap-6">
         <section className="space-y-3">
           <Title variant="default" title="Find Musiker" />
           <Paragraf
@@ -38,9 +38,11 @@ function FindMusician() {
             paragrafText={`${users.length} musikere fundet`}
           />
         </section>
-        {users.map((user) => (
-          <MusicianCard user={user} />
-        ))}
+        <div className="flex flex-col gap-6">
+          {users.map((user) => (
+            <MusicianCard user={user} />
+          ))}
+        </div>
       </main>
     </>
   );
