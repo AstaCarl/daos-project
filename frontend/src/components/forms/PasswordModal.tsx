@@ -1,8 +1,8 @@
-import Subtitle from "./atoms/Subtitle";
-import { Button } from "./atoms/Button";
-import { useFetch } from "../hooks/use-fetch";
-import useAuthStore from "../hooks/store/auth-store";
-import { Input } from "./atoms/Input";
+import Subtitle from "../atoms/Subtitle";
+import { Button } from "../atoms/Button";
+import { useFetch } from "../../hooks/use-fetch";
+import useAuthStore from "../../hooks/store/auth-store";
+import { Input } from "../atoms/Input";
 import { useState } from "react";
 
 type Props = {

@@ -1,9 +1,9 @@
-import { useFetch } from "../hooks/use-fetch";
-import Anchor from "./atoms/Anchor";
-import Icon from "./atoms/Icon";
-import { Input } from "./atoms/Input";
-import Paragraf from "./atoms/Paragraf";
-import { Button } from "./atoms/Button";
+import { useFetch } from "../../hooks/use-fetch";
+import Anchor from "../atoms/Anchor";
+import Icon from "../atoms/Icon";
+import { Input } from "../atoms/Input";
+import Paragraf from "../atoms/Paragraf";
+import { Button } from "../atoms/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

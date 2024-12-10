@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useFetch } from "../hooks/use-fetch";
-import { Button } from "./atoms/Button";
-import { Title } from "./atoms/Title";
-import Select from "./atoms/Select";
-import Subtitle from "./atoms/Subtitle";
-import useAuthStore from "../hooks/store/auth-store";
+import { useFetch } from "../../hooks/use-fetch";
+import { Button } from "../atoms/Button";
+import { Title } from "../atoms/Title";
+import Select from "../atoms/Select";
+import Subtitle from "../atoms/Subtitle";
+import useAuthStore from "../../hooks/store/auth-store";
 
 interface Ensemble {
   _id: string;
@@ -73,8 +73,8 @@ export default function RegisterEnsembleForm({
   };
 
   return (
-    <div className="absolute bg-light-grey h-screen w-screen flex flex-col gap-6 padding">
-      <div>
+<>
+      <div className="w-fit">
         <Button
           buttonText="Tilbage"
           variant="secondary"
@@ -92,6 +92,7 @@ export default function RegisterEnsembleForm({
           <Select
             name="ensembles"
             onChange={hanldeEnsembleIdChange}
+            defaultValue="Vælg et ensemble"
             {...(errors.includes(
               "User already registered in this ensemble"
             ) && {
@@ -111,6 +112,6 @@ export default function RegisterEnsembleForm({
         </div>
         <Button type="submit" variant="primary" buttonText="Registrer" />
       </form>
-    </div>
+    </>
   );
 }

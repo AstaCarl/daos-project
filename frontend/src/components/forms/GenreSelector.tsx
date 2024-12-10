@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Label from "./atoms/Label";
-import Select from "./atoms/Select";
+import Label from "../atoms/Label";
+import Select from "../atoms/Select";
 
 type GenreSelectorProps = {
   genres: string[];

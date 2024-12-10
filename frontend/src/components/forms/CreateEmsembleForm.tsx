@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Input } from "./atoms/Input";
-import { Button } from "./atoms/Button";
-import { useFetch } from "../hooks/use-fetch";
-import { Title } from "./atoms/Title";
-import Subtitle from "./atoms/Subtitle";
-import { TextArea } from "./atoms/TextArea";
-import Select from "./atoms/Select";
+import { Input } from "../atoms/Input";
+import { Button } from "../atoms/Button";
+import { useFetch } from "../../hooks/use-fetch";
+import { Title } from "../atoms/Title";
+import Subtitle from "../atoms/Subtitle";
+import { TextArea } from "../atoms/TextArea";
+import Select from "../atoms/Select";
 import GenreSelector from "./GenreSelector";
 
 interface Ensemble {
@@ -144,8 +144,8 @@ const CreateEmsembleForm: React.FC<Props> = ({
   };
 
   return (
-    <div className="absolute bg-light-grey h-fit w-screen flex flex-col gap-6 pb-16 padding">
-      <div>
+    <>
+      <div className="w-fit">
         <Button
           buttonText="Tilbage"
           variant="secondary"
@@ -286,7 +286,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
           type="submit"
         />
       </form>
-    </div>
+    </>
   );
 };
 

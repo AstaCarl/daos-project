@@ -1,7 +1,7 @@
-import Anchor from "./atoms/Anchor";
-import Icon from "./atoms/Icon";
-import Subtitle from "./atoms/Subtitle";
-import musicIcon from "../assets/footer-music.svg";
+import Anchor from "../atoms/Anchor";
+import Icon from "../atoms/Icon";
+import Subtitle from "../atoms/Subtitle";
+import musicIcon from "../../assets/footer-music.svg";
 
 export default function Footer({}) {
   return (

@@ -2,7 +2,7 @@ import { Button } from "./atoms/Button";
 import Subtitle from "./atoms/Subtitle";
 import { Title } from "./atoms/Title";
 import { useState } from "react";
-import PasswordModal from "./PasswordModal";
+import PasswordModal from "./forms/PasswordModal";
 import DeleteModal from "./DeleteModal";
 
 type Props = {
@@ -26,10 +26,7 @@ export default function ProfileSetting({ handleSettingsOpen }: Props) {
   };
 
   return (
-    <div
-      className={`absolute bg-light-grey h-screen w-screen flex flex-col gap-6 padding z-0 
-    `}
-    >
+    <>
       <div className="w-fit">
         <Button
           buttonText="Tilbage"
@@ -39,36 +36,36 @@ export default function ProfileSetting({ handleSettingsOpen }: Props) {
         />
       </div>
       <Title variant="default" title="Indstillinger" />
-        <div className="space-y-4">
-          <Subtitle variant="default" subtitle="Adgangskode" />
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={handleShowPasswordModal}
-            buttonText="Skift adgangskode"
+      <div className="space-y-4">
+        <Subtitle variant="default" subtitle="Adgangskode" />
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={handleShowPasswordModal}
+          buttonText="Skift adgangskode"
+        />
+        {showPasswordModal && (
+          <PasswordModal
+            handleShowPasswordModal={handleShowPasswordModal}
+            showPasswordModal={showPasswordModal}
           />
-          {showPasswordModal && (
-            <PasswordModal
-              handleShowPasswordModal={handleShowPasswordModal}
-              showPasswordModal={showPasswordModal}
-            />
-          )}
-        </div>
-        <div className="space-y-4">
-          <Subtitle variant="default" subtitle="Profil" />
-          <Button
-            type="button"
-            variant="delete"
-            onClick={handleShowModal}
-            buttonText="Slet profil"
+        )}
+      </div>
+      <div className="space-y-4">
+        <Subtitle variant="default" subtitle="Profil" />
+        <Button
+          type="button"
+          variant="delete"
+          onClick={handleShowModal}
+          buttonText="Slet profil"
+        />
+        {showDeleteModal && (
+          <DeleteModal
+            handleShowModal={handleShowModal}
+            showDeleteModal={showDeleteModal}
           />
-          {showDeleteModal && (
-            <DeleteModal
-              handleShowModal={handleShowModal}
-              showDeleteModal={showDeleteModal}
-            />
-          )}
-        </div>
-    </div>
+        )}
+      </div>
+    </>
   );
 }

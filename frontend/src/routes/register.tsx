@@ -1,5 +1,5 @@
 import { Title } from "../components/atoms/Title";
-import { RegisterForm } from "../components/RegisterForm";
+import { RegisterForm } from "../components/forms/RegisterForm";
 
 function Register() {
   return (
