@@ -4,7 +4,11 @@ import Paragraf from "./atoms/Paragraf";
 import { Title } from "./atoms/Title";
 import useAuthStore from "../hooks/store/auth-store";
 
-export default function ProfileHeader() {
+type Props = {
+  handleSettingsOpen: () => void;
+}
+
+export default function ProfileHeader({ handleSettingsOpen }: Props) {
   const { user } = useAuthStore();
 
   const userName = user.name;
@@ -35,7 +39,7 @@ export default function ProfileHeader() {
 
       <div className="flex item-center justify-start gap-3 w-full">
         <Button variant="secondary" buttonText="Rediger profil" size="small" />
-        <Button variant="secondary" buttonText="Indstillinger" size="small" />
+        <Button variant="secondary" buttonText="Indstillinger" size="small" onClick={handleSettingsOpen} />
       </div>
     </div>
   );

@@ -7,7 +7,11 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
+<<<<<<< HEAD
 import { CreateMyInstrumentsDto } from 'src/my-instruments/dto/create-my-instruments.dto';
+=======
+import { UpdateUserDto } from './dto/update-user.dto';
+>>>>>>> origin/profile-settings
 
 @Injectable()
 export class UsersService {
@@ -53,6 +57,7 @@ export class UsersService {
     return this.userModel.deleteMany({}).exec();
   }
 
+<<<<<<< HEAD
   async linkMyInstrumentToUser(
     id: string,
     createMyInstrumentsDto: CreateMyInstrumentsDto,
@@ -62,5 +67,16 @@ export class UsersService {
         $push: { myInstruments: createMyInstrumentsDto },
       })
       .exec();
+=======
+  async update(user: any) {
+    const updatedUser = await this.userModel
+      .findOneAndUpdate({ _id: user._id }, user)
+      .exec();
+    if (!updatedUser) {
+      throw new NotFoundException('User not found');
+    }
+    return updatedUser;
+>>>>>>> origin/profile-settings
   }
 }
+
