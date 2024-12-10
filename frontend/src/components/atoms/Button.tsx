@@ -2,11 +2,7 @@ type ButtonProps = {
   buttonText: string | undefined;
   type?: "button" | "submit" | "reset";
   href?: string;
-<<<<<<< HEAD
-  variant: "primary" | "secondary" | "iconButton";
-=======
-  variant: "primary" | "secondary" | "delete";
->>>>>>> origin/profile-settings
+  variant: "primary" | "secondary" | "iconButton" | "delete";
   size?: "small" | "medium" | "large";
   onClick?: () => void;
   children?: React.ReactNode;
@@ -16,11 +12,8 @@ export function Button({ buttonText, type = "button", href, variant, children, s
   const variantClasses = {
     primary: "bg-blue text-white",
     secondary: "bg-white text-blue border border-grey w-full",
-<<<<<<< HEAD
     iconButton: "font-display text-blue text-xl font-bold  pb-[8px] flex flex-col items-center justify-center border accent-grey w-full",
-=======
     delete: "bg-transparent text-red border border-grey w-full",
->>>>>>> origin/profile-settings
   };
 
   const sizeClasses = {

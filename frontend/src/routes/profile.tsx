@@ -10,6 +10,7 @@ import ProfileHeader from "../components/ProfileHeader";
 import ProfileStatus from "../components/ProfileStatus";
 import AddInstrumentForm from "../components/AddInstrumentForm";
 import MyInstruments from "../components/MyInstruments";
+import ProfileSetting from "../components/ProfileSetting";
 
 interface Ensemble {
   _id: string;
@@ -35,6 +36,7 @@ export default function profile() {
   const [ensembles, setEnsembles] = useState<Ensemble[]>([]);
   const [openInstrumentForm, setOpenInstrumentForm] = useState(false);
   const [instruments, setInstruments] = useState<Instrument[]>([]);
+  const [openSettings, setOpenSettings] = useState(false);
 
   useEffect(() => {
     // Redirect to login if the user is not logged in
@@ -79,6 +81,14 @@ export default function profile() {
     }
   };
 
+  const handleSettingsOpen = () => {
+    if (openSettings) {
+      setOpenSettings(false);
+    } else {
+      setOpenSettings(true);
+    }
+  }
+
   useEffect(() => {
     getEnsemble();
     getInstruments();
@@ -120,7 +130,10 @@ export default function profile() {
 
   return (
     <div className="relative z-0 flex flex-col gap-10 pb-16">
-      <ProfileHeader />
+      <ProfileHeader handleSettingsOpen={handleSettingsOpen} />
+      {openSettings && (
+        <ProfileSetting handleSettingsOpen={handleSettingsOpen} />
+      )}
       <ProfileStatus user={user} />
       {!openInstrumentForm &&
       ensembles.length === 0 && (
