@@ -11,15 +11,22 @@ import {
   Put,
   Req,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SearchDTO } from './dto/search-musician.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private usersService: UsersService) {}
+
+  @Get("search")
+  searchMusician(@Query() search: SearchDTO) {
+    return this.usersService.searchMusician(search);
+  }
 
   //Get all users
   @Get('')
