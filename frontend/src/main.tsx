@@ -6,7 +6,8 @@ import Index from "./routes/index";
 import Login from "./routes/login";
 import Register from "./routes/register";
 import Profile from "./routes/profile";
-import Layout from "./components/Layout";
+import Layout from "./components/global-components/Layout";
+import FindMusician from "./routes/find-musician";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/find-musician" element={<FindMusician />} />
       </Routes>
       </Layout>
     </BrowserRouter>

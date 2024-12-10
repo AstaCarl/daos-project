@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Input } from "./atoms/Input";
-import { Button } from "./atoms/Button";
-import { useFetch } from "../hooks/use-fetch";
-import { Title } from "./atoms/Title";
-import Subtitle from "./atoms/Subtitle";
-import { TextArea } from "./atoms/TextArea";
-import Select from "./atoms/Select";
+import { Input } from "../atoms/Input";
+import { Button } from "../atoms/Button";
+import { useFetch } from "../../hooks/use-fetch";
+import { Title } from "../atoms/Title";
+import Subtitle from "../atoms/Subtitle";
+import { TextArea } from "../atoms/TextArea";
+import Select from "../atoms/Select";
+import GenreSelector from "./GenreSelector";
 
 interface Ensemble {
   _id: string;
@@ -30,10 +31,20 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const [website, setWebsite] = useState<string>("");
   const [zipcode, setZipcode] = useState<string>("");
   const [city, setCity] = useState<string>("");
-  const [genre, setGenre] = useState<string>("");
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [rehearsalFrequency, setRehearsalFrequency] = useState<string>("");
-  const [playType, setPlayType] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [checkboxStatus, setCheckboxStatus] = useState<string | null> (null);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    if (checkboxStatus === value) {
+      setCheckboxStatus(null);
+    } else {
+      setCheckboxStatus(value);
+    }
+  }
 
   const genres = [
     "Barok",
@@ -62,45 +73,38 @@ const CreateEmsembleForm: React.FC<Props> = ({
     continous = "Kontinuerlig",
   }
 
-  // console.log("Typer", ensembleTypes);
-
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    setErrors([]);
   };
 
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setDescription(event.target.value);
+    setErrors([]);
   };
 
   const handleWebsiteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setWebsite(event.target.value);
+    setErrors([]);
   };
 
   const handleZipcodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setZipcode(event.target.value);
+    setErrors([]);
   };
 
   const handleCityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value);
-  };
-
-  const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setGenre(event.target.value);
-    console.log(event.target.value);
-  };
-
-  const handlePlayTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPlayType(event.target.value);
-    console.log(event.target.value);
+    setErrors([]);
   };
 
   const handleRehearsalFrequencyChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setRehearsalFrequency(event.target.value);
-    console.log(event.target.value);
+    setErrors([]);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -112,9 +116,9 @@ const CreateEmsembleForm: React.FC<Props> = ({
       website: website,
       zipcode: zipcode,
       city: city,
-      genre: genre,
+      genre: selectedGenres,
       rehearsalFrequency: rehearsalFrequency,
-      playType: playType,
+      playType: checkboxStatus,
     };
 
     const response = await useFetch(
@@ -140,8 +144,8 @@ const CreateEmsembleForm: React.FC<Props> = ({
   };
 
   return (
-    <div className="absolute bg-light-grey h-fit w-screen flex flex-col gap-6 pb-16 padding">
-      <div>
+    <>
+      <div className="w-fit">
         <Button
           buttonText="Tilbage"
           variant="secondary"
@@ -219,28 +223,18 @@ const CreateEmsembleForm: React.FC<Props> = ({
 
         <div>
           <Subtitle variant="default" subtitle="Genrer" />
-          <Select
-            name="genres"
-            onChange={handleGenreChange}
-            {...(errors.includes("genre should not be empty") && {
-              errorMessage: "Genre skal udfyldes",
-            })}
-          >
-            {genres.map((genre) => (
-              <option
-                className="font-sans text-dark-grey"
-                key={genre}
-                value={genre}
-              >
-                {genre}
-              </option>
-            ))}
-          </Select>
+          <GenreSelector
+            errors={errors}
+            genres={genres}
+            selectedGenres={selectedGenres}
+            setSelectedGenres={setSelectedGenres}
+          />
         </div>
         <div>
           <Subtitle variant="default" subtitle="Øvefrekvens" />
           <Select
             name="frequency"
+            defaultValue="Vælg øvefrekvens"
             onChange={handleRehearsalFrequencyChange}
             {...(errors.includes("rehearsalFrequency should not be empty") && {
               errorMessage: "Øvefrekvens skal udfyldes",
@@ -257,28 +251,31 @@ const CreateEmsembleForm: React.FC<Props> = ({
             ))}
           </Select>
         </div>
-        <div>
+        <div className="flex flex-col gap-2">
           <Subtitle variant="default" subtitle="Ensemblet spiller..." />
           <Input
-            onChange={handlePlayTypeChange}
+            onChange={handleCheckboxChange}
             labelText="Projekt baseret"
             inputName="By"
             value={playTypes.projectBased}
-            id="by"
+            checked={checkboxStatus === playTypes.projectBased}
+            id="playType"
             type="checkbox"
-            {...(errors.includes("city should not be empty") && {
-              errorMessage: "By skal udfyldes",
+            {...(errors.includes("playType should not be empty") && {
+              errorMessage: "Der skal vælges en spille type",
             })}
           />
           <Input
             labelText="Kontinuerlig"
-            onChange={handlePlayTypeChange}
+            onChange={handleCheckboxChange}
             inputName="playType"
             value={playTypes.continous}
+            checked={checkboxStatus === playTypes.continous}
             id="playType"
             type="checkbox"
-            {...(errors.includes("city should not be empty") && {
-              errorMessage: "By skal udfyldes",
+            
+            {...(errors.includes("playType should not be empty") && {
+              errorMessage: "Der skal vælges en spille type",
             })}
           />
         </div>
@@ -289,7 +286,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
           type="submit"
         />
       </form>
-    </div>
+    </>
   );
 };
 

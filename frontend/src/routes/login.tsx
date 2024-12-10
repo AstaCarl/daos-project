@@ -1,5 +1,5 @@
 import { Title } from "../components/atoms/Title";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/forms/LoginForm";
 
 function Login() {
   return (

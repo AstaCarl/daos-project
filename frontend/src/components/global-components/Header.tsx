@@ -1,9 +1,9 @@
-import Anchor from "./atoms/Anchor";
-import { Logo } from "./atoms/Logo";
-import { Button } from "./atoms/Button";
-import Icon from "./atoms/Icon";
+import Anchor from "../atoms/Anchor";
+import { Logo } from "../atoms/Logo";
+import { Button } from "../atoms/Button";
+import Icon from "../atoms/Icon";
 import { useState } from "react";
-import useAuthStore from "../hooks/store/auth-store";
+import useAuthStore from "../../hooks/store/auth-store";
 // import ProfileIcon from "../assets/profile-icon.png";
 
 type Props = {};
@@ -33,8 +33,8 @@ export default function Header({}: Props) {
         </div>
         <div>
           <ul
-            className={`absolute w-full top-20 pt-[32px] pb-[24px] left-0 flex flex-col gap-3 items-center transform transition:transition bg-white ${
-              isMenuOpen ? "opacity-100 h-fit z-10" : "opacity-0 h-0"
+            className={`absolute w-full top-20  flex flex-col gap-3 items-center transform transition:transition bg-white ${
+              isMenuOpen ? "opacity-100 h-fit z-10 pt-[32px] pb-[24px] left-0" : "opacity-0 h-0 p-0"
             }`}
           >
             <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block" : "hidden"}`}>

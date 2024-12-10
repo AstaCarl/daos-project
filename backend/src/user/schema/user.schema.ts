@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Transform } from 'class-transformer';
-import { HydratedDocument, now, ObjectId } from 'mongoose';
+import mongoose, { HydratedDocument, now, ObjectId } from 'mongoose';
+import { Instrument } from 'src/instruments/schema/instrument.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -23,6 +24,9 @@ export class User {
 
   @Prop({ default: now() })
   createdAt: Date;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Instrument' }] })
+  myInstruments: Instrument[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

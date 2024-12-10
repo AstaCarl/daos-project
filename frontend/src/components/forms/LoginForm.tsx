@@ -1,11 +1,11 @@
-import { Input } from "./atoms/Input";
-import { Button } from "./atoms/Button.tsx";
+import { Input } from "../atoms/Input";
+import { Button } from "../atoms/Button.tsx";
 import { useState } from "react";
-import { useFetch } from "../hooks/use-fetch.ts";
-import Anchor from "./atoms/Anchor";
-import Paragraf from "./atoms/Paragraf";
-import Icon from "./atoms/Icon";
-import useAuthStore from "../hooks/store/auth-store.ts";
+import { useFetch } from "../../hooks/use-fetch.ts";
+import Anchor from "../atoms/Anchor";
+import Paragraf from "../atoms/Paragraf";
+import Icon from "../atoms/Icon";
+import useAuthStore from "../../hooks/store/auth-store.ts";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginForm({}) {
