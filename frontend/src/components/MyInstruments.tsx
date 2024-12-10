@@ -1,4 +1,3 @@
-import React from "react";
 import Subtitle from "./atoms/Subtitle";
 import Label from "./atoms/Label";
 import { Button } from "./atoms/Button";
