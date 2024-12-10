@@ -11,6 +11,7 @@ import ProfileStatus from "../components/ProfileStatus";
 import AddInstrumentForm from "../components/forms/AddInstrumentForm";
 import MyInstruments from "../components/MyInstruments";
 import ProfileSetting from "../components/ProfileSetting";
+import { get } from "http";
 
 interface Ensemble {
   _id: string;
@@ -35,6 +36,7 @@ export default function profile() {
     useState(false);
   const [ensembles, setEnsembles] = useState<Ensemble[]>([]);
   const [openInstrumentForm, setOpenInstrumentForm] = useState(false);
+  const [myInstruments, setMyInstruments] = useState([]);
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [openSettings, setOpenSettings] = useState(false);
 
@@ -91,6 +93,7 @@ export default function profile() {
 
   useEffect(() => {
     getEnsemble();
+    getMyInstruments();
     getInstruments();
   }, []);
 
@@ -111,8 +114,24 @@ export default function profile() {
     }
   };
 
+  const getMyInstruments = async () => {
+    const userId = user._id;
+
+    const response = await useFetch(`/user/${userId}`, "GET", {
+      "Content-Type": "application/json",
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Get my instruments successful:", data);
+      setMyInstruments(data.myInstruments);
+      return myInstruments;
+    } else {
+      console.error("Get my indtruments error:", response.statusText);
+    }
+  };
+
   const getInstruments = async () => {
-    // const userId = user._id;
 
     const response = await useFetch(`/instruments`, "GET", {
       "Content-Type": "application/json",
@@ -161,7 +180,7 @@ export default function profile() {
           <div className="relative z-0 flex flex-col gap-10 pb-16">
             <ProfileHeader handleSettingsOpen={handleSettingsOpen} />
             <ProfileStatus user={user} />
-            {!openInstrumentForm && ensembles.length === 0 && (
+            {ensembles.length === 0 && (
               <ActionCard
                 buttonTextCreate="Opret nyt ensemble"
                 buttonTextRegister="Registrer i ensemble"
@@ -172,7 +191,7 @@ export default function profile() {
                 onClickRegister={handleOpenRegisterEnsembleForm}
               />
             )}
-            {instruments.length === 0 && (
+            {myInstruments.length === 0 && (
               <ActionCard
                 buttonTextCreate="Tilføj instrument"
                 paragrafText="Tilføj et instrument du spille på, så ensmbler og musikere kan finde dig."
@@ -189,9 +208,9 @@ export default function profile() {
                 onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
               />
             )}
-            {instruments.length > 0 && (
+            {myInstruments.length > 0 && (
               <MyInstruments
-                instruments={instruments}
+                instruments={myInstruments}
                 handleOpenInstrumentForm={handleOpenInstrumentForm}
               />
             )}
