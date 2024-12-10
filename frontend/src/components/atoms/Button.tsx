@@ -2,20 +2,22 @@ type ButtonProps = {
   buttonText: string | undefined;
   type?: "button" | "submit" | "reset";
   href?: string;
-  variant: "primary" | "secondary";
+  variant: "primary" | "secondary" | "iconButton";
   size?: "small" | "medium" | "large";
   onClick?: () => void;
+  children?: React.ReactNode;
 };
 
-export function Button({ buttonText, type = "button", href, variant, size="medium", onClick }: ButtonProps) {
+export function Button({ buttonText, type = "button", href, variant, children, size="medium", onClick }: ButtonProps) {
   const variantClasses = {
     primary: "bg-blue text-white",
     secondary: "bg-white text-blue border border-grey w-full",
+    iconButton: "font-display text-blue text-xl font-bold  pb-[8px] flex flex-col items-center justify-center border accent-grey w-full",
   };
 
   const sizeClasses = {
     small: "px-4 py-1 text-sm",
-    medium: "pl-10 pr-10 pt-2 pb-2",
+    medium: "px-6 py-2",
     large: "px-8 py-4 text-lg",
   };
 
@@ -33,6 +35,7 @@ export function Button({ buttonText, type = "button", href, variant, size="mediu
 
   return (
     <button onClick={onClick} className={classes} type={type}>
+      {children && <div className="w-10 h-10">{children}</div>}
       {buttonText}
     </button>
   );

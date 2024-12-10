@@ -16,7 +16,7 @@ export class InstrumentsService {
   }
 
   findAll() {
-    return `This action returns all instruments`;
+    return this.instrumentModel.find();
   }
 
   findOne(id: number) {
