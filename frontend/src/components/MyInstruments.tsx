@@ -11,12 +11,24 @@ interface myInstrument {
 type Props = {
   myInstruments: myInstrument[] | undefined;
   handleOpenInstrumentForm: () => void;
+  handleOpenDeleteModal: (myInstrumentId?: string) => void;
 };
 
 export default function MyInstruments({
   myInstruments,
   handleOpenInstrumentForm,
+  handleOpenDeleteModal,
 }: Props) {
+
+  const [selectedInstrumentId, setSelectedInstrumentId] = useState<string | undefined>(undefined);
+
+
+  const handleDeleteClick = (myInstrumentId: string | undefined) => {
+    setSelectedInstrumentId(myInstrumentId);
+    handleOpenDeleteModal(myInstrumentId);
+    console.log("delete clicked" + myInstrumentId);
+  };
+
   return (
     <section className="bg-white flex flex-col gap-7 padding border-y accent-grey">
       <div className="flex flex-col gap-4">
