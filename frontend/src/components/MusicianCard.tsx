@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "./atoms/Button";
 import Label from "./atoms/Label";
 import Paragraf from "./atoms/Paragraf";
@@ -74,19 +74,17 @@ export default function MusicianCard({ user }: Props) {
         {/* <p>{user.email}</p> */}
         <div className="flex flex-col bg-white gap-2 py-3 px-2">
           {user.myInstruments.map((instrument: any, index: number) => (
-            <>
-              <div className="flex flex-col border-b py-2 border-accent">
-                <Subtitle
-                  key={index}
-                  variant="instrument"
-                  subtitle={instrument.name}
-                />
+            <React.Fragment key={index}>
+              <div
+                className="flex flex-col border-b py-2 border-accent"
+              >
+                <Subtitle variant="instrument" subtitle={instrument.name} />
                 <div className="flex py-2 gap-2">
                   <Label variant="grey" labelText="Kammermusik" />
                   <Label variant="grey" labelText="Barok" />
                 </div>
               </div>
-            </>
+            </React.Fragment>
           ))}
         </div>
       </div>

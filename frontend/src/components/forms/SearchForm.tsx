@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "../atoms/Select";
 import { Button } from "../atoms/Button";
+import { useFetch } from "../../hooks/use-fetch";
 
 type Props = {
   instruments: any;
@@ -8,22 +9,29 @@ type Props = {
 
 export default function SearchForm({ instruments }: Props) {
   const [searchParam, setSearchParam] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
+
+  
+  const queryParams = new URLSearchParams({
+    instrumentId: searchQuery,
+  }).toString();
+
+  const {data: searchData} = useFetch<[]>(`/user/search?${queryParams}`, "GET")
+
+    useEffect(() => {
+      if (searchData) {
+        console.log("Search data:", searchData);
+      }
+    }, [searchData]);
+
+  const handleSearchParamChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchParam(e.target.value);
+  };
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const queryParams = new URLSearchParams({
-      instrumentId: searchParam,
-    }).toString();
-
-    const response = await fetch(
-      `http://localhost:3000/user/search?${queryParams}`
-    );
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Search successful:", data);
-    } else {
-      console.error("Search error:", response);
-    }
+    setSearchQuery(searchParam);
   };
 
   return (
@@ -31,7 +39,7 @@ export default function SearchForm({ instruments }: Props) {
       <Select
         name="instrument"
         defaultValue="Vælg et instrument"
-        onChange={(e) => setSearchParam(e.target.value)}
+        onChange={handleSearchParamChange}
       >
         {instruments.map((instrument: any) => (
           <option key={instrument._id} value={instrument._id}>

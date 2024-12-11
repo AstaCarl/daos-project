@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import {
   Injectable,
   NotFoundException,
@@ -80,7 +80,7 @@ export class UsersService {
     const filter: any = {};
 
     if (search.instrumentId) {
-      filter.myInstruments = search.instrumentId;
+      filter.myInstruments = new Types.ObjectId(search.instrumentId);
     }
     
     return this.userModel.find(filter).populate('myInstruments').exec();

@@ -10,45 +10,36 @@ interface Instrument {
   name: string;
 }
 
+interface User {
+  _id: string;
+  name: string;
+  createdAt: Date;
+  myInstruments: any[];
+  lastname: string;
+}
+
 function FindMusician() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [instruments, setInstruments] = useState<Instrument[]>([]);
+
+  const {data: userData} = useFetch<User[]>(`/user`, "GET")
+
+  const { data: instrumentsData} = useFetch<Instrument[]>("/instruments", "GET");
 
 
   useEffect(() => {
-    getUsers();
-    getInstruments();
-  }, []);
-
-  const getUsers = async () => {
-    const response = await useFetch(`/user`, "GET", {
-      "Content-Type": "application/json",
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Get users successful:", data);
-      setUsers(data);
-      return users;
-    } else {
-      console.error("Get users error:", response.statusText);
+    if (instrumentsData) {
+    setInstruments(instrumentsData)
+    console.log("Get instruments successful:", instrumentsData);
     }
-  };
+  }, [instrumentsData])
 
-
-
-  const getInstruments= async () => {
-    
-    const response = await fetch(`http://localhost:3000/instruments`,)
-    if (response.ok) {
-      const data = await response.json();
-      console.log("instruments successful:", data);
-      setInstruments(data);
-    } else {
-      console.error("instruments error:", response);
+  useEffect(() => {
+    if (userData) {
+    setUsers(userData)
+    console.log("Get users successful:", userData);
     }
-
-  }
+  }, [userData])
 
 
   return (
@@ -65,8 +56,8 @@ function FindMusician() {
         instruments={instruments}
         />
         <div className="flex flex-col gap-6">
-          {users.map((user) => (
-            <MusicianCard user={user} />
+          {users.map((user, index: number) => (
+            <MusicianCard key={index} user={user} />
           ))}
         </div>
       </main>
