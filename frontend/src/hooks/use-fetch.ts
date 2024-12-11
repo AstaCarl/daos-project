@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 
 
-const BASE_URL = "http://localhost:3000";
-
 type HTTP_METHOD = "POST" | "GET" | "PUT" | "DELETE" | "PATCH";
 
 // interface UseFetchResponse<T> {
@@ -24,7 +22,7 @@ export function useFetch<T>(
   useEffect(() => {
     const fetchData = async () => {
   try {
-    const response = await fetch(`${BASE_URL}${endpoint}`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
       method,
       headers,
       body: body ? JSON.stringify(body) : undefined,

@@ -51,24 +51,19 @@ export function RegisterForm({}) {
         name: name,
         lastname: lastname,
         email: email,
-        password: password,
+        password: password
       };
-
-      // Call the useFetch function to send the post request
-      const response = await useFetch(
-        "/user",
-        "POST",
-        {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/user`, {
+        method: "POST",
+        headers: {
           "Content-Type": "application/json",
         },
-        registerData
-      );
-      // Check if the response is successful
+        body: JSON.stringify(registerData)
+      });
       if (response.ok) {
         alert("Din profil er oprettet");
         navigate("/login");
       } else {
-        // Handle error response
         const errorData = await response.json();
         setErrors(errorData.message || ["An error occurred."]);
       }
