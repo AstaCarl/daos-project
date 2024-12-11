@@ -1,4 +1,3 @@
-import { useFetch } from "../../hooks/use-fetch";
 import Anchor from "../atoms/Anchor";
 import Icon from "../atoms/Icon";
 import { Input } from "../atoms/Input";
@@ -9,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 
 export function RegisterForm({}) {
-  // Define the state variables for the form fields.
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");

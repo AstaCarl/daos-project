@@ -71,7 +71,6 @@ export default function MusicianCard({ user }: Props) {
           )}
         </div>
 
-        {/* <p>{user.email}</p> */}
         <div className="flex flex-col bg-white gap-2 py-3 px-2">
           {user.myInstruments.map((instrument: any, index: number) => (
             <React.Fragment key={index}>

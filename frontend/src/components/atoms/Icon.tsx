@@ -52,7 +52,7 @@ export default function Icon({ variant, onClick, myInstrumentId }: Props) {
 
   return (
     <div onClick={handleClick}>
-      <img src={variantIcon[variant]} alt="" />
+      <img src={variantIcon[variant]} />
     </div>
   );
 }
