@@ -3,12 +3,6 @@ import { useState, useEffect } from "react";
 
 type HTTP_METHOD = "POST" | "GET" | "PUT" | "DELETE" | "PATCH";
 
-// interface UseFetchResponse<T> {
-//   data: T | null;
-//   error: string | null;
-//   loading: boolean;
-// }
-
 export function useFetch<T>(
   endpoint: string,
   method: HTTP_METHOD,
