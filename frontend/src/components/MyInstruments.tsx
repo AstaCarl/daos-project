@@ -1,6 +1,7 @@
 import Subtitle from "./atoms/Subtitle";
 import Label from "./atoms/Label";
 import { Button } from "./atoms/Button";
+import React from "react";
 
 interface myInstrument {
   _id: string;
@@ -12,7 +13,10 @@ type Props = {
   handleOpenInstrumentForm: () => void;
 };
 
-export default function MyInstruments({ myInstruments, handleOpenInstrumentForm }: Props) {
+export default function MyInstruments({
+  myInstruments,
+  handleOpenInstrumentForm,
+}: Props) {
   return (
     <section className="bg-white flex flex-col gap-7 padding border-y accent-grey">
       <div className="flex flex-col gap-4">
@@ -30,18 +34,19 @@ export default function MyInstruments({ myInstruments, handleOpenInstrumentForm 
 
         {myInstruments &&
           myInstruments.map((instrument: myInstrument, index: number) => (
-            <div className="flex flex-col gap-6 border border-accent-grey w-full p-3 rounded-md">
-              <Subtitle
-                key={index}
-                variant="cardTitle"
-                subtitle={instrument.name}
-              />
-              <div className="flex gap-2">
-              <Label variant="grey" key={index} labelText="Kammermusik" />
-              <Label variant="grey" key={index} labelText="Barok" />
-              <Label variant="grey" key={index} labelText="Senmoderne" />
-            </div>
-            </div>
+            <React.Fragment key={index}>
+              <div className="flex flex-col gap-6 border border-accent-grey w-full p-3 rounded-md">
+                <Subtitle
+                  variant="cardTitle"
+                  subtitle={instrument.name}
+                />
+                <div className="flex flex-wrap gap-2">
+                  <Label variant="grey" labelText="Senmoderne" />
+                  <Label variant="grey" labelText="Kammermusik" />
+                  <Label variant="grey" labelText="Barok" />
+                </div>
+              </div>
+            </React.Fragment>
           ))}
       </div>
     </section>

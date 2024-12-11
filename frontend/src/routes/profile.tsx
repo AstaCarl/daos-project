@@ -22,15 +22,11 @@ interface Ensemble {
   zipcode: string;
 }
 
-interface User {
-  _id: string;
-  name: string;
-  createdAt: Date;
-  myInstruments: any[];
-  lastname: string;
+interface UserInstrumentsData {
+  myInstruments: Instrument[];
 }
 
-interface instrument {
+interface Instrument {
   _id: string;
   name: string;
 }
@@ -43,7 +39,8 @@ export default function profile() {
     useState(false);
   const [ensembles, setEnsembles] = useState<Ensemble[]>([]);
   const [openInstrumentForm, setOpenInstrumentForm] = useState(false);
-  const [myInstruments, setMyInstruments] = useState<User>();
+  const [myInstruments, setMyInstruments] = useState<Instrument[]>([]);
+  const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [openSettings, setOpenSettings] = useState(false);
 
   useEffect(() => {
@@ -102,53 +99,53 @@ export default function profile() {
     // getInstruments();
   }, []);
 
-  // const [instruments, setInstruments] = useState<Instrument[]>([]);
 
   const userId = user._id;
-  const {data: ensembleData} = useFetch<Ensemble[]>(`/ensemble/${userId}`, "GET")
+  const { data: ensembleData } = useFetch<Ensemble[]>(
+    `/ensemble/${userId}`,
+    "GET"
+  );
 
-  const { data: myInstrumentsData} = useFetch<User>(`/user/${userId}`, "GET");
+  const { data: myInstrumentsData } = useFetch<UserInstrumentsData>(
+    `/user/${userId}`,
+    "GET"
+  );
+
+  const { data: instrumentsData } = useFetch<Instrument[]>(
+    `/instruments`,
+    "GET"
+  );
+
+  useEffect(() => {
+    if (instrumentsData) {
+      setInstruments(instrumentsData);
+      console.log("Get instruments successful:", instrumentsData);
+    }
+  }, [instrumentsData]);
 
   useEffect(() => {
     if (myInstrumentsData) {
-    setMyInstruments(myInstrumentsData)
-    console.log("Get my instruments successful:", myInstrumentsData);
+      setMyInstruments(myInstrumentsData.myInstruments);
+      console.log("Get my instruments successful:", myInstruments);
     }
-  }, [myInstrumentsData])
+  }, [myInstrumentsData]);
 
   useEffect(() => {
     if (ensembleData) {
-    setEnsembles(ensembleData)
-    console.log("Get ensemble successful:", ensembleData);
+      setEnsembles(ensembleData);
+      console.log("Get ensemble successful:", ensembleData);
     }
-  }, [ensembleData])
-
-  // const getInstruments = async () => {
-  //   // const userId = user._id;
-
-  //   const response = await useFetch(`/instruments`, "GET", {
-  //     "Content-Type": "application/json",
-  //   });
-
-  //   if (response.ok) {
-  //     const data = await response.json();
-  //     console.log("Get instruments successful:", data);
-  //     setInstruments(data);
-  //     return instruments;
-  //   } else {
-  //     console.error("Get indtruments error:", response.statusText);
-  //   }
-  // };
+  }, [ensembleData]);
 
   return (
     <>
       <div className="absolute bg-light-grey h-screen w-screen flex flex-col gap-6 pb-16 padding">
-        {/* {openInstrumentForm && (
-          // <AddInstrumentForm
-          //   // instruments={myInstruments}
-          //   handleOpenInstrumentForm={handleOpenInstrumentForm}
-          // />
-        )} */}
+        {openInstrumentForm && (
+          <AddInstrumentForm
+            instruments={instruments}
+            handleOpenInstrumentForm={handleOpenInstrumentForm}
+          />
+        )}
         {openCreateEnsembleForm && (
           <CreateEmsembleForm
             onEnsembleCreated={handleEnsembleCreated}
@@ -201,9 +198,9 @@ export default function profile() {
                 onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
               />
             )}
-            {myInstruments && myInstruments.length > 0 && (
+            {myInstruments.length > 0 && (
               <MyInstruments
-                myInstruments={myInstruments.myInstruments}
+                myInstruments={myInstruments}
                 handleOpenInstrumentForm={handleOpenInstrumentForm}
               />
             )}

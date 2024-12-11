@@ -35,9 +35,8 @@ export default function AddInstrumentForm({
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:3000/user/${userId}/my-instruments`,
+        `${import.meta.env.VITE_BASE_URL}/user/${userId}/my-instruments`,
         {
-          // Replace with your API endpoint
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -45,16 +44,11 @@ export default function AddInstrumentForm({
           body: JSON.stringify({ _id: selectedInstrument }),
         }
       );
-
       if (!response.ok) {
-        throw new Error("Failed to submit instruments");
+        throw new Error("Failed to submit instrument");
       }
-
-      // Handle successful submission (e.g., close form, show success message)
-      //   handleOpenInstrumentForm();
     } catch (error) {
-      console.error("Error submitting instruments:", error);
-      // Handle error (e.g., show error message)
+      console.error("Error submitting instrument:", error);
     }
   };
 
@@ -85,6 +79,7 @@ export default function AddInstrumentForm({
           buttonText="Tilføj instrument"
           variant="primary"
           size="medium"
+          type="submit"
         />
       </form>
     </>
