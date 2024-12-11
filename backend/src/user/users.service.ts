@@ -15,7 +15,7 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   //Register a user method
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
     const existingUser = await this.userModel
       .findOne({ email: createUserDto.email })
       .exec();

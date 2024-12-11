@@ -26,17 +26,17 @@ export class UserController {
   //Register a new user
   @Post('')
   async create(@Body() createUserDto: CreateUserDto) {
-    return await this.usersService.create(createUserDto);
+    return await this.usersService.createUser(createUserDto);
   }
 
   @Get('search')
-  searchMusician(@Query() search: SearchDTO) {
+  search(@Query() search: SearchDTO) {
     return this.usersService.searchMusician(search);
   }
 
   //Get all users that are musicians (have at least one instrument)
   @Get('')
-  async findMusicians() {
+  async find() {
     return this.usersService.findMusicians();
   }
 
@@ -68,21 +68,21 @@ export class UserController {
 
   //Get, find a user by email
   @Get('email/:email')
-  findByEmail(@Param('email') email: string) {
+  findOneUser(@Param('email') email: string) {
     return this.usersService.findByEmail(email);
   }
 
   //Delete one user by id
   @UseGuards(AuthGuard)
   @Delete(':id')
-  removeUser(@Param('id') id: string) {
+  remove(@Param('id') id: string) {
     return this.usersService.removeUser(id);
   }
 
   //Update one user by id, to change the password
   @UseGuards(AuthGuard)
   @Put(':id')
-  async updatePassword(
+  async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
     @Req() req,
