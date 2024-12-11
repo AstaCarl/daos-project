@@ -10,15 +10,17 @@ export class EnsembleService {
   constructor(
     @InjectModel('Ensemble') private ensembleModel: Model<Ensemble>,
   ) {}
-  create(createEnsembleDto: CreateEnsembleDto, userId: any) {
+
+
+  createEnsemble(createEnsembleDto: CreateEnsembleDto, userId: any) {
     const createdEnsemble = new this.ensembleModel(createEnsembleDto);
     createdEnsemble.activeUsers = userId;
     return createdEnsemble.save();
-  }
+  };
 
   findAll() {
     return this.ensembleModel.find().exec();
-  }
+  };
 
   async findEnsembleByUserId(id: string) {
     const objectId = new Types.ObjectId(id);
@@ -30,9 +32,10 @@ export class EnsembleService {
     } else {
       return [];
     }
-  }
+  };
 
-  async update(
+  // Update ensemble by id and add user as activeUsers
+  async updateEnsemble(
     id: string,
     updateEnsembleDto: UpdateEnsembleDto,
     userId: any,
@@ -52,13 +55,15 @@ export class EnsembleService {
       ensemble.activeUsers.push(userId);
     }
     return ensemble.save();
-  }
+  };
 
-  remove(id: number) {
+  // Remove ensemble by id
+  removeEnsemble(id: number) {
     return `This action removes a #${id} ensemble`;
-  }
+  };
 
+  // Remove all ensembles
   async deleteMany() {
     return this.ensembleModel.deleteMany({}).exec();
-  }
+  };
 }

@@ -19,19 +19,10 @@ export class AuthController {
     private usersService: UsersService,
   ) {}
 
+  // Sign up route
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
     return this.authService.signIn(signInDto.email, signInDto.password);
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  async getProfile(@Request() req) {
-    const user = await this.usersService.findOne(req.user.email);
-    return {
-      message: `User profile accessed successfully!`,
-      user: user,
-    };
-  }
+  };
 }
