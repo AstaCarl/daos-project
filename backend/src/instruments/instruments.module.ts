@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { InstrumentsService } from './instruments.service';
 import { InstrumentsController } from './instruments.controller';
-import { Mongoose } from 'mongoose';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Instrument, InstrumentSchema } from './schema/instrument.schema';
 

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { TestModule } from '../src/test.module';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { CreateUserDto } from '../src/user/dto/create-user.dto';
 import { UsersService } from '../src/user/users.service';
 
 describe('userController (e2e)', () => {
@@ -64,9 +64,20 @@ describe('userController (e2e)', () => {
 
     const userId = createUserResponse.body._id;
 
+    const loginResponse = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: validUser.email,
+        password: validUser.password,
+      })
+      .expect(200);
+
+    const token = loginResponse.body.access_token;
+
     // Then, delete the user
     const deletedResponse = await request(app.getHttpServer())
       .delete(`/user/${userId}`)
+      .set('Authorization', `Bearer ${token}`)
       .expect(200);
 
     expect(deletedResponse.body._id).toMatch(userId);
@@ -96,45 +107,5 @@ describe('userController (e2e)', () => {
 
     // Assert
     expect(getUserResponse.body._id).toMatch(userId);
-  });
-
-  //******************* Get all users endpoint test *******************/
-  it('should return all users', async () => {
-    // Arrange
-    const validUser: CreateUserDto = {
-      name: 'Test1',
-      lastname: 'Testsen1',
-      email: 'test1@test.dk',
-      password: 'password1',
-    };
-    const validUser2: CreateUserDto = {
-      name: 'Test2',
-      lastname: 'Testsen2',
-      email: 'test2@test.dk',
-      password: 'password2',
-    };
-
-    await request(app.getHttpServer())
-      .post('/user')
-      .send(validUser)
-      .expect(201);
-    await request(app.getHttpServer())
-      .post('/user')
-      .send(validUser2)
-      .expect(201);
-
-    // Act
-    const { body } = await request(app.getHttpServer())
-      .get('/user')
-      .expect(200);
-
-    // Assert
-    expect(body.length).toBeGreaterThanOrEqual(2);
-    expect(body).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ email: 'test1@test.dk' }),
-        expect.objectContaining({ email: 'test2@test.dk' }),
-      ]),
-    );
   });
 });

@@ -1,4 +1,4 @@
-import { CreateMyInstrumentsDto } from 'src/my-instruments/dto/create-my-instruments.dto';
+import { CreateMyInstrumentsDto } from '../my-instruments/dto/create-my-instruments.dto';
 import {
   Controller,
   Post,
@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SearchDTO } from './dto/search-musician.dto';
 

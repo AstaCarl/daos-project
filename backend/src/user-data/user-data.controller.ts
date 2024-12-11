@@ -12,7 +12,7 @@ import {
 import { UserDataService } from './user-data.service';
 import { CreateUserDataDto } from './dto/create-user-data.dto';
 import { UpdateUserDataDto } from './dto/update-user-data.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 import { UsersService } from '../user/users.service';
 import * as jwt from 'jsonwebtoken';
 
