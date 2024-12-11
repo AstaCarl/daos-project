@@ -11,6 +11,7 @@ import ProfileStatus from "../components/ProfileStatus";
 import AddInstrumentForm from "../components/forms/AddInstrumentForm";
 import MyInstruments from "../components/MyInstruments";
 import ProfileSetting from "../components/ProfileSetting";
+import DeleteModal from "../components/DeleteModal";
 
 export interface Ensemble {
   _id: string;

@@ -1,7 +1,8 @@
 import Subtitle from "./atoms/Subtitle";
 import Label from "./atoms/Label";
 import { Button } from "./atoms/Button";
-import React from "react";
+import React, { useState } from "react";
+import Icon from "./atoms/Icon";
 
 interface myInstrument {
   _id: string;
@@ -19,9 +20,9 @@ export default function MyInstruments({
   handleOpenInstrumentForm,
   handleOpenDeleteModal,
 }: Props) {
-
-  const [selectedInstrumentId, setSelectedInstrumentId] = useState<string | undefined>(undefined);
-
+  const [selectedInstrumentId, setSelectedInstrumentId] = useState<
+    string | undefined
+  >(undefined);
 
   const handleDeleteClick = (myInstrumentId: string | undefined) => {
     setSelectedInstrumentId(myInstrumentId);
@@ -48,9 +49,10 @@ export default function MyInstruments({
           myInstruments.map((instrument: myInstrument, index: number) => (
             <React.Fragment key={index}>
               <div className="flex flex-col gap-6 border border-accent-grey w-full p-3 rounded-md">
-                <Subtitle
-                  variant="cardTitle"
-                  subtitle={instrument.name}
+                <Subtitle variant="cardTitle" subtitle={instrument.name} />
+                <Icon
+                  variant="deleteIcon"
+                  onClick={() => handleDeleteClick(instrument._id)}
                 />
                 <div className="flex flex-wrap gap-2">
                   <Label variant="grey" labelText="Senmoderne" />
