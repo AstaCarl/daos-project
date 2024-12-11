@@ -51,6 +51,12 @@ export class UsersService {
     return this.userModel.findOne({ email }).exec();
   }
 
+  removeMyInstrument(id: string, myInstrumentId: string) {
+    return this.userModel
+      .findByIdAndUpdate(id, { $pull: { myInstruments: myInstrumentId } })
+      .exec();
+  }
+
   async deleteMany() {
     return this.userModel.deleteMany({}).exec();
   }

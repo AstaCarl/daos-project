@@ -40,6 +40,14 @@ export class UserController {
     return await this.usersService.create(createUserDto);
   }
 
+  @Patch('/:id/my-instruments/:myInstrumentId')
+  removeMyInstrument(
+    @Param('id') id: string,
+    @Param('myInstrumentId') myInstrumentId: string,
+  ) {
+    return this.usersService.removeMyInstrument(id, myInstrumentId);
+  }
+
   @Post('/:id/my-instruments')
   createMyInstruments(
     @Param('id') id: string,

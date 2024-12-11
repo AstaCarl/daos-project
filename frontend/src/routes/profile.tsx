@@ -42,6 +42,7 @@ export default function profile() {
   const [myInstruments, setMyInstruments] = useState<Instrument[]>([]);
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [openSettings, setOpenSettings] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   useEffect(() => {
     // Redirect to login if the user is not logged in
@@ -123,6 +124,34 @@ export default function profile() {
     }
   }, [ensembleData]);
 
+  
+const handleRemoveMyInstrument = async (selectedInstrumentId?: string) => {
+  const userId = user._id;
+
+  const response = await useFetch(`/user/${userId}/my-instruments/${selectedInstrumentId}`, "PATCH", {
+    "Content-Type": "application/json",
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    console.log("remove instrument succesful:", data);
+    getMyInstruments();
+  } else {
+    console.error("Remove instrument error:", response.statusText);
+  }
+};
+
+
+const handleOpenDeleteModal = (instrumentId?: string) => {
+  if (openDeleteModal) {
+    setOpenDeleteModal(false);
+  } else {
+    setOpenDeleteModal(true);
+    setSelectedInstrumentId(instrumentId);
+  }
+};
+
+
   return (
     <>
       <div className="absolute bg-light-grey h-screen w-screen flex flex-col gap-6 pb-16 padding">
@@ -187,10 +216,22 @@ export default function profile() {
                 handleOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
               />
             )}
-            {myInstruments.length > 0 && (
+    {myInstruments.length > 0 && (
               <MyInstruments
-                myInstruments={myInstruments}
+                instruments={myInstruments}
                 handleOpenInstrumentForm={handleOpenInstrumentForm}
+                handleOpenDeleteModal={handleOpenDeleteModal}
+              />
+            )}
+            {openDeleteModal && (
+              <DeleteModal
+                showDeleteModal={openDeleteModal}
+                handleShowModal={handleOpenDeleteModal}
+                subtitle="Du er ved fjerne et instrument, er du sikker"
+                onClick={() => {
+                  handleRemoveMyInstrument(selectedInstrumentId);
+                  setOpenDeleteModal(false);
+                }}
               />
             )}
           </div>
