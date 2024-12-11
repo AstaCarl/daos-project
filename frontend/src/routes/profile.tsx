@@ -12,7 +12,7 @@ import AddInstrumentForm from "../components/forms/AddInstrumentForm";
 import MyInstruments from "../components/MyInstruments";
 import ProfileSetting from "../components/ProfileSetting";
 
-interface Ensemble {
+export interface Ensemble {
   _id: string;
   title: string;
   activeUsers: string[];
@@ -51,31 +51,19 @@ export default function profile() {
   }, [isLoggedIn, navigate]);
 
   const handleOpenCreateEnsembleForm = () => {
-    setOpenCreateEnsembleForm(true);
+    if (openCreateEnsembleForm) {
+      setOpenCreateEnsembleForm(false);
+    } else {
+      setOpenCreateEnsembleForm(true);
+    }
   };
 
   const handleOpenRegisterEnsembleForm = () => {
-    setOpenRegisterEnsembleForm(true);
-  };
-
-  const handleEnsembleCreated = async () => {
-    setOpenCreateEnsembleForm(false);
-    // await getEnsemble();
-  };
-
-  const handleEnsembleRegistered = async () => {
-    setOpenRegisterEnsembleForm(false);
-    // await getEnsemble();
-  };
-
-  const handleCloseRegisterEnsembleForm = () => {
-    setOpenRegisterEnsembleForm(false);
-    // getEnsemble();
-  };
-
-  const handleCloseCreateEnsembleForm = () => {
-    setOpenCreateEnsembleForm(false);
-    // getEnsemble();
+    if (openRegisterEnsembleForm) {
+      setOpenRegisterEnsembleForm(false);
+    } else {
+      setOpenRegisterEnsembleForm(true);
+    }
   };
 
   const handleOpenInstrumentForm = () => {
@@ -94,11 +82,9 @@ export default function profile() {
     }
   };
 
-  useEffect(() => {
-    // getEnsemble();
-    // getInstruments();
-  }, []);
-
+  const handleEnsembleCreated = (newEnsemble: Ensemble) => {
+    setEnsembles((prevEnsembles) => [...prevEnsembles, newEnsemble]);
+  };
 
   const userId = user._id;
   const { data: ensembleData } = useFetch<Ensemble[]>(
@@ -148,14 +134,15 @@ export default function profile() {
         )}
         {openCreateEnsembleForm && (
           <CreateEmsembleForm
-            onEnsembleCreated={handleEnsembleCreated}
-            onEnsembleFormClosed={handleCloseCreateEnsembleForm}
+          handleOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
+          onEnsembleCreated={handleEnsembleCreated}
           />
         )}
         {openRegisterEnsembleForm && (
           <RegisterEnsembleForm
-            onEnsembleRegistered={handleEnsembleRegistered}
-            onEnsembleFormClosed={handleCloseRegisterEnsembleForm}
+            handleOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
+            onEnsembleCreated={handleEnsembleCreated}
+
           />
         )}
         {openSettings && (
@@ -194,8 +181,10 @@ export default function profile() {
             {ensembles.length > 0 && (
               <MyEnsembles
                 data={ensembles}
-                onOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
-                onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
+                handleOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
+                // onOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
+                // onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
+                handleOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
               />
             )}
             {myInstruments.length > 0 && (
