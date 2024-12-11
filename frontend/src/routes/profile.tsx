@@ -34,7 +34,7 @@ interface Instrument {
 
 export default function profile() {
   const navigate = useNavigate();
-  const { isLoggedIn, user } = useAuthStore();
+  const { isLoggedIn, user, accessToken } = useAuthStore();
   const [openCreateEnsembleForm, setOpenCreateEnsembleForm] = useState(false);
   const [openRegisterEnsembleForm, setOpenRegisterEnsembleForm] =
     useState(false);
@@ -44,6 +44,8 @@ export default function profile() {
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [openSettings, setOpenSettings] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedInstrumentId, setSelectedInstrumentId] = useState<string | undefined>(undefined);
+  const [fetchTrigger, setFetchTrigger] = useState(false);
 
   useEffect(() => {
     // Redirect to login if the user is not logged in
@@ -91,12 +93,13 @@ export default function profile() {
   const userId = user._id;
   const { data: ensembleData } = useFetch<Ensemble[]>(
     `/ensemble/${userId}`,
-    "GET"
+    "GET",
   );
 
   const { data: myInstrumentsData } = useFetch<UserInstrumentsData>(
     `/user/${userId}`,
-    "GET"
+    "GET",
+    [fetchTrigger]
   );
 
   const { data: instrumentsData } = useFetch<Instrument[]>(
@@ -114,7 +117,7 @@ export default function profile() {
   useEffect(() => {
     if (myInstrumentsData) {
       setMyInstruments(myInstrumentsData.myInstruments);
-      console.log("Get my instruments successful:", myInstruments);
+      console.log("Get my instruments successful:", myInstrumentsData.myInstruments);
     }
   }, [myInstrumentsData]);
 
@@ -129,14 +132,19 @@ export default function profile() {
 const handleRemoveMyInstrument = async (selectedInstrumentId?: string) => {
   const userId = user._id;
 
-  const response = await useFetch(`/user/${userId}/my-instruments/${selectedInstrumentId}`, "PATCH", {
-    "Content-Type": "application/json",
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/user/${userId}/my-instruments/${selectedInstrumentId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(ensembleData),
   });
 
   if (response.ok) {
     const data = await response.json();
     console.log("remove instrument succesful:", data);
-    getMyInstruments();
+    setFetchTrigger(prev => !prev);
   } else {
     console.error("Remove instrument error:", response.statusText);
   }
@@ -212,14 +220,12 @@ const handleOpenDeleteModal = (instrumentId?: string) => {
               <MyEnsembles
                 data={ensembles}
                 handleOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
-                // onOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
-                // onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
                 handleOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
               />
             )}
     {myInstruments.length > 0 && (
               <MyInstruments
-                instruments={myInstruments}
+                myInstruments={myInstruments}
                 handleOpenInstrumentForm={handleOpenInstrumentForm}
                 handleOpenDeleteModal={handleOpenDeleteModal}
               />

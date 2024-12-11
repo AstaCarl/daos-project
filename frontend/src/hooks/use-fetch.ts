@@ -6,8 +6,9 @@ type HTTP_METHOD = "POST" | "GET" | "PUT" | "DELETE" | "PATCH";
 export function useFetch<T>(
   endpoint: string,
   method: HTTP_METHOD,
+  dependencies?: any[],
   headers?: HeadersInit,
-  body?: unknown
+  body?: unknown,
 ): { data: T | null; error: string | null; loading: boolean } {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +35,7 @@ export function useFetch<T>(
   }
     };
     fetchData();
-  }, [endpoint, method, headers, body]);
+  }, [endpoint, method, headers, body, ...(dependencies || [])]);
 
   return { data, error, loading };
 }
