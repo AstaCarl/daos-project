@@ -21,7 +21,7 @@ export default function AddInstrumentForm({
   const [selectedInstrument, setSelectedInstrument] = useState<string | null>(
     null
   );
-  const { user } = useAuthStore();
+  const { user, accessToken } = useAuthStore();
 
   const handleInstrumentChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -40,6 +40,7 @@ export default function AddInstrumentForm({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${accessToken}`
           },
           body: JSON.stringify({ _id: selectedInstrument }),
         }

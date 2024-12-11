@@ -44,7 +44,9 @@ export default function profile() {
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [openSettings, setOpenSettings] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [selectedInstrumentId, setSelectedInstrumentId] = useState<string | undefined>(undefined);
+  const [selectedInstrumentId, setSelectedInstrumentId] = useState<
+    string | undefined
+  >(undefined);
   const [fetchTrigger, setFetchTrigger] = useState(false);
 
   useEffect(() => {
@@ -93,7 +95,7 @@ export default function profile() {
   const userId = user._id;
   const { data: ensembleData } = useFetch<Ensemble[]>(
     `/ensemble/${userId}`,
-    "GET",
+    "GET"
   );
 
   const { data: myInstrumentsData } = useFetch<UserInstrumentsData>(
@@ -117,7 +119,10 @@ export default function profile() {
   useEffect(() => {
     if (myInstrumentsData) {
       setMyInstruments(myInstrumentsData.myInstruments);
-      console.log("Get my instruments successful:", myInstrumentsData.myInstruments);
+      console.log(
+        "Get my instruments successful:",
+        myInstrumentsData.myInstruments
+      );
     }
   }, [myInstrumentsData]);
 
@@ -128,38 +133,40 @@ export default function profile() {
     }
   }, [ensembleData]);
 
-  
-const handleRemoveMyInstrument = async (selectedInstrumentId?: string) => {
-  const userId = user._id;
+  const handleRemoveMyInstrument = async (selectedInstrumentId?: string) => {
+    const userId = user._id;
 
-  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/user/${userId}/my-instruments/${selectedInstrumentId}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify(ensembleData),
-  });
+    const response = await fetch(
+      `${
+        import.meta.env.VITE_BASE_URL
+      }/user/${userId}/my-instruments/${selectedInstrumentId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(ensembleData),
+      }
+    );
 
-  if (response.ok) {
-    const data = await response.json();
-    console.log("remove instrument succesful:", data);
-    setFetchTrigger(prev => !prev);
-  } else {
-    console.error("Remove instrument error:", response.statusText);
-  }
-};
+    if (response.ok) {
+      const data = await response.json();
+      console.log("remove instrument succesful:", data);
+      setFetchTrigger((prev) => !prev);
+    } else {
+      console.error("Remove instrument error:", response.statusText);
+    }
+  };
 
-
-const handleOpenDeleteModal = (instrumentId?: string) => {
-  if (openDeleteModal) {
-    setOpenDeleteModal(false);
-  } else {
-    setOpenDeleteModal(true);
-    setSelectedInstrumentId(instrumentId);
-  }
-};
-
+  const handleOpenDeleteModal = (instrumentId?: string) => {
+    if (openDeleteModal) {
+      setOpenDeleteModal(false);
+    } else {
+      setOpenDeleteModal(true);
+      setSelectedInstrumentId(instrumentId);
+    }
+  };
 
   return (
     <>
@@ -172,15 +179,14 @@ const handleOpenDeleteModal = (instrumentId?: string) => {
         )}
         {openCreateEnsembleForm && (
           <CreateEmsembleForm
-          handleOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
-          onEnsembleCreated={handleEnsembleCreated}
+            handleOpenCreateEnsembleForm={handleOpenCreateEnsembleForm}
+            onEnsembleCreated={handleEnsembleCreated}
           />
         )}
         {openRegisterEnsembleForm && (
           <RegisterEnsembleForm
             handleOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
             onEnsembleCreated={handleEnsembleCreated}
-
           />
         )}
         {openSettings && (
@@ -223,7 +229,7 @@ const handleOpenDeleteModal = (instrumentId?: string) => {
                 handleOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
               />
             )}
-    {myInstruments.length > 0 && (
+            {myInstruments.length > 0 && (
               <MyInstruments
                 myInstruments={myInstruments}
                 handleOpenInstrumentForm={handleOpenInstrumentForm}
