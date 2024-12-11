@@ -22,7 +22,15 @@ interface Ensemble {
   zipcode: string;
 }
 
-interface Instrument {
+interface User {
+  _id: string;
+  name: string;
+  createdAt: Date;
+  myInstruments: any[];
+  lastname: string;
+}
+
+interface instrument {
   _id: string;
   name: string;
 }
@@ -35,7 +43,7 @@ export default function profile() {
     useState(false);
   const [ensembles, setEnsembles] = useState<Ensemble[]>([]);
   const [openInstrumentForm, setOpenInstrumentForm] = useState(false);
-  const [instruments, setInstruments] = useState<Instrument[]>([]);
+  const [myInstruments, setMyInstruments] = useState<User>();
   const [openSettings, setOpenSettings] = useState(false);
 
   useEffect(() => {
@@ -99,21 +107,21 @@ export default function profile() {
   const userId = user._id;
   const {data: ensembleData} = useFetch<Ensemble[]>(`/ensemble/${userId}`, "GET")
 
-  const { data: instrumentsData} = useFetch<Instrument[]>("/instruments", "GET");
+  const { data: myInstrumentsData} = useFetch<User>(`/user/${userId}`, "GET");
 
   useEffect(() => {
-    if (instrumentsData) {
-    setInstruments(instrumentsData)
-    console.log("Get instruments successful:", instrumentsData);
+    if (myInstrumentsData) {
+    setMyInstruments(myInstrumentsData)
+    console.log("Get my instruments successful:", myInstrumentsData);
     }
-  }, [instrumentsData])
+  }, [myInstrumentsData])
 
   useEffect(() => {
     if (ensembleData) {
     setEnsembles(ensembleData)
-    console.log("Get instruments successful:", ensembleData);
+    console.log("Get ensemble successful:", ensembleData);
     }
-  }, [instrumentsData])
+  }, [ensembleData])
 
   // const getInstruments = async () => {
   //   // const userId = user._id;
@@ -135,12 +143,12 @@ export default function profile() {
   return (
     <>
       <div className="absolute bg-light-grey h-screen w-screen flex flex-col gap-6 pb-16 padding">
-        {openInstrumentForm && (
-          <AddInstrumentForm
-            instruments={instruments}
-            handleOpenInstrumentForm={handleOpenInstrumentForm}
-          />
-        )}
+        {/* {openInstrumentForm && (
+          // <AddInstrumentForm
+          //   // instruments={myInstruments}
+          //   handleOpenInstrumentForm={handleOpenInstrumentForm}
+          // />
+        )} */}
         {openCreateEnsembleForm && (
           <CreateEmsembleForm
             onEnsembleCreated={handleEnsembleCreated}
@@ -176,7 +184,7 @@ export default function profile() {
                 onClickRegister={handleOpenRegisterEnsembleForm}
               />
             )}
-            {instruments.length === 0 && (
+            {myInstruments.length === 0 && (
               <ActionCard
                 buttonTextCreate="Tilføj instrument"
                 paragrafText="Tilføj et instrument du spille på, så ensmbler og musikere kan finde dig."
@@ -193,9 +201,9 @@ export default function profile() {
                 onOpenRegisterEnsembleForm={handleOpenRegisterEnsembleForm}
               />
             )}
-            {instruments.length > 0 && (
+            {myInstruments && myInstruments.length > 0 && (
               <MyInstruments
-                instruments={instruments}
+                myInstruments={myInstruments.myInstruments}
                 handleOpenInstrumentForm={handleOpenInstrumentForm}
               />
             )}

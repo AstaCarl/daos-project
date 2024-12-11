@@ -2,17 +2,17 @@ import Subtitle from "./atoms/Subtitle";
 import Label from "./atoms/Label";
 import { Button } from "./atoms/Button";
 
-interface Instrument {
+interface myInstrument {
   _id: string;
   name: string;
 }
 
 type Props = {
-  instruments: Instrument[] | undefined;
+  myInstruments: myInstrument[] | undefined;
   handleOpenInstrumentForm: () => void;
 };
 
-export default function MyInstruments({ instruments, handleOpenInstrumentForm }: Props) {
+export default function MyInstruments({ myInstruments, handleOpenInstrumentForm }: Props) {
   return (
     <section className="bg-white flex flex-col gap-7 padding border-y accent-grey">
       <div className="flex flex-col gap-4">
@@ -28,8 +28,8 @@ export default function MyInstruments({ instruments, handleOpenInstrumentForm }:
           </div>
         </div>
 
-        {instruments &&
-          instruments.map((instrument: Instrument, index: number) => (
+        {myInstruments &&
+          myInstruments.map((instrument: myInstrument, index: number) => (
             <div className="flex flex-col gap-6 border border-accent-grey w-full p-3 rounded-md">
               <Subtitle
                 key={index}
