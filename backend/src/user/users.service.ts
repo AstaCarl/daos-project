@@ -8,24 +8,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateMyInstrumentsDto } from 'src/my-instruments/dto/create-my-instruments.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { SearchDTO } from './dto/search-musician.dto';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async findOne(id: string): Promise<User | undefined> {
-    return (await this.userModel.findById(id)).populate('myInstruments');
-  }
-
-  findMusicians() {
-    return this.userModel
-      .find({ myInstruments: {  $exists: true, $ne: [] }})
-      .populate('myInstruments');
-  }
-
-  // Create a user
+  //Register a user method
   async create(createUserDto: CreateUserDto): Promise<User> {
     const existingUser = await this.userModel
       .findOne({ email: createUserDto.email })
@@ -36,31 +25,27 @@ export class UsersService {
     }
     const createdUser = new this.userModel(createUserDto);
     return createdUser.save();
-  }
+  };
 
-  // Delete a user by ID
-  async remove(id: string): Promise<User> {
-    const deletedUser = await this.userModel.findByIdAndDelete(id).exec();
-    if (!deletedUser) {
-      throw new NotFoundException('User not found');
+  //Search for a musician by instrument
+  searchMusician(search: SearchDTO): Promise<User[]> {
+    const filter: any = {};
+
+    if (search.instrumentId) {
+      filter.myInstruments = new Types.ObjectId(search.instrumentId);
     }
-    return deletedUser;
-  }
 
-  async findByEmail(email: string): Promise<User | undefined> {
-    return this.userModel.findOne({ email }).exec();
-  }
+    return this.userModel.find(filter).populate('myInstruments').exec();
+  };
 
-  removeMyInstrument(id: string, myInstrumentId: string) {
+  //Get all users that are musicians
+  findMusicians() {
     return this.userModel
-      .findByIdAndUpdate(id, { $pull: { myInstruments: myInstrumentId } })
-      .exec();
-  }
+      .find({ myInstruments: { $exists: true, $ne: [] } })
+      .populate('myInstruments');
+  };
 
-  async deleteMany() {
-    return this.userModel.deleteMany({}).exec();
-  }
-
+  //Link an instrument to a user, creating a myInstruments array
   async linkMyInstrumentToUser(
     id: string,
     createMyInstrumentsDto: CreateMyInstrumentsDto,
@@ -70,9 +55,36 @@ export class UsersService {
         $push: { myInstruments: createMyInstrumentsDto },
       })
       .exec();
-    }
+  };
 
-  async update(user: any) {
+  //Update a user's myInstruments (remove one instrument)
+  removeMyInstrument(id: string, myInstrumentId: string) {
+    return this.userModel
+      .findByIdAndUpdate(id, { $pull: { myInstruments: myInstrumentId } })
+      .exec();
+  };
+
+  //Get a user
+  async findOne(id: string): Promise<User | undefined> {
+    return (await this.userModel.findById(id)).populate('myInstruments');
+  };
+
+  //Get a user by email
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.userModel.findOne({ email }).exec();
+  };
+
+  // Delete a user by ID
+  async removeUser(id: string): Promise<User> {
+    const deletedUser = await this.userModel.findByIdAndDelete(id).exec();
+    if (!deletedUser) {
+      throw new NotFoundException('User not found');
+    }
+    return deletedUser;
+  };
+
+  // Update a user by ID, to change the password
+  async updatePassword(user: any) {
     const updatedUser = await this.userModel
       .findOneAndUpdate({ _id: user._id }, user)
       .exec();
@@ -80,18 +92,11 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
     return updatedUser;
-  }
+  };
 
-  searchMusician(search: SearchDTO): Promise<User[]> {
-    const filter: any = {};
 
-    if (search.instrumentId) {
-      filter.myInstruments = new Types.ObjectId(search.instrumentId);
-    }
-    
-    return this.userModel.find(filter).populate('myInstruments').exec();
-  }
-
+  async deleteMany() {
+    return this.userModel.deleteMany({}).exec();
+  };
 
 }
-

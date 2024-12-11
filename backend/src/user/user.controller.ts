@@ -75,14 +75,14 @@ export class UserController {
   //Delete one user by id
   @UseGuards(AuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  removeUser(@Param('id') id: string) {
+    return this.usersService.removeUser(id);
   }
 
   //Update one user by id, to change the password
   @UseGuards(AuthGuard)
   @Put(':id')
-  async update(
+  async updatePassword(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
     @Req() req,
@@ -91,7 +91,7 @@ export class UserController {
     updateUserDto = req.body;
     if (updateUserDto.currentPassword === user.password) {
       user.password = updateUserDto.newPassword;
-      return this.usersService.update(user);
+      return this.usersService.updatePassword(user);
     } else {
       throw new BadRequestException('Passwords do not match');
     }
