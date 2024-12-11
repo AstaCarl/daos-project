@@ -42,14 +42,13 @@ export default function LoginForm({}) {
       };
 
       // Call the useFetch function to send the login request
-      const response = await useFetch(
-        "/auth/login",
-        "POST",
-        {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: {
           "Content-Type": "application/json",
         },
-        loginData
-      );
+        body: JSON.stringify(loginData)
+      });
 
       // Check if the response is successful
       if (response.ok) {
