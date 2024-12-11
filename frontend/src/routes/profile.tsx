@@ -55,22 +55,22 @@ export default function profile() {
 
   const handleEnsembleCreated = async () => {
     setOpenCreateEnsembleForm(false);
-    await getEnsemble();
+    // await getEnsemble();
   };
 
   const handleEnsembleRegistered = async () => {
     setOpenRegisterEnsembleForm(false);
-    await getEnsemble();
+    // await getEnsemble();
   };
 
   const handleCloseRegisterEnsembleForm = () => {
     setOpenRegisterEnsembleForm(false);
-    getEnsemble();
+    // getEnsemble();
   };
 
   const handleCloseCreateEnsembleForm = () => {
     setOpenCreateEnsembleForm(false);
-    getEnsemble();
+    // getEnsemble();
   };
 
   const handleOpenInstrumentForm = () => {
@@ -90,43 +90,47 @@ export default function profile() {
   };
 
   useEffect(() => {
-    getEnsemble();
-    getInstruments();
+    // getEnsemble();
+    // getInstruments();
   }, []);
 
-  const getEnsemble = async () => {
-    const userId = user._id;
+  // const [instruments, setInstruments] = useState<Instrument[]>([]);
 
-    const response = await useFetch(`/ensemble/${userId}`, "GET", {
-      "Content-Type": "application/json",
-    });
+  const userId = user._id;
+  const {data: ensembleData} = useFetch<Ensemble[]>(`/ensemble/${userId}`, "GET")
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Get ensembles successful:", data);
-      setEnsembles(data);
-      return ensembles;
-    } else {
-      console.error("Get ensembles error:", response.statusText);
+  const { data: instrumentsData} = useFetch<Instrument[]>("/instruments", "GET");
+
+  useEffect(() => {
+    if (instrumentsData) {
+    setInstruments(instrumentsData)
+    console.log("Get instruments successful:", instrumentsData);
     }
-  };
+  }, [instrumentsData])
 
-  const getInstruments = async () => {
-    // const userId = user._id;
-
-    const response = await useFetch(`/instruments`, "GET", {
-      "Content-Type": "application/json",
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Get instruments successful:", data);
-      setInstruments(data);
-      return instruments;
-    } else {
-      console.error("Get indtruments error:", response.statusText);
+  useEffect(() => {
+    if (ensembleData) {
+    setEnsembles(ensembleData)
+    console.log("Get instruments successful:", ensembleData);
     }
-  };
+  }, [instrumentsData])
+
+  // const getInstruments = async () => {
+  //   // const userId = user._id;
+
+  //   const response = await useFetch(`/instruments`, "GET", {
+  //     "Content-Type": "application/json",
+  //   });
+
+  //   if (response.ok) {
+  //     const data = await response.json();
+  //     console.log("Get instruments successful:", data);
+  //     setInstruments(data);
+  //     return instruments;
+  //   } else {
+  //     console.error("Get indtruments error:", response.statusText);
+  //   }
+  // };
 
   return (
     <>
