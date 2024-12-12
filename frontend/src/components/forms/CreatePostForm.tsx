@@ -98,7 +98,7 @@ export default function CreatePostForm({ handlePostsOpen, ensembles }: Props) {
           value={title}
           id="title"
           type="text"
-          inputPlaceholder="Ensemblets navn"
+          inputPlaceholder="Titel"
         />
         <div>
           <Subtitle variant="default" subtitle="Beskrivelse" />
@@ -107,7 +107,7 @@ export default function CreatePostForm({ handlePostsOpen, ensembles }: Props) {
             inputName="description"
             value={description}
             id="description"
-            inputPlaceholder="Beskrivelse"
+            inputPlaceholder="Skriv en kort beskrivelse af hvad du søger..."
           />
         </div>
 
