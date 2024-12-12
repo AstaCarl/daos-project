@@ -3,7 +3,8 @@ import { useFetch } from "../hooks/use-fetch";
 import { Title } from "../components/atoms/Title";
 import Paragraf from "../components/atoms/Paragraf";
 import MusicianCard from "../components/MusicianCard";
-import SearchForm from "../components/forms/SearchForm";
+import Select from "../components/atoms/Select";
+import { Button } from "../components/atoms/Button";
 
 interface Instrument {
   _id: string;
@@ -21,26 +22,47 @@ interface User {
 function FindMusician() {
   const [users, setUsers] = useState<User[]>([]);
   const [instruments, setInstruments] = useState<Instrument[]>([]);
+  const [searchParam, setSearchParam] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const {data: userData} = useFetch<User[]>(`/user`, "GET")
 
-  const { data: instrumentsData} = useFetch<Instrument[]>("/instruments", "GET");
+  const { data: instrumentsData } = useFetch<Instrument[]>(
+    "/instruments",
+    "GET"
+  );
+  const queryParams = new URLSearchParams({
+    instrumentId: searchQuery,
+  }).toString();
 
+  const { data: searchData } = useFetch<[]>(
+    `/user/search?${queryParams}`,
+    "GET"
+  );
 
   useEffect(() => {
     if (instrumentsData) {
-    setInstruments(instrumentsData)
-    console.log("Get instruments successful:", instrumentsData);
+      setInstruments(instrumentsData);
+      console.log("Get instruments successful:", instrumentsData);
     }
-  }, [instrumentsData])
+  }, [instrumentsData]);
+
+
 
   useEffect(() => {
-    if (userData) {
-    setUsers(userData)
-    console.log("Get users successful:", userData);
+    if (searchData) {
+      setUsers(searchData);
+      console.log("Search data:", searchData);
     }
-  }, [userData])
+  }, [searchData]);
 
+  const handleSearchParamChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchParam(e.target.value);
+  };
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSearchQuery(searchParam);
+  };
 
   return (
     <>
@@ -52,9 +74,21 @@ function FindMusician() {
             paragrafText={`${users.length} musikere fundet`}
           />
         </section>
-        <SearchForm
-        instruments={instruments}
-        />
+        <form className="flex flex-col gap-3 pb-6" onSubmit={handleSearch}>
+          <Select
+            name="instrument"
+            defaultValue="Vælg et instrument"
+            onChange={handleSearchParamChange}
+          >
+            {instruments.map((instrument: any) => (
+              <option key={instrument._id} value={instrument._id}>
+                {instrument.name}
+              </option>
+            ))}
+          </Select>
+          <Button buttonText="Søg" type="submit" variant="primary" />
+        </form>
+
         <div className="flex flex-col gap-6">
           {users.map((user, index: number) => (
             <MusicianCard key={index} user={user} />
