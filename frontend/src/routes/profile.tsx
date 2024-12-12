@@ -13,6 +13,7 @@ import MyInstruments from "../components/MyInstruments";
 import ProfileSetting from "../components/ProfileSetting";
 import DeleteModal from "../components/DeleteModal";
 import CreatePostForm from "../components/forms/CreatePostForm";
+import MyPosts from "../components/MyPosts";
 
 export interface Ensemble {
   _id: string;
@@ -33,7 +34,7 @@ export interface Instrument {
   name: string;
 }
 
-interface Posts {
+export interface Posts {
   _id: string;
   title: string;
   description: string;
@@ -270,6 +271,7 @@ export default function profile() {
                 onClickRegister={handleOpenRegisterEnsembleForm}
               />
             )}
+            {posts.length === 0 && (
             <ActionCard
               buttonTextCreate="Opret opslag"
               paragrafText="Leder du efter musikere, kan du tilføje opslag her."
@@ -278,6 +280,7 @@ export default function profile() {
               onClickCreate={handlePostsOpen}
               onClickRegister={handlePostsOpen}
             />
+            )}
             {ensembles.length > 0 && (
               <MyEnsembles
                 data={ensembles}
@@ -290,6 +293,12 @@ export default function profile() {
                 myInstruments={myInstruments}
                 handleOpenInstrumentForm={handleOpenInstrumentForm}
                 handleOpenDeleteModal={handleOpenDeleteModal}
+              />
+            )}
+            {posts.length > 0 && (
+              <MyPosts
+                posts={posts}
+                handlePostsOpen={handlePostsOpen}
               />
             )}
             {openDeleteModal && (
