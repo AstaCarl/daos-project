@@ -1,6 +1,7 @@
 import { Input } from "../atoms/Input";
 import { Button } from "../atoms/Button.tsx";
 import { useState } from "react";
+import { useFetch } from "../../hooks/use-fetch.ts";
 import Anchor from "../atoms/Anchor";
 import Paragraf from "../atoms/Paragraf";
 import Icon from "../atoms/Icon";
@@ -41,13 +42,14 @@ export default function LoginForm({}) {
       };
 
       // Call the useFetch function to send the login request
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
-        method: "POST",
-        headers: {
+      const response = await useFetch(
+        "/auth/login",
+        "POST",
+        {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(loginData)
-      });
+        loginData
+      );
 
       // Check if the response is successful
       if (response.ok) {

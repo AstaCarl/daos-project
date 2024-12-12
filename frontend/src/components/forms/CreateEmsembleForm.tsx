@@ -1,22 +1,30 @@
 import { useState } from "react";
 import { Input } from "../atoms/Input";
 import { Button } from "../atoms/Button";
+import { useFetch } from "../../hooks/use-fetch";
 import { Title } from "../atoms/Title";
 import Subtitle from "../atoms/Subtitle";
 import { TextArea } from "../atoms/TextArea";
 import Select from "../atoms/Select";
 import GenreSelector from "./GenreSelector";
-import useAuthStore from "../../hooks/store/auth-store";
-import { Ensemble } from "../../routes/profile";
+
+interface Ensemble {
+  _id: string;
+  title: string;
+  activeUsers: string[];
+  city?: string;
+  description?: string;
+  zipcode?: string;
+}
 
 type Props = {
-  handleOpenCreateEnsembleForm: () => void;
   onEnsembleCreated: (newEnsemble: Ensemble) => void;
+  onEnsembleFormClosed: () => void;
 };
 
 const CreateEmsembleForm: React.FC<Props> = ({
-  handleOpenCreateEnsembleForm,
   onEnsembleCreated,
+  onEnsembleFormClosed,
 }) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -26,8 +34,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [rehearsalFrequency, setRehearsalFrequency] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
-  const [checkboxStatus, setCheckboxStatus] = useState<string | null>(null);
-  const { accessToken } = useAuthStore();
+  const [checkboxStatus, setCheckboxStatus] = useState<string | null> (null);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -37,7 +44,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
     } else {
       setCheckboxStatus(value);
     }
-  };
+  }
 
   const genres = [
     "Barok",
@@ -58,6 +65,8 @@ const CreateEmsembleForm: React.FC<Props> = ({
     "1 gang om måneden",
     "1 hver anden måned",
   ];
+
+  // type ensembleType = "Projekt baseret" | "Kontinuerlig";
 
   enum playTypes {
     projectBased = "Projekt baseret",
@@ -112,22 +121,23 @@ const CreateEmsembleForm: React.FC<Props> = ({
       playType: checkboxStatus,
     };
 
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/ensemble`, {
-      method: "POST",
-      headers: {
+    const response = await useFetch(
+      "/ensemble",
+      "POST",
+      {
         "Content-Type": "application/json",
-        authorization: `Bearer ${accessToken}`,
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-      body: JSON.stringify(ensembleData),
-    });
+      ensembleData
+    );
 
     if (response.ok) {
-      const newEnsemble = await response.json();
-      console.log("Create ensemble successful:", newEnsemble);
-      onEnsembleCreated(newEnsemble);
-      handleOpenCreateEnsembleForm();
+      const data = await response.json();
+      console.log("Create ensemble successful:", data);
+      onEnsembleCreated(data);
     } else {
       const errorData = await response.json();
+      // console.error("Create ensemble error:", response.statusText);
       console.error("Create ensemble error:", errorData.message);
       setErrors(errorData.message || ["An error occurred."]);
     }
@@ -140,7 +150,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
           buttonText="Tilbage"
           variant="secondary"
           size="small"
-          onClick={handleOpenCreateEnsembleForm}
+          onClick={onEnsembleFormClosed}
         />
       </div>
       <Title variant="default" title="Opret ensemble" />
@@ -263,6 +273,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
             checked={checkboxStatus === playTypes.continous}
             id="playType"
             type="checkbox"
+            
             {...(errors.includes("playType should not be empty") && {
               errorMessage: "Der skal vælges en spille type",
             })}

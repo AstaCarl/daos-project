@@ -5,35 +5,47 @@ import { Title } from "../atoms/Title";
 import Select from "../atoms/Select";
 import Subtitle from "../atoms/Subtitle";
 import useAuthStore from "../../hooks/store/auth-store";
-import { Ensemble } from "../../routes/profile";
+
+interface Ensemble {
+  _id: string;
+  title: string;
+  activeUsers: string[];
+}
 
 type Props = {
-  onEnsembleCreated: (newEnsemble: Ensemble) => void;
-  handleOpenRegisterEnsembleForm: () => void;
+  onEnsembleRegistered: (newEnsemble: Ensemble) => void;
+  onEnsembleFormClosed: () => void;
 };
 
 export default function RegisterEnsembleForm({
-  onEnsembleCreated,
-  handleOpenRegisterEnsembleForm
+  onEnsembleFormClosed,
+  onEnsembleRegistered,
 }: Props) {
   const [ensembles, setEnsembles] = useState<Ensemble[]>([]);
   const [ensembleId, setEnsembleId] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
   const { accessToken } = useAuthStore();
 
-
-  const { data: ensemblesData } = useFetch<Ensemble[]>(
-    `/ensemble`,
-    "GET"
-  );
-
   useEffect(() => {
-    if(ensemblesData) {
-      setEnsembles(ensemblesData);
-    }
-  }, [ensemblesData]);
+    getEnsembles();
+  }, []);
 
-  const handleEnsembleIdChange = (
+  const getEnsembles = async () => {
+    const response = await useFetch(`/ensemble`, "GET", {
+      "Content-Type": "application/json",
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Getting all ensembles successful:", data);
+      setEnsembles(data);
+      return ensembles;
+    } else {
+      console.error("Get all ensembles error:", response.statusText);
+    }
+  };
+
+  const hanldeEnsembleIdChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setEnsembleId(event.target.value);
@@ -43,21 +55,19 @@ export default function RegisterEnsembleForm({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/ensemble/${ensembleId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": `Bearer ${accessToken}`,
-      },
+    const response = await useFetch(`/ensemble/${ensembleId}`, "PATCH", {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${accessToken}`,
     });
+
     if (response.ok) {
       const data = await response.json();
-      console.log("Register ensemble successful:", data);
-      onEnsembleCreated(data);
-      handleOpenRegisterEnsembleForm();
+      console.log("Create ensemble successful:", data);
+      onEnsembleRegistered(data);
+      onEnsembleFormClosed();
     } else {
       const errorData = await response.json();
-      console.error("Register ensemble error:", errorData.message);
+      console.error("Create ensemble error:", errorData.message);
       setErrors(errorData.message || ["An error occurred."]);
     }
   };
@@ -69,7 +79,7 @@ export default function RegisterEnsembleForm({
           buttonText="Tilbage"
           variant="secondary"
           size="small"
-          onClick={handleOpenRegisterEnsembleForm}
+          onClick={onEnsembleFormClosed}
         />
       </div>
       <Title
@@ -81,7 +91,7 @@ export default function RegisterEnsembleForm({
           <Subtitle variant="default" subtitle="Vælg et ensemble fra listen" />
           <Select
             name="ensembles"
-            onChange={handleEnsembleIdChange}
+            onChange={hanldeEnsembleIdChange}
             defaultValue="Vælg et ensemble"
             {...(errors.includes(
               "User already registered in this ensemble"

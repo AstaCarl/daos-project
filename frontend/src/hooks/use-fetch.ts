@@ -1,41 +1,31 @@
-import { useState, useEffect } from "react";
+// This file contains the functions that will be used to make requests to the backend.
 
+// Define the base URL for the API. This is the root URL that will be used for all API requests.
+const BASE_URL = "http://localhost:3000";
 
 type HTTP_METHOD = "POST" | "GET" | "PUT" | "DELETE" | "PATCH";
 
-export function useFetch<T>(
+// Defines an asynchronous function named post that takes two parameters: endpoint and data.
+export async function useFetch(
   endpoint: string,
   method: HTTP_METHOD,
-  dependencies?: any[],
   headers?: HeadersInit,
-  body?: unknown,
-): { data: T | null; error: string | null; loading: boolean } {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
+  body?: unknown
+): Promise<Response> {
+  // Construct the full URL by combining the base URL and the endpoint you need to use.
+  const url = `${BASE_URL}${endpoint}`;
+  let response: Response;
+  // Make a request to the specified URL with the data provided.
   try {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
-      method,
-      headers,
-      body: body ? JSON.stringify(body) : undefined,
+    response = await fetch(url, {
+      method: method,
+      headers: headers,
+      body: JSON.stringify(body),
     });
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const result = await response.json();
-    setData(result);
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-    setError(errorMessage);
-  } finally {
-    setLoading(false);
+    console.error("Error request:", error);
+    throw error;
   }
-    };
-    fetchData();
-  }, [endpoint, method, headers, body, ...(dependencies || [])]);
-
-  return { data, error, loading };
+  // Return the response object.
+  return response;
 }

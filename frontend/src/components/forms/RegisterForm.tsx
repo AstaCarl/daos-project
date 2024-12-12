@@ -1,3 +1,4 @@
+import { useFetch } from "../../hooks/use-fetch";
 import Anchor from "../atoms/Anchor";
 import Icon from "../atoms/Icon";
 import { Input } from "../atoms/Input";
@@ -8,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export function RegisterForm({}) {
+  // Define the state variables for the form fields.
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -49,19 +51,24 @@ export function RegisterForm({}) {
         name: name,
         lastname: lastname,
         email: email,
-        password: password
+        password: password,
       };
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/user`, {
-        method: "POST",
-        headers: {
+
+      // Call the useFetch function to send the post request
+      const response = await useFetch(
+        "/user",
+        "POST",
+        {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(registerData)
-      });
+        registerData
+      );
+      // Check if the response is successful
       if (response.ok) {
         alert("Din profil er oprettet");
         navigate("/login");
       } else {
+        // Handle error response
         const errorData = await response.json();
         setErrors(errorData.message || ["An error occurred."]);
       }

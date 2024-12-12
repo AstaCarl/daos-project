@@ -10,8 +10,7 @@ export class EnsembleService {
   constructor(
     @InjectModel('Ensemble') private ensembleModel: Model<Ensemble>,
   ) {}
-
-  createEnsemble(createEnsembleDto: CreateEnsembleDto, userId: any) {
+  create(createEnsembleDto: CreateEnsembleDto, userId: any) {
     const createdEnsemble = new this.ensembleModel(createEnsembleDto);
     createdEnsemble.activeUsers = userId;
     return createdEnsemble.save();
@@ -33,8 +32,7 @@ export class EnsembleService {
     }
   }
 
-  // Update ensemble by id and add user as activeUsers
-  async updateEnsemble(
+  async update(
     id: string,
     updateEnsembleDto: UpdateEnsembleDto,
     userId: any,
@@ -56,12 +54,10 @@ export class EnsembleService {
     return ensemble.save();
   }
 
-  // Remove ensemble by id
-  removeEnsemble(id: number) {
+  remove(id: number) {
     return `This action removes a #${id} ensemble`;
   }
 
-  // Remove all ensembles
   async deleteMany() {
     return this.ensembleModel.deleteMany({}).exec();
   }

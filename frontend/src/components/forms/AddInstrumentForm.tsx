@@ -21,7 +21,7 @@ export default function AddInstrumentForm({
   const [selectedInstrument, setSelectedInstrument] = useState<string | null>(
     null
   );
-  const { user, accessToken } = useAuthStore();
+  const { user } = useAuthStore();
 
   const handleInstrumentChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -30,26 +30,33 @@ export default function AddInstrumentForm({
     console.log("Selected instrument", event.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const userId = user._id;
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/user/${userId}/my-instruments`,
+        `http://127.0.0.1:3000/user/${userId}/my-instruments`,
         {
+          // Replace with your API endpoint
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            authorization: `Bearer ${accessToken}`
           },
           body: JSON.stringify({ _id: selectedInstrument }),
         }
       );
+
       if (!response.ok) {
-        throw new Error("Failed to submit instrument");
+        throw new Error("Failed to submit instruments");
       }
+
+      // Handle successful submission (e.g., close form, show success message)
+      alert("Instrument tilføjet");
+        handleOpenInstrumentForm();
     } catch (error) {
-      console.error("Error submitting instrument:", error);
+      console.error("Error submitting instruments:", error);
+      // Handle error (e.g., show error message)
     }
   };
 
