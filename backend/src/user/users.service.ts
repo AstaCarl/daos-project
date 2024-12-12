@@ -33,6 +33,8 @@ export class UsersService {
 
     if (search.instrumentId) {
       filter.myInstruments = new Types.ObjectId(search.instrumentId);
+    } else {
+      filter.myInstruments = { $exists: true, $ne: [] };
     }
 
     return this.userModel.find(filter).populate('myInstruments').exec();
