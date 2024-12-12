@@ -10,6 +10,7 @@ import userIcon from "../../assets/user-icon.svg";
 import checkIcon from "../../assets/check-icon.svg";
 import musicUserIcon from "../../assets/music-user-icon.png";
 import deleteIcon from "../../assets/delete-icon.svg";
+import contactIcon from "../../assets/contact-icon.svg";
 
 type Props = {
   onClick?: (myInstrumentId?: string) => void;
@@ -26,7 +27,8 @@ type Props = {
     | "closeIconWhite"
     | "checkIcon"
     | "musicUserIcon"
-    | "deleteIcon";
+    | "deleteIcon"
+    | "contactIcon";
 };
 
 export default function Icon({ variant, onClick, myInstrumentId }: Props) {
@@ -43,6 +45,7 @@ export default function Icon({ variant, onClick, myInstrumentId }: Props) {
     checkIcon: checkIcon,
     musicUserIcon: musicUserIcon,
     deleteIcon: deleteIcon,
+    contactIcon: contactIcon,
   };
   const handleClick = () => {
     if (onClick) {
