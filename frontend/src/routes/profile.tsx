@@ -12,6 +12,7 @@ import AddInstrumentForm from "../components/forms/AddInstrumentForm";
 import MyInstruments from "../components/MyInstruments";
 import ProfileSetting from "../components/ProfileSetting";
 import DeleteModal from "../components/DeleteModal";
+import CreatePostForm from "../components/forms/CreatePostForm";
 
 export interface Ensemble {
   _id: string;
@@ -27,9 +28,30 @@ interface UserInstrumentsData {
   myInstruments: Instrument[];
 }
 
-interface Instrument {
+export interface Instrument {
   _id: string;
   name: string;
+}
+
+interface Posts {
+  _id: string;
+  title: string;
+  description: string;
+  instrument: {
+    _id: string;
+    name: string;
+  };
+  user: {
+    _id: string;
+    name: string;
+    lastname: string;
+  };
+  ensemble: {
+    _id: string;
+    title: string;
+    city: string;
+    activeUsers: string[];
+  };
 }
 
 export default function profile() {
@@ -48,6 +70,8 @@ export default function profile() {
     string | undefined
   >(undefined);
   const [fetchTrigger, setFetchTrigger] = useState(false);
+  const [openCreatePostForm, setOpenCreatePostForm] = useState(false);
+  const [posts, setPosts] = useState<Posts[]>([]);
 
   useEffect(() => {
     // Redirect to login if the user is not logged in
@@ -88,6 +112,14 @@ export default function profile() {
     }
   };
 
+  const handlePostsOpen = () => {
+    if (openCreatePostForm) {
+      setOpenCreatePostForm(false);
+    } else {
+      setOpenCreatePostForm(true);
+    }
+  };
+
   const handleEnsembleCreated = (newEnsemble: Ensemble) => {
     setEnsembles((prevEnsembles) => [...prevEnsembles, newEnsemble]);
   };
@@ -97,6 +129,8 @@ export default function profile() {
     `/ensemble/${userId}`,
     "GET"
   );
+
+  const { data: postsData } = useFetch<Posts[]>(`/posts/${userId}`, "GET");
 
   const { data: myInstrumentsData } = useFetch<UserInstrumentsData>(
     `/user/${userId}`,
@@ -115,6 +149,13 @@ export default function profile() {
       console.log("Get instruments successful:", instrumentsData);
     }
   }, [instrumentsData]);
+
+  useEffect(() => {
+    if (postsData) {
+      setPosts(postsData);
+      console.log("Get posts successful:", postsData);
+    }
+  }, [postsData]);
 
   useEffect(() => {
     if (myInstrumentsData) {
@@ -192,11 +233,18 @@ export default function profile() {
         {openSettings && (
           <ProfileSetting handleSettingsOpen={handleSettingsOpen} />
         )}
+        {openCreatePostForm && (
+          <CreatePostForm
+            ensembles={ensembles}
+            handlePostsOpen={handlePostsOpen}
+          />
+        )}
       </div>
 
       {!openRegisterEnsembleForm &&
         !openCreateEnsembleForm &&
         !openInstrumentForm &&
+        !openCreatePostForm &&
         !openSettings && (
           <div className="relative z-0 flex flex-col gap-10 pb-16">
             <ProfileHeader handleSettingsOpen={handleSettingsOpen} />
@@ -222,6 +270,14 @@ export default function profile() {
                 onClickRegister={handleOpenRegisterEnsembleForm}
               />
             )}
+            <ActionCard
+              buttonTextCreate="Opret opslag"
+              paragrafText="Leder du efter musikere, kan du tilføje opslag her."
+              subtitle="Mine opslag"
+              status="Du har ingen opslag"
+              onClickCreate={handlePostsOpen}
+              onClickRegister={handlePostsOpen}
+            />
             {ensembles.length > 0 && (
               <MyEnsembles
                 data={ensembles}
