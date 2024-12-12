@@ -2,24 +2,34 @@ import { Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Post } from './schema/post.schema';
 
 @Injectable()
 export class PostsService {
   constructor(@InjectModel(Post.name) private postModel: Model<Post>) {}
-  create(createPostDto: CreatePostDto) {
+
+
+  async create(createPostDto: CreatePostDto): Promise<Post> {
+    console.log("Received DTO:", createPostDto);
     const createdPost = new this.postModel(createPostDto);
-    console.log(createdPost);
+    console.log("created dto:", createdPost);
     return createdPost.save();
   }
 
   findAll() {
-    return `This action returns all posts`;
+   return this.postModel.find().populate('instrument').populate('ensemble').populate('user').exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async findOneByUserId(id: string) {
+    const objectId = new Types.ObjectId(id);
+    const posts = await this.postModel.find({ user: objectId }).populate('instrument').populate('ensemble').populate('user').exec();
+    if (posts.length === 0) {
+      return [];
+    }
+    else {
+      return posts;
+    }
   }
 
   update(id: number, updatePostDto: UpdatePostDto) {

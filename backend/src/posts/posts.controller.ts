@@ -10,6 +10,7 @@ import {
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { CreateInstrumentDto } from 'src/instruments/dto/create-instrument.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -27,7 +28,7 @@ export class PostsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.postsService.findOne(+id);
+    return this.postsService.findOneByUserId(id);
   }
 
   @Patch(':id')
