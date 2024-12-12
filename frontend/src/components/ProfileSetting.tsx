@@ -61,6 +61,7 @@ export default function ProfileSetting({ handleSettingsOpen }: Props) {
         />
         {showDeleteModal && (
           <DeleteModal
+          subtitle="Du er ved at slette din profil, er du sikker"
             handleShowModal={handleShowModal}
             showDeleteModal={showDeleteModal}
           />

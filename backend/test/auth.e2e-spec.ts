@@ -32,7 +32,7 @@ describe('authController (e2e)', () => {
         email: 'test4@test.dk',
         password: 'password',
       };
-      await userService.create(validUser);
+      await userService.createUser(validUser);
 
       const { body } = await request(app.getHttpServer())
         .post('/auth/login')

@@ -10,24 +10,15 @@ export class InstrumentsService {
   constructor(
     @InjectModel(Instrument.name) private instrumentModel: Model<Instrument>,
   ) {}
-  create(createInstrumentDto: CreateInstrumentDto) {
+
+  //Create a new instrument
+  createInstrument(createInstrumentDto: CreateInstrumentDto) {
     const createdInstrument = new this.instrumentModel(createInstrumentDto);
     return createdInstrument.save();
   }
 
-  findAll() {
+  //Get all instruments
+  findAllInstruments() {
     return this.instrumentModel.find();
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} instrument`;
-  }
-
-  update(id: number, updateInstrumentDto: UpdateInstrumentDto) {
-    return `This action updates a #${id} instrument`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} instrument`;
   }
 }

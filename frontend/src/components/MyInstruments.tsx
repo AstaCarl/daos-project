@@ -1,18 +1,35 @@
 import Subtitle from "./atoms/Subtitle";
 import Label from "./atoms/Label";
 import { Button } from "./atoms/Button";
+import React, { useState } from "react";
+import Icon from "./atoms/Icon";
 
-interface Instrument {
+interface myInstrument {
   _id: string;
   name: string;
 }
 
 type Props = {
-  instruments: Instrument[] | undefined;
+  myInstruments: myInstrument[] | undefined;
   handleOpenInstrumentForm: () => void;
+  handleOpenDeleteModal: (myInstrumentId?: string) => void;
 };
 
-export default function MyInstruments({ instruments, handleOpenInstrumentForm }: Props) {
+export default function MyInstruments({
+  myInstruments,
+  handleOpenInstrumentForm,
+  handleOpenDeleteModal,
+}: Props) {
+  const [selectedInstrumentId, setSelectedInstrumentId] = useState<
+    string | undefined
+  >(undefined);
+
+  const handleDeleteClick = (myInstrumentId: string | undefined) => {
+    setSelectedInstrumentId(myInstrumentId);
+    handleOpenDeleteModal(myInstrumentId);
+    console.log("delete clicked" + myInstrumentId);
+  };
+
   return (
     <section className="bg-white flex flex-col gap-7 padding border-y accent-grey">
       <div className="flex flex-col gap-4">
@@ -28,20 +45,24 @@ export default function MyInstruments({ instruments, handleOpenInstrumentForm }:
           </div>
         </div>
 
-        {instruments &&
-          instruments.map((instrument: Instrument, index: number) => (
-            <div className="flex flex-col gap-6 border border-accent-grey w-full p-3 rounded-md">
-              <Subtitle
-                key={index}
-                variant="cardTitle"
-                subtitle={instrument.name}
-              />
-              <div className="flex gap-2">
-              <Label variant="grey" key={index} labelText="Kammermusik" />
-              <Label variant="grey" key={index} labelText="Barok" />
-              <Label variant="grey" key={index} labelText="Senmoderne" />
-            </div>
-            </div>
+        {myInstruments &&
+          myInstruments.map((instrument: myInstrument, index: number) => (
+            <React.Fragment key={index}>
+              <div className="flex flex-col gap-6 border border-accent-grey w-full p-4 rounded-md">
+                <div className="flex justify-between">
+                <Subtitle variant="cardTitle" subtitle={instrument.name} />
+                <Icon
+                  variant="deleteIcon"
+                  onClick={() => handleDeleteClick(instrument._id)}
+                />
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Label variant="grey" labelText="Senmoderne" />
+                  <Label variant="grey" labelText="Kammermusik" />
+                  <Label variant="grey" labelText="Barok" />
+                </div>
+              </div>
+            </React.Fragment>
           ))}
       </div>
     </section>

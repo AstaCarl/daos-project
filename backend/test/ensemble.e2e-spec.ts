@@ -35,7 +35,7 @@ describe('Controller (e2e)', () => {
       email: 'carl@test.dk',
       password: 'password',
     };
-    await userService.create(validUser);
+    await userService.createUser(validUser);
 
     const loginResponse = await authService.signIn(
       validUser.email,
@@ -48,8 +48,9 @@ describe('Controller (e2e)', () => {
       website: 'ensemble1.dk',
       zipcode: '1234',
       city: 'City1',
-      genre: 'Genre1',
-      rehearsalFrquency: 'Once a week',
+      genre: ['Genre1'],
+      rehearsalFrequency: 'Once a week',
+      playType: 'Projectbased',
     };
     const expectedData = {
       title: 'Ensemble1',
@@ -57,8 +58,9 @@ describe('Controller (e2e)', () => {
       website: 'ensemble1.dk',
       zipcode: '1234',
       city: 'City1',
-      genre: 'Genre1',
+      genre: ['Genre1'],
       rehearsalFrequency: 'Once a week',
+      playType: 'Projectbased',
     };
 
     const { body } = await request(app.getHttpServer())
@@ -78,7 +80,7 @@ describe('Controller (e2e)', () => {
       email: 'rikke@test.dk',
       password: 'password',
     };
-    await userService.create(validUser);
+    await userService.createUser(validUser);
 
     const loginResponse = await authService.signIn(
       validUser.email,
@@ -91,8 +93,9 @@ describe('Controller (e2e)', () => {
       website: 'ensemble1.dk',
       zipcode: '1234',
       city: 'City1',
-      genre: 'Genre1',
+      genre: ['Genre1'],
       rehearsalFrequency: 'Once a week',
+      playType: 'Projectbased',
     };
 
     const ensembleResponse = await request(app.getHttpServer())
@@ -109,7 +112,7 @@ describe('Controller (e2e)', () => {
       email: 'sam@test.dk',
       password: 'password',
     };
-    const user2: any = await userService.create(validUser2);
+    const user2: any = await userService.createUser(validUser2);
 
     const loginResponse2 = await authService.signIn(
       validUser2.email,
@@ -132,7 +135,7 @@ describe('Controller (e2e)', () => {
       email: 'mina@test.dk',
       password: 'password',
     };
-    await userService.create(validUser);
+    await userService.createUser(validUser);
 
     const loginResponse = await authService.signIn(
       validUser.email,

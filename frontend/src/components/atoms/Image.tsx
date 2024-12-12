@@ -6,6 +6,6 @@ type Props = {
 
 export default function Image({className}: Props) {
   return (
-    <img className={className} src={defaultImage} alt="" />
+    <img className={className} src={defaultImage} />
   )
 }

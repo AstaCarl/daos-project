@@ -1,4 +1,4 @@
-import { CreateMyInstrumentsDto } from 'src/my-instruments/dto/create-my-instruments.dto';
+import { CreateMyInstrumentsDto } from '../my-instruments/dto/create-my-instruments.dto';
 import {
   Controller,
   Post,
@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SearchDTO } from './dto/search-musician.dto';
 
@@ -23,23 +23,25 @@ import { SearchDTO } from './dto/search-musician.dto';
 export class UserController {
   constructor(private usersService: UsersService) {}
 
-  @Get("search")
-  searchMusician(@Query() search: SearchDTO) {
+  //Register a new user
+  @Post('')
+  async create(@Body() createUserDto: CreateUserDto) {
+    return await this.usersService.createUser(createUserDto);
+  }
+
+  @Get('search')
+  search(@Query() search: SearchDTO) {
     return this.usersService.searchMusician(search);
   }
 
-  //Get all users
+  //Get all users that are musicians (have at least one instrument)
   @Get('')
-  async findMusicians() {
+  async find() {
     return this.usersService.findMusicians();
   }
 
-  //Post a new user
-  @Post('')
-  async create(@Body() createUserDto: CreateUserDto) {
-    return await this.usersService.create(createUserDto);
-  }
-
+  //Link an instrument to a user, creating a myInstruments array
+  @UseGuards(AuthGuard)
   @Post('/:id/my-instruments')
   createMyInstruments(
     @Param('id') id: string,
@@ -47,25 +49,37 @@ export class UserController {
   ) {
     return this.usersService.linkMyInstrumentToUser(id, createMyInstrumentsDto);
   }
-  //Get user by id
+
+  //Update a user's myInstruments (remove one instrument)
+  @UseGuards(AuthGuard)
+  @Patch('/:id/my-instruments/:myInstrumentId')
+  removeMyInstrument(
+    @Param('id') id: string,
+    @Param('myInstrumentId') myInstrumentId: string,
+  ) {
+    return this.usersService.removeMyInstrument(id, myInstrumentId);
+  }
+
+  //Get, find a user by id
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
 
+  //Get, find a user by email
   @Get('email/:email')
-  findByEmail(@Param('email') email: string) {
+  findOneUser(@Param('email') email: string) {
     return this.usersService.findByEmail(email);
   }
 
-  // Delete one user by id
+  //Delete one user by id
   @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+    return this.usersService.removeUser(id);
   }
 
-  // Update one user by id
+  //Update one user by id, to change the password
   @UseGuards(AuthGuard)
   @Put(':id')
   async update(
@@ -77,7 +91,7 @@ export class UserController {
     updateUserDto = req.body;
     if (updateUserDto.currentPassword === user.password) {
       user.password = updateUserDto.newPassword;
-      return this.usersService.update(user);
+      return this.usersService.updatePassword(user);
     } else {
       throw new BadRequestException('Passwords do not match');
     }

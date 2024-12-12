@@ -3,55 +3,66 @@ import { useFetch } from "../hooks/use-fetch";
 import { Title } from "../components/atoms/Title";
 import Paragraf from "../components/atoms/Paragraf";
 import MusicianCard from "../components/MusicianCard";
-import SearchForm from "../components/forms/SearchForm";
+import Select from "../components/atoms/Select";
+import { Button } from "../components/atoms/Button";
 
 interface Instrument {
   _id: string;
   name: string;
 }
 
+interface User {
+  _id: string;
+  name: string;
+  createdAt: Date;
+  myInstruments: any[];
+  lastname: string;
+}
+
 function FindMusician() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [instruments, setInstruments] = useState<Instrument[]>([]);
+  const [searchParam, setSearchParam] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+
+  const { data: instrumentsData } = useFetch<Instrument[]>(
+    "/instruments",
+    "GET"
+  );
+  const queryParams = new URLSearchParams({
+    instrumentId: searchQuery,
+  }).toString();
+
+  const { data: searchData } = useFetch<[]>(
+    `/user/search?${queryParams}`,
+    "GET"
+  );
+
+  useEffect(() => {
+    if (instrumentsData) {
+      setInstruments(instrumentsData);
+      console.log("Get instruments successful:", instrumentsData);
+    }
+  }, [instrumentsData]);
+
 
 
   useEffect(() => {
-    getUsers();
-    getInstruments();
-  }, []);
-
-  const getUsers = async () => {
-    // const userId = user._id;
-
-    const response = await useFetch(`/user`, "GET", {
-      "Content-Type": "application/json",
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Get users successful:", data);
-      setUsers(data);
-      return users;
-    } else {
-      console.error("Get users error:", response.statusText);
+    if (searchData) {
+      setUsers(searchData);
+      console.log("Search data:", searchData);
     }
+  }, [searchData]);
+
+  const handleSearchParamChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchParam(e.target.value);
   };
 
-
-
-  const getInstruments= async () => {
-    
-    const response = await fetch(`http://localhost:3000/instruments`,)
-    if (response.ok) {
-      const data = await response.json();
-      console.log("instruments successful:", data);
-      setInstruments(data);
-    } else {
-      console.error("instruments error:", response);
-    }
-
-  }
-
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSearchQuery(searchParam);
+  };
 
   return (
     <>
@@ -63,12 +74,24 @@ function FindMusician() {
             paragrafText={`${users.length} musikere fundet`}
           />
         </section>
-        <SearchForm
-        instruments={instruments}
-        />
+        <form className="flex flex-col gap-3 pb-6" onSubmit={handleSearch}>
+          <Select
+            name="instrument"
+            defaultValue="Vælg et instrument"
+            onChange={handleSearchParamChange}
+          >
+            {instruments.map((instrument: any) => (
+              <option key={instrument._id} value={instrument._id}>
+                {instrument.name}
+              </option>
+            ))}
+          </Select>
+          <Button buttonText="Søg" type="submit" variant="primary" />
+        </form>
+
         <div className="flex flex-col gap-6">
-          {users.map((user) => (
-            <MusicianCard user={user} />
+          {users.map((user, index: number) => (
+            <MusicianCard key={index} user={user} />
           ))}
         </div>
       </main>

@@ -4,14 +4,12 @@ type anchorProps = {
   href: string;
   anchorText: string;
   variant: "navigation" | "footer" | "default" | "iconAnchor";
-  children?: React.ReactNode;
 };
 
 export default function Anchor({
   href,
   anchorText,
   variant,
-  children,
 }: anchorProps) {
   const variantClasses = {
     navigation: "font-bold text-base text-blue font-sans",

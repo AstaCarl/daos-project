@@ -23,7 +23,7 @@ export class EnsembleController {
     private readonly usersService: UsersService
   ) {}
 
-  
+  //Create ensemble
   @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createEnsembleDto: CreateEnsembleDto, @Req() req) {
@@ -33,22 +33,22 @@ export class EnsembleController {
     const userResponse = await this.usersService.findByEmail(email);
     const userId = userResponse._id;
 
-    return this.ensembleService.create(createEnsembleDto, userId);
+    return this.ensembleService.createEnsemble(createEnsembleDto, userId);
   }
 
-  
-
+  //Get all ensembles
   @Get()
   findAll() {
     return this.ensembleService.findAll();
   }
 
+  //Get ensemble by user id
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.ensembleService.findEnsembleByUserId(id);
   }
 
-
+  //Update ensemble by id and add user as activeUsers
   @UseGuards(AuthGuard)
   @Patch(':id')
   async update(
@@ -60,11 +60,12 @@ export class EnsembleController {
     const email = decodedToken.email;
     const userResponse = await this.usersService.findByEmail(email);
     const userId = userResponse._id;
-    return this.ensembleService.update(id, updateEnsembleDto, userId);
+    return this.ensembleService.updateEnsemble(id, updateEnsembleDto, userId);
   }
 
+  //Delete ensemble by id
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.ensembleService.remove(+id);
+    return this.ensembleService.removeEnsemble(+id);
   }
 }
