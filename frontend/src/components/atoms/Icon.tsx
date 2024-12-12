@@ -9,12 +9,9 @@ import postsEmptyIcon from "../../assets/posts-empty.svg";
 import userIcon from "../../assets/user-icon.svg";
 import checkIcon from "../../assets/check-icon.svg";
 import musicUserIcon from "../../assets/music-user-icon.png";
-import deleteIcon from "../../assets/delete-icon.svg";
-import contactIcon from "../../assets/contact-icon.svg";
 
 type Props = {
-  onClick?: (myInstrumentId?: string) => void;
-  myInstrumentId?: string;
+  onClick?: () => void;
   variant:
     | "facebook"
     | "instagram"
@@ -26,12 +23,10 @@ type Props = {
     | "userIcon"
     | "closeIconWhite"
     | "checkIcon"
-    | "musicUserIcon"
-    | "deleteIcon"
-    | "contactIcon";
+    | "musicUserIcon";
 };
 
-export default function Icon({ variant, onClick, myInstrumentId }: Props) {
+export default function Icon({ variant, onClick }: Props) {
   const variantIcon = {
     facebook: facebookIcon,
     instagram: instagramIcon,
@@ -44,18 +39,10 @@ export default function Icon({ variant, onClick, myInstrumentId }: Props) {
     closeIconWhite: closeIconWhite,
     checkIcon: checkIcon,
     musicUserIcon: musicUserIcon,
-    deleteIcon: deleteIcon,
-    contactIcon: contactIcon,
   };
-  const handleClick = () => {
-    if (onClick) {
-      onClick(myInstrumentId);
-    }
-  };
-
   return (
-    <div onClick={handleClick}>
-      <img src={variantIcon[variant]} />
+    <div onClick={onClick} className="">
+      <img src={variantIcon[variant]} alt="" />
     </div>
   );
 }

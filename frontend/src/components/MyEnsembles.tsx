@@ -14,15 +14,12 @@ interface Ensemble {
 
 type Props = {
   data: Ensemble[];
-  handleOpenCreateEnsembleForm: () => void;
-  handleOpenRegisterEnsembleForm: () => void;
+  onOpenCreateEnsembleForm: () => void;
+  onOpenRegisterEnsembleForm: () => void;
 };
 
-export default function MyEnsembles({
-  data,
-  handleOpenCreateEnsembleForm,
-  handleOpenRegisterEnsembleForm,
-}: Props) {
+export default function MyEnsembles({ data, onOpenCreateEnsembleForm, onOpenRegisterEnsembleForm }: Props) {
+
   return (
     <>
       <section className="bg-white flex flex-col gap-7 padding border-y accent-grey">
@@ -33,26 +30,18 @@ export default function MyEnsembles({
               variant="secondary"
               buttonText="Tilføj"
               size="small"
-              onClick={handleOpenRegisterEnsembleForm}
+              onClick={onOpenRegisterEnsembleForm}
             />
             <Button
               variant="secondary"
               buttonText="Opret"
               size="small"
-              onClick={handleOpenCreateEnsembleForm}
+              onClick={onOpenCreateEnsembleForm}
             />
           </div>
         </div>
         {data.map((ensemble) => (
-          <EnsembleCard
-            key={ensemble._id}
-            title={ensemble.title}
-            description={ensemble.description}
-            zipcode={ensemble.zipcode}
-            city={ensemble.city}
-            activeUsers={ensemble.activeUsers.length}
-            href={ensemble.website}
-          />
+          <EnsembleCard key={ensemble._id} title={ensemble.title} description={ensemble.description} zipcode={ensemble.zipcode} city={ensemble.city} activeUsers={ensemble.activeUsers.length} href={ensemble.website}/>
         ))}
       </section>
     </>

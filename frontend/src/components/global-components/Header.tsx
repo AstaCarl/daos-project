@@ -4,6 +4,7 @@ import { Button } from "../atoms/Button";
 import Icon from "../atoms/Icon";
 import { useState } from "react";
 import useAuthStore from "../../hooks/store/auth-store";
+// import ProfileIcon from "../assets/profile-icon.png";
 
 type Props = {};
 

@@ -5,8 +5,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { EnsembleModule } from './ensemble/ensemble.module';
-import { MyInstrumentsModule } from './my-instruments/my-instruments.module';
-import { InstrumentsModule } from './instruments/instruments.module';
 
 @Module({
   imports: [
@@ -14,8 +12,6 @@ import { InstrumentsModule } from './instruments/instruments.module';
     UserModule,
     AuthModule,
     EnsembleModule,
-    MyInstrumentsModule,
-    InstrumentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

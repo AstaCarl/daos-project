@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Transform } from 'class-transformer';
 import { ObjectId, Types } from 'mongoose';
-import { User } from '../../user/schema/user.schema';
+import { User } from 'src/user/schema/user.schema';
 import { Address } from './address.schema';
 
 
