@@ -40,7 +40,7 @@ export default function Header({}: Props) {
               <Anchor href="/" anchorText="Hjem" variant="navigation" />
             </li>
             <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block" : "hidden"}`}>
-              <Anchor href="#" anchorText="Find musiker" variant="navigation" />
+              <Anchor href="/find-musician" anchorText="Find musiker" variant="navigation" />
             </li>
             <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block" : "hidden"}`}>
               <Anchor

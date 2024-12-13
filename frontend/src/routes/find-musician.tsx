@@ -5,6 +5,8 @@ import Paragraf from "../components/atoms/Paragraf";
 import MusicianCard from "../components/MusicianCard";
 import Select from "../components/atoms/Select";
 import { Button } from "../components/atoms/Button";
+import useAuthStore from "../hooks/store/auth-store";
+import { useNavigate } from "react-router-dom";
 
 interface Instrument {
   _id: string;
@@ -25,7 +27,15 @@ function FindMusician() {
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [searchParam, setSearchParam] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const { isLoggedIn } = useAuthStore();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      alert("Du skal være logget ind for at finde musikere");
+      navigate("/login");
+    }
+  }, []);
 
   const { data: instrumentsData } = useFetch<Instrument[]>(
     "/instruments",
@@ -46,8 +56,6 @@ function FindMusician() {
       console.log("Get instruments successful:", instrumentsData);
     }
   }, [instrumentsData]);
-
-
 
   useEffect(() => {
     if (searchData) {

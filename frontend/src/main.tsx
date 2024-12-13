@@ -10,6 +10,7 @@ import Layout from "./components/global-components/Layout";
 import FindMusician from "./routes/find-musician";
 
 createRoot(document.getElementById("root")!).render(
+  //only for development puposes, remove when finished
   <StrictMode>
     <BrowserRouter>
     <Layout>
@@ -22,7 +23,7 @@ createRoot(document.getElementById("root")!).render(
       </Routes>
       </Layout>
     </BrowserRouter>
-  </StrictMode>
+ </StrictMode>
 );
 
 

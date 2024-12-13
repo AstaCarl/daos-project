@@ -17,30 +17,30 @@ export default function PasswordModal({
   const { user, accessToken } = useAuthStore();
   const [newPassword, setNewPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
+  const [errors, setErrors] = useState<string[]>([]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     const userId = user._id;
-
-    const data = {
-      currentPassword: currentPassword,
-      newPassword: newPassword
-    };
-
-      const response = await useFetch(`/user/${userId}`, "PUT", {
+    event.preventDefault();
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/user/${userId}`, {
+      method: "PUT",
+      headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${accessToken}`,
-      }, data);
-
-      if (response.ok) {
-        console.log("Updated profile successfully");
-        alert("Din adgangskode er blevet ændret");
-        handleShowPasswordModal();
-      } else {
-        const errorDetails = await response.json();
-        console.log("Error updating profile", errorDetails.message);
-        alert(`Fejl: nuværende kodeord er forkert`);
+      },
+      body: JSON.stringify({
+      currentPassword: currentPassword,
+      newPassword: newPassword
+      }),
+    });
+    if (response.ok) {
+      console.log("Updated profile successfully");
+      alert("Din adgangskode er blevet ændret");
+      handleShowPasswordModal();
+    } else {
+      const errorData = await response.json();
+      console.error("Create post error:", errorData.message);
+      setErrors(errorData.message || ["An error occurred."]);
     }
   };
 
@@ -54,20 +54,20 @@ export default function PasswordModal({
         className={`relative top-[10%] w-[80%] h-fit z-10 bg-white p-5 rounded-md shadow-md flex flex-col gap-5`}
       >
         <>
-        <div className="w-fit">
-        <Button
+          <div className="w-fit">
+            <Button
               type="button"
               variant="secondary"
               size="small"
               onClick={handleShowPasswordModal}
               buttonText="Fortryd"
             />
-            </div>
+          </div>
           <Subtitle
             variant="default"
             subtitle="Du er ved at ændre din adgangskode, er du sikker?"
           />
-          <form className="flex flex-col gap-4"   onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <Input
               labelText="Skriv din nuværende adgangskode"
               onChange={(e) => setCurrentPassword(e.target.value)}
@@ -76,6 +76,11 @@ export default function PasswordModal({
               id="currentPassword"
               type="text"
               inputPlaceholder="Nuværende adgangskode"
+              {...(errors.includes(
+                "currentPassword should not be empty"
+              ) && {
+                errorMessage: "Du skal udfylde din nuværende adgangskode",
+              })}
             />
             <Input
               labelText="Skriv din nye adgangskode"
@@ -85,14 +90,14 @@ export default function PasswordModal({
               id="newPassword"
               type="text"
               inputPlaceholder="Ny adgangskode"
+              {...(errors.includes(
+                "newPassword should not be empty"
+              ) && {
+                errorMessage: "Du skal udfylde din nye adgangskode",
+              })}
             />
-            <Button
-              type="submit"
-              variant="primary"
-              buttonText="Bekræft"
-            />
+            <Button type="submit" variant="primary" buttonText="Bekræft" />
           </form>
-
         </>
       </div>
     </div>

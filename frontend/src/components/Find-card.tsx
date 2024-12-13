@@ -7,13 +7,19 @@ export default function FindCard() {
   const { isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
 
+  // const handleButtonClick = () => {
+  //   if (!isLoggedIn) {
+  //     alert("Du skal være logget ind for at finde musikere");
+  //     navigate('/login');
+  //   } else {
+  //     navigate('/find-musician');
+  //   }
+  // }
+
   const handleButtonClick = () => {
-    if (!isLoggedIn) {
-      alert("Du skal være logget ind for at finde musikere");
-    } else {
-      navigate('/find-musician');
-    }
-  }
+    // Your logic here
+    navigate('/find-musician');
+  };
 
   return (
     <div className="flex justify-between gap-4 px-2">
@@ -21,6 +27,7 @@ export default function FindCard() {
         buttonText="Find musiker"
         variant="iconButton"
         size="medium"
+        // href="/find-musician"
         onClick={handleButtonClick}
       >
         <Icon variant="musicUserIcon" />

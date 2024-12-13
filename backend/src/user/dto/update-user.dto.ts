@@ -1,5 +1,8 @@
+import { IsNotEmpty } from 'class-validator';
 
 export class UpdateUserDto {
-    currentPassword: string;
-    newPassword: string;
-  }
+  @IsNotEmpty()
+  currentPassword: string;
+  @IsNotEmpty()
+  newPassword: string;
+}

@@ -87,7 +87,7 @@ export default function LoginForm({}) {
           />
             <span
               onClick={handleToggle}
-              className="cursor-pointer absolute items-center top-[35.5%] right-[30px]"
+              className="cursor-pointer absolute items-center top-[37.5%] right-[30px]"
             >
               <Icon variant="showPassword" />
             </span>
