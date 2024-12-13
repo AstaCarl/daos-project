@@ -1,3 +1,4 @@
 export class CreateMyInstrumentsDto {
-    instrument: string;
+    _id: string;
+    // instrument: string;
 }

@@ -12,6 +12,7 @@ import {
   Req,
   BadRequestException,
   Query,
+  ConflictException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
@@ -43,10 +44,16 @@ export class UserController {
   //Link an instrument to a user, creating a myInstruments array
   @UseGuards(AuthGuard)
   @Post('/:id/my-instruments')
-  createMyInstruments(
+  async createMyInstruments(
     @Param('id') id: string,
     @Body() createMyInstrumentsDto: CreateMyInstrumentsDto,
   ) {
+    const user = await this.usersService.findOne(id);
+    const newInstrumentId = createMyInstrumentsDto._id;
+    const isDuplicate = user.myInstruments.some(instrument => instrument._id.toString() === newInstrumentId);
+    if (isDuplicate) {
+      throw new ConflictException('Instrument already exists');
+    }
     return this.usersService.linkMyInstrumentToUser(id, createMyInstrumentsDto);
   }
 
