@@ -17,6 +17,7 @@ interface User {
   createdAt: Date;
   myInstruments: any[];
   lastname: string;
+  email: string;
 }
 
 function FindMusician() {

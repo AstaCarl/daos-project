@@ -16,7 +16,7 @@ export default function FindCard() {
   }
 
   return (
-    <div className="flex justify-between gap-4 pb-[80px] px-2">
+    <div className="flex justify-between gap-4 px-2">
       <Button
         buttonText="Find musiker"
         variant="iconButton"

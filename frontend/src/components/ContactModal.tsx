@@ -15,7 +15,7 @@ export default function ContactModal({
 }: Props) {
   return (
     <div
-      className={`absolute top-0 left-0  w-full h-screen flex justify-center ${
+      className={`fixed top-0 left-0  w-full h-screen flex justify-center ${
         showContactModal && " backdrop-blur-sm"
       }`}
     >
