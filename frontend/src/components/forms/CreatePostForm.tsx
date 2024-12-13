@@ -23,6 +23,7 @@ export default function CreatePostForm({ handlePostsOpen, ensembles }: Props) {
   const [ensembleId, setEnsembleId] = useState<string>("");
   const [instrumentId, setInstrumentId] = useState<string>("");
   const { user } = useAuthStore();
+  const [errors, setErrors] = useState<string[]>([]);
 
   const { data: instrumentsData } = useFetch<Instrument[]>(
     `/instruments`,
@@ -78,6 +79,7 @@ export default function CreatePostForm({ handlePostsOpen, ensembles }: Props) {
     } else {
       const errorData = await response.json();
       console.error("Create post error:", errorData.message);
+      setErrors(errorData.message || ["An error occurred."]);
     }
   };
   return (
@@ -99,6 +101,9 @@ export default function CreatePostForm({ handlePostsOpen, ensembles }: Props) {
           id="title"
           type="text"
           inputPlaceholder="Titel"
+          {...(errors.includes("title should not be empty") && {
+            errorMessage: "Titel skal udfyldes",
+          })}
         />
         <div>
           <Subtitle variant="default" subtitle="Beskrivelse" />
@@ -108,6 +113,9 @@ export default function CreatePostForm({ handlePostsOpen, ensembles }: Props) {
             value={description}
             id="description"
             inputPlaceholder="Skriv en kort beskrivelse af hvad du søger..."
+            {...(errors.includes("description should not be empty") && {
+              errorMessage: "Beskrivelse skal udfyldes",
+            })}
           />
         </div>
 
@@ -117,6 +125,9 @@ export default function CreatePostForm({ handlePostsOpen, ensembles }: Props) {
             name="instrument"
             defaultValue="Vælg instrument"
             onChange={handleInstrumentIdChange}
+            {...(errors.includes("instrument should not be empty") && {
+              errorMessage: "Instrument skal udfyldes",
+            })}
           >
             {instruments.map((instrument) => (
               <option
@@ -140,6 +151,9 @@ export default function CreatePostForm({ handlePostsOpen, ensembles }: Props) {
             name="ensemble"
             defaultValue="Vælg ensemble"
             onChange={handleEnsembleIdChange}
+            {...(errors.includes("ensemble should not be empty") && {
+              errorMessage: "Ensemble skal udfyldes",
+            })}
           >
             {ensembles.map((ensemble) => (
               <option
