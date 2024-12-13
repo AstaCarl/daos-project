@@ -3,25 +3,25 @@ import { Button } from "../atoms/Button";
 import Select from "../atoms/Select";
 import { Title } from "../atoms/Title";
 import useAuthStore from "../../hooks/store/auth-store";
+import { Instrument } from "../../routes/profile";
 
-interface Instrument {
-  _id: string;
-  name: string;
-}
 
 type Props = {
+  onInstrumentAdded: (newInstrument: Instrument) => void;
   handleOpenInstrumentForm: () => void;
   instruments: Instrument[] | undefined;
 };
 
 export default function AddInstrumentForm({
   handleOpenInstrumentForm,
+  onInstrumentAdded,
   instruments,
 }: Props) {
   const [selectedInstrument, setSelectedInstrument] = useState<string | null>(
     null
   );
   const { user, accessToken } = useAuthStore();
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleInstrumentChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -30,10 +30,10 @@ export default function AddInstrumentForm({
     console.log("Selected instrument", event.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const userId = user._id;
 
-    try {
       const response = await fetch(
         `${import.meta.env.VITE_BASE_URL}/user/${userId}/my-instruments`,
         {
@@ -44,14 +44,21 @@ export default function AddInstrumentForm({
           },
           body: JSON.stringify({ _id: selectedInstrument }),
         }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to submit instrument");
+      )
+      if (response.ok) {
+        const instrumentData = await response.json();
+        const newInstrument = instrumentData.myInstruments.find(
+          (instrument: Instrument) => instrument._id === selectedInstrument
+        );
+        onInstrumentAdded(newInstrument);
+        handleOpenInstrumentForm();
       }
-    } catch (error) {
-      console.error("Error submitting instrument:", error);
-    }
-  };
+      if (!response.ok) {
+        const errorData = await response.json();
+        setErrors(errorData.message);
+        console.log("Error submitting instrument:", errorData);
+      }
+    } 
 
   return (
     <>
@@ -69,6 +76,13 @@ export default function AddInstrumentForm({
           defaultValue="Vælg et instrument"
           name="instrument"
           onChange={handleInstrumentChange}
+          errorMessage={
+            errors && errors.includes("Instrument already exists")
+              ? "Du har allerede tilføjet dette instrument"
+              : errors && errors.includes("_id should not be empty")
+              ? "Du skal vælge et instrument"
+              : undefined
+          }
         >
           {instruments?.map((instrument, index) => (
             <option key={index} value={instrument._id}>

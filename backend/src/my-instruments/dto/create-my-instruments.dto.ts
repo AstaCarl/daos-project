@@ -1,3 +1,7 @@
+import { IsNotEmpty } from "class-validator";
+
 export class CreateMyInstrumentsDto {
-    instrument: string;
+    @IsNotEmpty()
+    _id: string;
+    // instrument: string;
 }
