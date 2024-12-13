@@ -53,10 +53,13 @@ export class UsersService {
     createMyInstrumentsDto: CreateMyInstrumentsDto,
   ) {
     return this.userModel
-      .findByIdAndUpdate(id, {
-        $push: { myInstruments: createMyInstrumentsDto },
-      })
-      .exec();
+    .findByIdAndUpdate(
+      id,
+      { $push: { myInstruments: createMyInstrumentsDto } },
+      { new: true } // This option returns the updated document
+    )
+    .populate('myInstruments')
+    .exec();
   };
 
   //Update a user's myInstruments (remove one instrument)

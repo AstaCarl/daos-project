@@ -125,6 +125,10 @@ export default function profile() {
     setEnsembles((prevEnsembles) => [...prevEnsembles, newEnsemble]);
   };
 
+  const handleInstrumentAdded = (newInstrument: Instrument) => {
+    setMyInstruments((prevInstruments) => [...prevInstruments, { ...newInstrument}]);
+  };
+
   const userId = user._id;
   const { data: ensembleData } = useFetch<Ensemble[]>(
     `/ensemble/${userId}`,
@@ -217,6 +221,7 @@ export default function profile() {
           <AddInstrumentForm
             instruments={instruments}
             handleOpenInstrumentForm={handleOpenInstrumentForm}
+            onInstrumentAdded={handleInstrumentAdded}
           />
         )}
         {openCreateEnsembleForm && (
