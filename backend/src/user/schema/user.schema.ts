@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Transform } from 'class-transformer';
 import mongoose, { HydratedDocument, now, ObjectId } from 'mongoose';
-import { Instrument } from 'src/instruments/schema/instrument.schema';
+import { Instrument } from '../../instruments/schema/instrument.schema';
 
 export type UserDocument = HydratedDocument<User>;
 

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { TestModule } from '../src/test.module';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { CreateUserDto } from '../src/user/dto/create-user.dto';
 import { UsersService } from '../src/user/users.service';
 
 describe('authController (e2e)', () => {

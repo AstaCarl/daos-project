@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Types } from 'mongoose';
-import { Ensemble } from 'src/ensemble/schema/ensemble.schema';
-import { Instrument } from 'src/instruments/schema/instrument.schema';
-import { User } from 'src/user/schema/user.schema';
+import { Ensemble } from '../../ensemble/schema/ensemble.schema';
+import { Instrument } from '../../instruments/schema/instrument.schema';
+import { User } from '../../user/schema/user.schema';
 
 @Schema()
 export class Post {

@@ -7,7 +7,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
-import { CreateMyInstrumentsDto } from 'src/my-instruments/dto/create-my-instruments.dto';
+import { CreateMyInstrumentsDto } from '../my-instruments/dto/create-my-instruments.dto';
 import { SearchDTO } from './dto/search-musician.dto';
 
 @Injectable()
