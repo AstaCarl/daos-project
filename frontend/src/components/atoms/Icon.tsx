@@ -11,6 +11,9 @@ import checkIcon from "../../assets/check-icon.svg";
 import musicUserIcon from "../../assets/music-user-icon.png";
 import deleteIcon from "../../assets/delete-icon.svg";
 import contactIcon from "../../assets/contact-icon.svg";
+import quoteIcon from "../../assets/quote-icon.svg";
+import userIconMikkel from "../../assets/user-icon-mikkel.svg";
+import userIconKaren from "../../assets/user-icon-karen.svg";
 
 type Props = {
   onClick?: (myInstrumentId?: string) => void;
@@ -28,7 +31,10 @@ type Props = {
     | "checkIcon"
     | "musicUserIcon"
     | "deleteIcon"
-    | "contactIcon";
+    | "contactIcon"
+    | "quoteIcon"
+    | "userIconMikkel"
+    | "userIconKaren";
 };
 
 export default function Icon({ variant, onClick, myInstrumentId }: Props) {
@@ -46,6 +52,9 @@ export default function Icon({ variant, onClick, myInstrumentId }: Props) {
     musicUserIcon: musicUserIcon,
     deleteIcon: deleteIcon,
     contactIcon: contactIcon,
+    quoteIcon: quoteIcon,
+    userIconMikkel: userIconMikkel,
+    userIconKaren: userIconKaren,
   };
   const handleClick = () => {
     if (onClick) {
