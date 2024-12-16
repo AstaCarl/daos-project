@@ -7,7 +7,9 @@ import { InstrumentsModule } from '../instruments/instruments.module';
 
 @Module({
   imports: [
+    // MongooseModule.forFeature() is used to define the schema for the User model
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    // import the InstrumentsModule
     InstrumentsModule,
   ],
   controllers: [UserController],
