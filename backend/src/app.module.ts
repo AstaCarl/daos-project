@@ -9,9 +9,13 @@ import { UserDataModule } from './user-data/user-data.module';
 import { InstrumentsModule } from './instruments/instruments.module';
 import { MyInstrumentsModule } from './my-instruments/my-instruments.module';
 import { PostsModule } from './posts/posts.module';
+
+// @Module decorator is used to define metadata for the module
 @Module({
   imports: [
+    // MongooseModule.forRoot() is used to connect to the MongoDB database
     MongooseModule.forRoot('mongodb://localhost/daos'),
+    // module imports that the root module dependens on
     UserModule,
     AuthModule,
     EnsembleModule,
