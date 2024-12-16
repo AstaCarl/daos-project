@@ -20,6 +20,9 @@ export class Post {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;
+
+  @Prop({default: Date.now})
+  createdAt: Date;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

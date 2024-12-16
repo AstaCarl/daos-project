@@ -168,7 +168,7 @@ export default function CreatePostForm({ handlePostsOpen, ensembles }: Props) {
         </div>
 
         <Button
-          buttonText="Opret ensemble"
+          buttonText="Opret opslag"
           variant="primary"
           size="medium"
           type="submit"

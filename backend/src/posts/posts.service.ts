@@ -18,12 +18,12 @@ export class PostsService {
   }
 
   findAll() {
-   return this.postModel.find().populate('instrument').populate('ensemble').populate('user').exec();
+   return this.postModel.find().populate('instrument').populate('ensemble').populate('user').sort({ createdAt: -1 }).exec();
   }
 
   async findOneByUserId(id: string) {
     const objectId = new Types.ObjectId(id);
-    const posts = await this.postModel.find({ user: objectId }).populate('instrument').populate('ensemble').populate('user').exec();
+    const posts = await this.postModel.find({ user: objectId }).populate('instrument').populate('ensemble').populate('user').sort({ createdAt: -1 }).exec();
     if (posts.length === 0) {
       return [];
     }
