@@ -9,7 +9,7 @@ import { Title } from "../components/atoms/Title";
 function Index() {
   const [posts, setPosts] = useState<Posts[]>([]);
 
-  const { data: postsData } = useFetch<Posts[]>(`/posts`, "GET");
+  const { data: postsData } = useFetch<Posts[]>(`/posts`);
 
   useEffect(() => {
     if (postsData) {

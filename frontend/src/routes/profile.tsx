@@ -132,20 +132,18 @@ export default function profile() {
   const userId = user._id;
   const { data: ensembleData } = useFetch<Ensemble[]>(
     `/ensemble/${userId}`,
-    "GET"
   );
 
-  const { data: postsData } = useFetch<Posts[]>(`/posts/${userId}`, "GET");
+  const { data: postsData } = useFetch<Posts[]>(`/posts/${userId}`, 
+  );
 
   const { data: myInstrumentsData } = useFetch<UserInstrumentsData>(
     `/user/${userId}`,
-    "GET",
     [fetchTrigger]
   );
 
   const { data: instrumentsData } = useFetch<Instrument[]>(
     `/instruments`,
-    "GET"
   );
 
   useEffect(() => {

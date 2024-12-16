@@ -27,7 +27,6 @@ export default function CreatePostForm({ handlePostsOpen, ensembles }: Props) {
 
   const { data: instrumentsData } = useFetch<Instrument[]>(
     `/instruments`,
-    "GET"
   );
 
   useEffect(() => {

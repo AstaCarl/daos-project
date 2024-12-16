@@ -1,14 +1,8 @@
 import { useState, useEffect } from "react";
 
-
-type HTTP_METHOD = "POST" | "GET" | "PUT" | "DELETE" | "PATCH";
-
 export function useFetch<T>(
   endpoint: string,
-  method: HTTP_METHOD,
-  dependencies?: any[],
-  headers?: HeadersInit,
-  body?: unknown,
+  dependencies?: any[]
 ): { data: T | null; error: string | null; loading: boolean } {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -16,26 +10,28 @@ export function useFetch<T>(
 
   useEffect(() => {
     const fetchData = async () => {
-  try {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
-      method,
-      headers,
-      body: body ? JSON.stringify(body) : undefined,
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const result = await response.json();
-    setData(result);
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-    setError(errorMessage);
-  } finally {
-    setLoading(false);
-  }
+      setLoading(true);
+      setError(null); // Reset previous error state before starting a new fetch
+
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}${endpoint}`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+        setError(errorMessage);
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchData();
-  }, [endpoint, method, headers, body, ...(dependencies || [])]);
+  }, [endpoint, ...(dependencies || [])]); // Re-run effect when endpoint or dependencies change
 
   return { data, error, loading };
 }

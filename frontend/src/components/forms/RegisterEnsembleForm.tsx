@@ -24,7 +24,6 @@ export default function RegisterEnsembleForm({
 
   const { data: ensemblesData } = useFetch<Ensemble[]>(
     `/ensemble`,
-    "GET"
   );
 
   useEffect(() => {

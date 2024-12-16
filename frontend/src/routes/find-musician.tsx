@@ -39,7 +39,6 @@ function FindMusician() {
 
   const { data: instrumentsData } = useFetch<Instrument[]>(
     "/instruments",
-    "GET"
   );
   const queryParams = new URLSearchParams({
     instrumentId: searchQuery,
@@ -47,7 +46,6 @@ function FindMusician() {
 
   const { data: searchData } = useFetch<[]>(
     `/user/search?${queryParams}`,
-    "GET"
   );
 
   useEffect(() => {
