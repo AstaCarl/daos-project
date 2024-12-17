@@ -27,7 +27,7 @@ export default function ProfileStatus({ user }: Props) {
   }, [name, profileImage, email, address]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 padding bg-white border-y border-accent-grey">
       <Title variant="default" title="Din profilstatus" />
       <StatusLabel labelText="Navn" varient={name ? "true" : "false"} />
       <StatusLabel
