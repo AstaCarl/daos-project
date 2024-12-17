@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Post } from './schema/post.schema';
@@ -9,34 +8,32 @@ import { Post } from './schema/post.schema';
 export class PostsService {
   constructor(@InjectModel(Post.name) private postModel: Model<Post>) {}
 
-
-  async create(createPostDto: CreatePostDto): Promise<Post> {
-    console.log("Received DTO:", createPostDto);
+// Method to create a new post
+  createPost(createPostDto: CreatePostDto) {
     const createdPost = new this.postModel(createPostDto);
-    console.log("created dto:", createdPost);
     return createdPost.save();
   }
 
+  // Method to get all posts, and populate the instrument, ensemble, and user fields, and sort by createdAt newest first
   findAll() {
    return this.postModel.find().populate('instrument').populate('ensemble').populate('user').sort({ createdAt: -1 }).exec();
   }
 
+  // Method to find a post by user id, and populate the instrument, ensemble, and user fields, and sort by createdAt newest first.
   async findOneByUserId(id: string) {
+
+    // Create a new ObjectId from the id string
     const objectId = new Types.ObjectId(id);
+
+    // Find all posts that have a user field that matches the objectId
     const posts = await this.postModel.find({ user: objectId }).populate('instrument').populate('ensemble').populate('user').sort({ createdAt: -1 }).exec();
+
+    // return an empty array if no posts are found
     if (posts.length === 0) {
       return [];
     }
     else {
       return posts;
     }
-  }
-
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} post`;
   }
 }

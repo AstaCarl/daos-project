@@ -1,7 +1,7 @@
-import { Transform } from "class-transformer";
 import { IsNotEmpty } from "class-validator";
 import { Types } from "mongoose";
 
+//DTO to create a post, with validation decorators
 export class CreatePostDto {
     @IsNotEmpty()
     title: string;

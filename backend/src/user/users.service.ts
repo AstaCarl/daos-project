@@ -12,6 +12,7 @@ import { SearchDTO } from './dto/search-musician.dto';
 
 @Injectable()
 export class UsersService {
+  // Inject the User model into the service
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   //Register a user method

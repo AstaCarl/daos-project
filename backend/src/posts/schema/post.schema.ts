@@ -12,16 +12,19 @@ export class Post {
   @Prop()
   description: string;
 
+  // Define a reference to the Instrument model
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Instrument' })
   instrument: Instrument;
 
+  // Define a reference to the Ensemble model
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Ensemble' })
   ensemble: Ensemble;
 
+  // Define a reference to the User model
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;
 
-  @Prop({default: Date.now})
+  @Prop({ default: Date.now })
   createdAt: Date;
 }
 
