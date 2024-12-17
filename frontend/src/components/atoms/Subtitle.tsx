@@ -1,3 +1,6 @@
+
+// component for displaying subtitles, that has 5 different variants
+
 type Props = {
   variant: "default" | "footer" | "cardTitle" | "instrument" | "contact" | "red";
   subtitle: string;

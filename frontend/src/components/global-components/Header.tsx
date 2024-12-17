@@ -59,19 +59,16 @@ export default function Header({}: Props) {
             {!isLoggedIn ? (
               <>
                 <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block pb-3" : "hidden"}`}>
-                  <Button
-                    buttonText="Opret bruger"
-                    variant="primary"
-                    type="button"
-                    href="/register"
-                  />
+                  <Anchor
+                    href="/login"
+                    anchorText="Log ind"
+                    variant="buttonPrimary" />
                 </li>
                 <li onClick={handleCloseMenu} className={`${isMenuOpen ? "block" : "hidden"}`}>
-                  <Button
-                    buttonText="Log ind"
-                    variant="secondary"
-                    type="button"
-                    href="/login"
+                  <Anchor
+                  href="/register"
+                  anchorText="Opret bruger"
+                  variant="buttonSecondary"
                   />
                 </li>
               </>

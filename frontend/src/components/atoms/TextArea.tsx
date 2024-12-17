@@ -1,3 +1,6 @@
+
+// component for text area input
+
 type TextAreaProps = {
     inputPlaceholder: string;
     inputName: string;

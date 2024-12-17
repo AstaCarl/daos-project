@@ -1,4 +1,3 @@
-import { StrictMode, } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
@@ -9,10 +8,11 @@ import Profile from "./routes/profile";
 import Layout from "./components/global-components/Layout";
 import FindMusician from "./routes/find-musician";
 
+// main tsx file for the frontend, defines the routes and renders the layout
+
 createRoot(document.getElementById("root")!).render(
-  //only for development puposes, remove when finished
-  // <StrictMode>
     <BrowserRouter>
+    {/* Layout wraps the content and contains the global components, like header and footer */}
     <Layout>
       <Routes>
         <Route path="/" element={<Index />} />
@@ -23,7 +23,6 @@ createRoot(document.getElementById("root")!).render(
       </Routes>
       </Layout>
     </BrowserRouter>
-//  </StrictMode>
 );
 
 

@@ -16,6 +16,7 @@ import userIconMikkel from "../../assets/user-icon-mikkel.svg";
 import userIconKaren from "../../assets/user-icon-karen.svg";
 
 type Props = {
+  // onClick function that takes a string as an argument if it is defined
   onClick?: (myInstrumentId?: string) => void;
   myInstrumentId?: string;
   variant:
@@ -56,6 +57,8 @@ export default function Icon({ variant, onClick, myInstrumentId }: Props) {
     userIconMikkel: userIconMikkel,
     userIconKaren: userIconKaren,
   };
+
+  // If onClick is defined, call the function with the myInstrumentId as an argument
   const handleClick = () => {
     if (onClick) {
       onClick(myInstrumentId);
