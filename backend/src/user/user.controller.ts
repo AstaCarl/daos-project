@@ -1,4 +1,3 @@
-import { CreateMyInstrumentsDto } from '../my-instruments/dto/create-my-instruments.dto';
 import {
   Controller,
   Post,
@@ -19,6 +18,7 @@ import { UsersService } from './users.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SearchDTO } from './dto/search-musician.dto';
+import { AddInstrumentDto } from './dto/add-instrument.dto';
 
 //'user' This string specifies the base route path for all the routes defined in this controller. It means that any route in this controller will start with /user.
 @Controller('user')
@@ -53,13 +53,13 @@ export class UserController {
   async createMyInstruments(
     //Extract the user id from the request parameters, and stores it in a new variable
     @Param('id') id: string,
-    @Body() createMyInstrumentsDto: CreateMyInstrumentsDto,
+    @Body() addInstrumentDto: AddInstrumentDto,
   ) {
     //calls the findOne() method from the UsersService class, and finds the user by id
     const user = await this.usersService.findOne(id);
     
     //Extract the instrument id from the request body, and stores it in a new variable
-    const newInstrumentId = createMyInstrumentsDto._id;
+    const newInstrumentId = addInstrumentDto._id;
 
   // Checks if the instrument already exists in the user's instruments
     const isDuplicate = user.myInstruments.some(instrument => instrument._id.toString() === newInstrumentId);
@@ -69,7 +69,7 @@ export class UserController {
       throw new ConflictException('Instrument already exists');
     }
     //If the instrument does not exist, call the linkMyInstrumentToUser() method from the UsersService class
-    return this.usersService.linkMyInstrumentToUser(id, createMyInstrumentsDto);
+    return this.usersService.linkMyInstrumentToUser(id, addInstrumentDto);
   }
 
   //Update a user's myInstruments (remove one instrument) at the endpoint /user/:id/my-instruments/:myInstrumentId

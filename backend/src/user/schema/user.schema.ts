@@ -30,6 +30,7 @@ export class User {
   // define the relationship between the User and Instrument models, myInstruments is an array of Instrument objects.
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Instrument' }] })
   myInstruments: Instrument[];
+  
 }
 
 //Export the User schema

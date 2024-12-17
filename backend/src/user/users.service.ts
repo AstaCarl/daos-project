@@ -7,8 +7,8 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
-import { CreateMyInstrumentsDto } from '../my-instruments/dto/create-my-instruments.dto';
 import { SearchDTO } from './dto/search-musician.dto';
+import { AddInstrumentDto } from './dto/add-instrument.dto';
 
 @Injectable()
 export class UsersService {
@@ -63,7 +63,7 @@ export class UsersService {
   //Link an instrument to a user, creating a myInstruments array
   async linkMyInstrumentToUser(
     id: string,
-    createMyInstrumentsDto: CreateMyInstrumentsDto,
+    addInstrumentDto: AddInstrumentDto,
   ) {
     return (
       this.userModel
@@ -71,7 +71,7 @@ export class UsersService {
         .findByIdAndUpdate(
           id,
           // $push adds a new element to an array
-          { $push: { myInstruments: createMyInstrumentsDto } },
+          { $push: { myInstruments: addInstrumentDto } },
           { new: true }, // This option returns the updated document
         )
         .populate('myInstruments')
