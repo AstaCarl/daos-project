@@ -1,23 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "../hooks/store/auth-store";
 import { Button } from "./atoms/Button";
 import Icon from "./atoms/Icon";
 
+// Component for layout of the buttons that handles search for musicians and ensembles
+
 export default function FindCard() {
-  const { isLoggedIn } = useAuthStore();
+  // useNavigate hook for navigation
   const navigate = useNavigate();
 
-  // const handleButtonClick = () => {
-  //   if (!isLoggedIn) {
-  //     alert("Du skal være logget ind for at finde musikere");
-  //     navigate('/login');
-  //   } else {
-  //     navigate('/find-musician');
-  //   }
-  // }
-
+// handle button click to navigate to find-musician page
   const handleButtonClick = () => {
-    // Your logic here
     navigate('/find-musician');
   };
 
@@ -27,7 +19,6 @@ export default function FindCard() {
         buttonText="Find musiker"
         variant="iconButton"
         size="medium"
-        // href="/find-musician"
         onClick={handleButtonClick}
       >
         <Icon variant="musicUserIcon" />
@@ -37,7 +28,7 @@ export default function FindCard() {
         variant="iconButton"
         size="medium"
       >
-        <Icon variant="musicUserIcon" />
+        <Icon variant="instrumentIcon" />
       </Button>
     </div>
   );

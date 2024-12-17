@@ -13,7 +13,7 @@ interface Instrument {
   name: string;
 }
 
-interface User {
+export interface User {
   _id: string;
   name: string;
   createdAt: Date;

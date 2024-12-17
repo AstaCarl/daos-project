@@ -3,6 +3,8 @@ import { Button } from "./atoms/Button";
 import StatusLabel from "./atoms/StatusLabel";
 import { useEffect, useState } from "react";
 
+// component for displaying profile status section(hardcode if we need)
+
 type Props = {
   user: any;
 };
@@ -15,10 +17,6 @@ export default function ProfileStatus({ user }: Props) {
   const [phoneNumber, setPhoneNumber] = useState<boolean>(false);
   const [profileText, setProfileText] = useState<boolean>(false);
   const [date, setDate] = useState<boolean>(false);
-
-  // if (user) {
-  //   setName(<StatusLabel labelText="Navn" varient="true" />),;
-  // }
 
   useEffect(() => {
     if (user) {

@@ -1,14 +1,13 @@
 import { Button } from "./atoms/Button";
 import Subtitle from "./atoms/Subtitle";
 import { Posts } from "../routes/profile";
-import React from "react";
-import { Title } from "./atoms/Title";
-import Paragraf from "./atoms/Paragraf";
-import Image from "./atoms/Image";
 import PostCard from "./PostCard";
+
+// component for displaying the my posts section, with a list of posts
 
 type Props = {
   posts: Posts[] | undefined;
+  // handles the opening of the create post modal
   handlePostsOpen: () => void;
 };
 
@@ -27,6 +26,7 @@ export default function MyPosts({ posts, handlePostsOpen }: Props) {
             />
           </div>
         </div>
+        {/* sends posts as props to the postCard  */}
         <PostCard posts={posts} />
       </div>
     </section>

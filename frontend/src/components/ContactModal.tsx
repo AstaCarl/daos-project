@@ -2,9 +2,13 @@ import Subtitle from "./atoms/Subtitle";
 import { Button } from "./atoms/Button";
 import Icon from "./atoms/Icon";
 
+// component for displaying a modal with contact info of the user
+
 type Props = {
+  // props to hide and show the modal
   handleShowModal?: () => void;
   showContactModal?: boolean;
+  // user to display contact info of
   user: any;
 };
 
@@ -13,9 +17,15 @@ export default function ContactModal({
   showContactModal,
   user,
 }: Props) {
+
+  // if user is not defined, return null
+  if (!user) {
+    return null; 
+  }
+
   return (
     <div
-      className={`fixed top-0 left-0  w-full h-screen flex justify-center ${
+      className={`fixed top-[-20px] left-0  w-full h-screen flex justify-center ${
         showContactModal && " backdrop-blur-sm"
       }`}
     >

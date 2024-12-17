@@ -7,47 +7,59 @@ import DeleteModal from "./DeleteModal";
 import useAuthStore from "../hooks/store/auth-store";
 import { useNavigate } from "react-router-dom";
 
+// component for displaying the profile settings
+
 type Props = {
+  // handles the opening of the settings modal
   handleSettingsOpen: () => void;
 };
 
 export default function ProfileSetting({ handleSettingsOpen }: Props) {
+  // state for showing the delete modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  // state for showing the password modal
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  // retreiving user info and accesToken from the auth store
   const { user, accessToken } = useAuthStore();
   const navigate = useNavigate();
 
+  // function to show and hide delete modal
   const handleShowModal = () => {
     if (showDeleteModal) {
       setShowDeleteModal(false);
     } else setShowDeleteModal(true);
   };
 
+
+  // function to show and hide password modal
   const handleShowPasswordModal = () => {
     if (showPasswordModal) {
       setShowPasswordModal(false);
     } else setShowPasswordModal(true);
   }
 
+
+  // function to delete profile
     const handleDeleteProfile = async () => {
+      // retreiving user id
       const userId = user._id;
   
+      // DELETE request to delete the user profile at endpoint /user/:userId
       const response = await fetch(
         `${
           import.meta.env.VITE_BASE_URL
-        }/user/${userId}`,
+        }/user/${userId}`, // uses .env file for base url (backend)
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            authorization: `Bearer ${accessToken}`,
+            authorization: `Bearer ${accessToken}`, // uses accesToken
           },
         }
       );
-  
+   //  if response is ok, send alert and navigate to login page
       if (response.ok) {
         alert("Profil slettet");
-        handleShowModal()
         navigate("/login");
       } else {
         alert("Der skete en fejl, prøv igen");

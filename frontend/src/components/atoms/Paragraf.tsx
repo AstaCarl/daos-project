@@ -6,12 +6,14 @@ type Props = {
   variant: "body" | "body-small" | "body-small-red" | "body-grey";
   paragrafText: string | number;
   className?: string;
+  children?: React.ReactNode;
 };
 
 export default function Paragraf({
   variant,
   paragrafText,
   className,
+  children,
 }: Props) {
   const variantClasses = {
     body: "text-base text-dark-grey",
@@ -22,6 +24,7 @@ export default function Paragraf({
   return (
     <p className={`font-sans ${variantClasses[variant]} ${className}`}>
       {paragrafText}
+      {children}
     </p>
   );
 }
