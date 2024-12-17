@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function useFetch<T>(
+export function useGet<T>(
   endpoint: string,
   dependencies?: any[]
 ): { data: T | null; error: string | null; loading: boolean } {

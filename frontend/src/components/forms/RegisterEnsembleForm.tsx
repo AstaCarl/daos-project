@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useFetch } from "../../hooks/use-fetch";
+import { useGet } from "../../hooks/use-get";
 import { Button } from "../atoms/Button";
 import { Title } from "../atoms/Title";
 import Select from "../atoms/Select";
@@ -22,7 +22,7 @@ export default function RegisterEnsembleForm({
   const { accessToken } = useAuthStore();
 
 
-  const { data: ensemblesData } = useFetch<Ensemble[]>(
+  const { data: ensemblesData } = useGet<Ensemble[]>(
     `/ensemble`,
   );
 

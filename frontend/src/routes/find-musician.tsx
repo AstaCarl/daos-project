@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useFetch } from "../hooks/use-fetch";
+import { useGet } from "../hooks/use-get";
 import { Title } from "../components/atoms/Title";
 import Paragraf from "../components/atoms/Paragraf";
 import MusicianCard from "../components/MusicianCard";
@@ -37,14 +37,14 @@ function FindMusician() {
     }
   }, []);
 
-  const { data: instrumentsData } = useFetch<Instrument[]>(
+  const { data: instrumentsData } = useGet<Instrument[]>(
     "/instruments",
   );
   const queryParams = new URLSearchParams({
     instrumentId: searchQuery,
   }).toString();
 
-  const { data: searchData } = useFetch<[]>(
+  const { data: searchData } = useGet<[]>(
     `/user/search?${queryParams}`,
   );
 

@@ -1,11 +1,24 @@
 import { Input } from "../atoms/Input";
 import { Button } from "../atoms/Button.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Anchor from "../atoms/Anchor";
 import Paragraf from "../atoms/Paragraf";
 import Icon from "../atoms/Icon";
 import useAuthStore from "../../hooks/store/auth-store.ts";
 import { useNavigate } from "react-router-dom";
+import { usePost } from "../../hooks/use-post.ts";
+
+type AuthResponse = {
+  message: string;
+  access_token: string;
+  user: {
+    _id: string;
+    name: string;
+    lastname: string;
+    email: string;
+    // Add other properties that your user object might have
+  };
+};
 
 export default function LoginForm({}) {
   const [email, setEmail] = useState<string>("");
@@ -14,6 +27,14 @@ export default function LoginForm({}) {
   const [errors, setErrors] = useState<string[]>([]);
   const { login } = useAuthStore();
   const navigate = useNavigate();
+
+  const { data, error, loading, postData } = usePost<
+    AuthResponse,
+    { email: string; password: string }
+  >(
+    "/auth/login", // API endpoint
+    { email: email, password: password } // Body data to be sent in the POST request
+  );
 
   const handleToggle = () => {
     if (type === "password") {
@@ -32,35 +53,26 @@ export default function LoginForm({}) {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent default form submission behavior
-
-      // Prepare the login data
-      const loginData = {
-        email: email,
-        password: password,
-      };
-
-      // Call the useFetch function to send the login request
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData)
-      });
-
-      // Check if the response is successful
-      if (response.ok) {
-        const data = await response.json(); // Parse the response JSON
-        const user = data.user;
-        const token = data.access_token;
-        login(user, token);
-        navigate("/profile");
-      } else if (response.status === 401) {
-          setErrors(["Ugyldig email eller adgangskode."]);
-      };
-  
+    event.preventDefault();
+    postData();
   };
+
+  useEffect(() => {
+    if (data) {
+      const user = data.user;
+      const token = data.access_token;
+      login(user, token);
+      navigate("/profile");
+    }
+
+    if (error) {
+      console.error(error);
+    if (error) {
+      console.error(error === "HTTP error! Status: 401");
+      setErrors(["Ugyldig email eller adgangskode."]);
+    }
+    }
+  }, [data, error]);
 
   return (
     <>
@@ -85,12 +97,12 @@ export default function LoginForm({}) {
             inputPlaceholder="Password"
             errorMessage={errors[0]}
           />
-            <span
-              onClick={handleToggle}
-              className="cursor-pointer absolute items-center top-[37.5%] right-[30px]"
-            >
-              <Icon variant="showPassword" />
-            </span>
+          <span
+            onClick={handleToggle}
+            className="cursor-pointer absolute items-center top-[37.5%] right-[30px]"
+          >
+            <Icon variant="showPassword" />
+          </span>
         </div>
         <Paragraf variant="body-small" paragrafText="Har du ikke en bruger? ">
           <Anchor

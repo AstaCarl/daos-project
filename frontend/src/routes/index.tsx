@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Feedback } from "../components/Feedback";
 import FrontpageHero from "../components/FrontpageHero";
-import { useFetch } from "../hooks/use-fetch";
+import { useGet } from "../hooks/use-get";
 import { Posts } from "../routes/profile";
 import PostCard from "../components/PostCard";
 import { Title } from "../components/atoms/Title";
@@ -9,7 +9,7 @@ import { Title } from "../components/atoms/Title";
 function Index() {
   const [posts, setPosts] = useState<Posts[]>([]);
 
-  const { data: postsData } = useFetch<Posts[]>(`/posts`);
+  const { data: postsData } = useGet<Posts[]>(`/posts`);
 
   useEffect(() => {
     if (postsData) {

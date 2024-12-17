@@ -3,9 +3,21 @@ import Icon from "../atoms/Icon";
 import { Input } from "../atoms/Input";
 import Paragraf from "../atoms/Paragraf";
 import { Button } from "../atoms/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePost } from "../../hooks/use-post";
 
+type RegisterResponse = {
+  message: string;
+  user: {
+    _id: string;
+    name: string;
+    lastname: string;
+    email: string;
+    password: string;
+    // Add other properties that your user object might have
+  };
+};
 
 export function RegisterForm({}) {
   const [email, setEmail] = useState<string>("");
@@ -13,8 +25,16 @@ export function RegisterForm({}) {
   const [name, setName] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
   const [type, setType] = useState("password");
-  const [errors, setErrors] = useState<string[]>([]);
+  const [errors, setErrors] = useState<string>("");
   const navigate = useNavigate();
+
+  const { data, error, loading, postData } = usePost<
+    RegisterResponse,
+    { email: string; password: string; name: string; lastname: string }
+  >(
+    "/user", // API endpoint
+    { email: email, password: password, name: name, lastname: lastname } // Body data to be sent in the POST request
+  );
 
   const handleToggle = () => {
     if (type === "password") {
@@ -27,7 +47,7 @@ export function RegisterForm({}) {
   // Define the event handlers for the form fields.
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
-    setErrors([]); // Reset errors on submit
+    setErrors(""); // Reset errors on submit
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,31 +61,25 @@ export function RegisterForm({}) {
   const handleLastnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLastname(event.target.value);
   };
+  
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
-      // Prepare the register data
-      const registerData = {
-        name: name,
-        lastname: lastname,
-        email: email,
-        password: password
-      };
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/user`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(registerData)
-      });
-      if (response.ok) {
-        alert("Din profil er oprettet");
-        navigate("/login");
-      } else {
-        const errorData = await response.json();
-        setErrors(errorData.message || ["An error occurred."]);
-      }
+    await postData();
   };
+
+  useEffect(() => {
+    if (data) {
+      console.log("Data", data);
+      alert("Bruger oprettet");
+      navigate("/login");
+    }
+
+    if (error) {
+      console.log("hello", error);
+      setErrors(error);
+    }
+  }, [data, error]);
 
   return (
     <form
@@ -138,11 +152,7 @@ export function RegisterForm({}) {
       <Paragraf variant="body-small" paragrafText="Har du allerede en profil? ">
         <Anchor href="/login" anchorText="Log ind her" variant="default" />
       </Paragraf>
-      <Button
-        type="submit"
-        buttonText="Opret profil"
-        variant="primary"
-      />
+      <Button type="submit" buttonText="Opret profil" variant="primary" />
     </form>
   );
 }

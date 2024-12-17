@@ -4,7 +4,7 @@ import useAuthStore from "../hooks/store/auth-store";
 import ActionCard from "../components/ActionCard";
 import CreateEmsembleForm from "../components/forms/CreateEmsembleForm";
 import MyEnsembles from "../components/MyEnsembles";
-import { useFetch } from "../hooks/use-fetch";
+import { useGet } from "../hooks/use-get";
 import RegisterEnsembleForm from "../components/forms/RegisterEnsembleForm";
 import ProfileHeader from "../components/ProfileHeader";
 import ProfileStatus from "../components/ProfileStatus";
@@ -130,19 +130,19 @@ export default function profile() {
   };
 
   const userId = user._id;
-  const { data: ensembleData } = useFetch<Ensemble[]>(
+  const { data: ensembleData } = useGet<Ensemble[]>(
     `/ensemble/${userId}`,
   );
 
-  const { data: postsData } = useFetch<Posts[]>(`/posts/${userId}`, 
+  const { data: postsData } = useGet<Posts[]>(`/posts/${userId}`, 
   );
 
-  const { data: myInstrumentsData } = useFetch<UserInstrumentsData>(
+  const { data: myInstrumentsData } = useGet<UserInstrumentsData>(
     `/user/${userId}`,
     [fetchTrigger]
   );
 
-  const { data: instrumentsData } = useFetch<Instrument[]>(
+  const { data: instrumentsData } = useGet<Instrument[]>(
     `/instruments`,
   );
 

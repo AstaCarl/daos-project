@@ -11,7 +11,7 @@ import FindMusician from "./routes/find-musician";
 
 createRoot(document.getElementById("root")!).render(
   //only for development puposes, remove when finished
-  <StrictMode>
+  // <StrictMode>
     <BrowserRouter>
     <Layout>
       <Routes>
@@ -23,7 +23,7 @@ createRoot(document.getElementById("root")!).render(
       </Routes>
       </Layout>
     </BrowserRouter>
- </StrictMode>
+//  </StrictMode>
 );
 
 

@@ -7,7 +7,7 @@ import { TextArea } from "../atoms/TextArea";
 import Select from "../atoms/Select";
 import { Ensemble } from "../../routes/profile";
 import { Instrument } from "../../routes/profile";
-import { useFetch } from "../../hooks/use-fetch";
+import { useGet } from "../../hooks/use-get";
 import useAuthStore from "../../hooks/store/auth-store";
 import Paragraf from "../atoms/Paragraf";
 
@@ -25,7 +25,7 @@ export default function CreatePostForm({ handlePostsOpen, ensembles }: Props) {
   const { user } = useAuthStore();
   const [errors, setErrors] = useState<string[]>([]);
 
-  const { data: instrumentsData } = useFetch<Instrument[]>(
+  const { data: instrumentsData } = useGet<Instrument[]>(
     `/instruments`,
   );
 
