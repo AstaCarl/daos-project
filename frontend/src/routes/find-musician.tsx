@@ -51,8 +51,8 @@ function FindMusician() {
   useEffect(() => {
     if (instrumentsData) {
       setInstruments(instrumentsData);
-      console.log("Get instruments successful:", instrumentsData);
     }
+    // runs when there is a change in the instrumentsData
   }, [instrumentsData]);
   
 
@@ -65,8 +65,8 @@ function FindMusician() {
     if (searchData) {
       // set the users with the fetched search data
       setUsers(searchData);
-      console.log("Search data:", searchData);
     }
+    // runs when there is a change in the searchData
   }, [searchData]);
 
   // function for handling the search
