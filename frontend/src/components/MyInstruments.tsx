@@ -24,15 +24,13 @@ export default function MyInstruments({
   handleOpenInstrumentForm,
   handleOpenDeleteModal,
 }: Props) {
-  const [selectedInstrumentId, setSelectedInstrumentId] = useState<
-    string | undefined
-  >(undefined);
 
-  // function to handle delete click, sets the selected instrument id and opens the delete modal (sends the selected instrument id as a parameter)
+  // Recieves the instrument._id as a parameter and assigns it to the instrumentId, then calls the handleOpenDeleteModal function with the instrumentId as a parameter
   const handleDeleteClick = (myInstrumentId: string | undefined) => {
-    setSelectedInstrumentId(myInstrumentId);
-    handleOpenDeleteModal(selectedInstrumentId);
+    handleOpenDeleteModal(myInstrumentId);
   };
+
+
 
   return (
     <section className="bg-white flex flex-col gap-7 padding border-y accent-grey">
@@ -57,7 +55,7 @@ export default function MyInstruments({
                   <Subtitle variant="cardTitle" subtitle={instrument.name} />
                   <Icon
                     variant="deleteIcon"
-                    // sets the selected instrument id and opens the delete modal
+                    // Sends the instrument._id as a parameter to the handleDeleteClick function
                     onClick={() => handleDeleteClick(instrument._id)}
                   />
                 </div>

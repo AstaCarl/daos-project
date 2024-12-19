@@ -8,6 +8,8 @@ import { Button } from "../components/atoms/Button";
 import useAuthStore from "../hooks/store/auth-store";
 import { useNavigate } from "react-router-dom";
 
+// Find musician page, that renders a form for searching for musicians
+
 interface Instrument {
   _id: string;
   name: string;
@@ -23,6 +25,7 @@ export interface User {
 }
 
 function FindMusician() {
+  // state variables
   const [users, setUsers] = useState<User[]>([]);
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [searchParam, setSearchParam] = useState<string>("");
@@ -30,22 +33,19 @@ function FindMusician() {
   const { isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
 
+
+  // useeffect for checking if the user is logged in
   useEffect(() => {
     if (!isLoggedIn) {
+      // alert that remind the user to login
       alert("Du skal være logget ind for at finde musikere");
       navigate("/login");
     }
   }, []);
 
+  // Fetch instruments using the useGet hook
   const { data: instrumentsData } = useGet<Instrument[]>(
     "/instruments",
-  );
-  const queryParams = new URLSearchParams({
-    instrumentId: searchQuery,
-  }).toString();
-
-  const { data: searchData } = useGet<[]>(
-    `/user/search?${queryParams}`,
   );
 
   useEffect(() => {
@@ -54,21 +54,26 @@ function FindMusician() {
       console.log("Get instruments successful:", instrumentsData);
     }
   }, [instrumentsData]);
+  
+
+  // Fetch search data using the useGet hook, using the serach parameter in the endpoint
+  const { data: searchData } = useGet<[]>(
+    `/user/search?instrumentId=${searchParam}`,
+  );
 
   useEffect(() => {
     if (searchData) {
+      // set the users with the fetched search data
       setUsers(searchData);
       console.log("Search data:", searchData);
     }
   }, [searchData]);
 
-  const handleSearchParamChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSearchParam(e.target.value);
-  };
-
+  // function for handling the search
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSearchQuery(searchParam);
+    // set the chosen instrument as the search parameter
+    setSearchParam(searchQuery);
   };
 
   return (
@@ -85,7 +90,8 @@ function FindMusician() {
           <Select
             name="instrument"
             defaultValue="Vælg et instrument"
-            onChange={handleSearchParamChange}
+            // Set the chosen instrument as the search query
+            onChange={(e) => setSearchQuery(e.target.value)}
           >
             {instruments.map((instrument: any) => (
               <option key={instrument._id} value={instrument._id}>
@@ -97,6 +103,7 @@ function FindMusician() {
         </form>
 
         <div className="flex flex-col gap-6">
+          {/* Maps over the users to render a musicianCard for every user */}
           {users.map((user, index: number) => (
             <MusicianCard key={index} user={user} />
           ))}

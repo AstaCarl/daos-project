@@ -15,6 +15,8 @@ import DeleteModal from "../components/DeleteModal";
 import CreatePostForm from "../components/forms/CreatePostForm";
 import MyPosts from "../components/MyPosts";
 
+// Profile page, that renders the user profile
+
 export interface Ensemble {
   _id: string;
   title: string;
@@ -56,6 +58,7 @@ export interface Posts {
 }
 
 export default function profile() {
+  // State variables
   const navigate = useNavigate();
   const { isLoggedIn, user, accessToken } = useAuthStore();
   const [openCreateEnsembleForm, setOpenCreateEnsembleForm] = useState(false);
@@ -73,14 +76,17 @@ export default function profile() {
   const [fetchTrigger, setFetchTrigger] = useState(false);
   const [openCreatePostForm, setOpenCreatePostForm] = useState(false);
   const [posts, setPosts] = useState<Posts[]>([]);
+  // get the user id from the user object
+  const userId = user._id;
 
+  // check if the user is logged in, if not redirect to login page,
   useEffect(() => {
-    // Redirect to login if the user is not logged in
     if (!isLoggedIn) {
       navigate("/login");
     }
   }, [isLoggedIn, navigate]);
 
+  // functions for handling the opening and closing of the different forms and modals
   const handleOpenCreateEnsembleForm = () => {
     if (openCreateEnsembleForm) {
       setOpenCreateEnsembleForm(false);
@@ -121,88 +127,6 @@ export default function profile() {
     }
   };
 
-  const handleEnsembleCreated = (newEnsemble: Ensemble) => {
-    setEnsembles((prevEnsembles) => [...prevEnsembles, newEnsemble]);
-  };
-
-  const handleInstrumentAdded = (newInstrument: Instrument) => {
-    setMyInstruments((prevInstruments) => [...prevInstruments, { ...newInstrument}]);
-  };
-
-  const userId = user._id;
-  const { data: ensembleData } = useGet<Ensemble[]>(
-    `/ensemble/${userId}`,
-  );
-
-  const { data: postsData } = useGet<Posts[]>(`/posts/${userId}`, 
-  );
-
-  const { data: myInstrumentsData } = useGet<UserInstrumentsData>(
-    `/user/${userId}`,
-    [fetchTrigger]
-  );
-
-  const { data: instrumentsData } = useGet<Instrument[]>(
-    `/instruments`,
-  );
-
-  useEffect(() => {
-    if (instrumentsData) {
-      setInstruments(instrumentsData);
-      console.log("Get instruments successful:", instrumentsData);
-    }
-  }, [instrumentsData]);
-
-  useEffect(() => {
-    if (postsData) {
-      setPosts(postsData);
-      console.log("Get posts successful:", postsData);
-    }
-  }, [postsData]);
-
-  useEffect(() => {
-    if (myInstrumentsData) {
-      setMyInstruments(myInstrumentsData.myInstruments);
-      console.log(
-        "Get my instruments successful:",
-        myInstrumentsData.myInstruments
-      );
-    }
-  }, [myInstrumentsData]);
-
-  useEffect(() => {
-    if (ensembleData) {
-      setEnsembles(ensembleData);
-      console.log("Get ensemble successful:", ensembleData);
-    }
-  }, [ensembleData]);
-
-  const handleRemoveMyInstrument = async (selectedInstrumentId?: string) => {
-    const userId = user._id;
-
-    const response = await fetch(
-      `${
-        import.meta.env.VITE_BASE_URL
-      }/user/${userId}/my-instruments/${selectedInstrumentId}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(ensembleData),
-      }
-    );
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log("remove instrument succesful:", data);
-      setFetchTrigger((prev) => !prev);
-    } else {
-      console.error("Remove instrument error:", response.statusText);
-    }
-  };
-
   const handleOpenDeleteModal = (instrumentId?: string) => {
     if (openDeleteModal) {
       setOpenDeleteModal(false);
@@ -212,9 +136,88 @@ export default function profile() {
     }
   };
 
+  // functions for handling the creation of new ensembles and instruments, and adding them to the state when created
+  const handleEnsembleCreated = (newEnsemble: Ensemble) => {
+    setEnsembles((prevEnsembles) => [...prevEnsembles, newEnsemble]);
+  };
+
+  const handleInstrumentAdded = (newInstrument: Instrument) => {
+    setMyInstruments((prevInstruments) => [
+      ...prevInstruments,
+      { ...newInstrument },
+    ]);
+  };
+
+  // fetch the ensembles, instruments and posts for the specific user
+  const { data: ensembleData } = useGet<Ensemble[]>(`/ensemble/${userId}`);
+
+  const { data: postsData } = useGet<Posts[]>(`/posts/${userId}`);
+
+  const { data: myInstrumentsData } = useGet<UserInstrumentsData>(
+    `/user/${userId}`,
+    [fetchTrigger]
+  );
+
+  // fetch all instruments
+  const { data: instrumentsData } = useGet<Instrument[]>(`/instruments`);
+
+  // useEffects for setting the fetched data to the states
+  useEffect(() => {
+    if (instrumentsData) {
+      setInstruments(instrumentsData);
+    }
+  }, [instrumentsData]);
+
+  useEffect(() => {
+    if (postsData) {
+      setPosts(postsData);
+    }
+  }, [postsData]);
+
+  useEffect(() => {
+    if (myInstrumentsData) {
+      setMyInstruments(myInstrumentsData.myInstruments);
+    }
+  }, [myInstrumentsData]);
+
+  useEffect(() => {
+    if (ensembleData) {
+      setEnsembles(ensembleData);
+    }
+  }, [ensembleData]);
+
+  // function for removing an instrument from the user
+  const handleRemoveMyInstrument = async (selectedInstrumentId?: string) => {
+    // Patch request to the endpoint /user/:id/my-instruments/:instrumentId
+    const response = await fetch(
+      `${
+        import.meta.env.VITE_BASE_URL
+      }/user/${userId}/my-instruments/${selectedInstrumentId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization header with the access token
+          authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    // if the response is ok, log the data.
+    if (response.ok) {
+      const data = await response.json();
+      console.log("remove instrument succesful:", data);
+      // set the fetch trigger to true, to refetch the data
+      setFetchTrigger((prev) => !prev);
+    } else {
+      // error if the response is not ok
+      console.error("Remove instrument error:", response.statusText);
+    }
+  };
+
   return (
     <>
       <div className="absolute bg-light-grey h-screen w-screen flex flex-col gap-6 pb-16 padding">
+        {/* conditional rendering of various forms, (logical AND operator) */}
         {openInstrumentForm && (
           <AddInstrumentForm
             instruments={instruments}
@@ -244,7 +247,7 @@ export default function profile() {
           />
         )}
       </div>
-
+      {/* conditional rendering of the contents of the profile page, (logical AND operator) if false. */}
       {!openRegisterEnsembleForm &&
         !openCreateEnsembleForm &&
         !openInstrumentForm &&
@@ -253,7 +256,8 @@ export default function profile() {
           <div className="relative z-0 flex flex-col gap-10 pb-16">
             <ProfileHeader handleSettingsOpen={handleSettingsOpen} />
             <ProfileStatus user={user} />
-            {!openInstrumentForm && ensembles.length === 0 && (
+            {/* if theres no data for instruments, ensembles or posts, show the action cards */}
+            {ensembles.length === 0 && (
               <ActionCard
                 buttonTextCreate="Opret nyt ensemble"
                 buttonTextRegister="Registrer i ensemble"
@@ -275,15 +279,16 @@ export default function profile() {
               />
             )}
             {posts.length === 0 && (
-            <ActionCard
-              buttonTextCreate="Opret opslag"
-              paragrafText="Leder du efter musikere, kan du tilføje opslag her."
-              subtitle="Mine opslag"
-              status="Du har ingen opslag"
-              onClickCreate={handlePostsOpen}
-              onClickRegister={handlePostsOpen}
-            />
+              <ActionCard
+                buttonTextCreate="Opret opslag"
+                paragrafText="Leder du efter musikere, kan du tilføje opslag her."
+                subtitle="Mine opslag"
+                status="Du har ingen opslag"
+                onClickCreate={handlePostsOpen}
+                onClickRegister={handlePostsOpen}
+              />
             )}
+            {/* If there is data show the my... sections  */}
             {ensembles.length > 0 && (
               <MyEnsembles
                 data={ensembles}
@@ -299,11 +304,9 @@ export default function profile() {
               />
             )}
             {posts.length > 0 && (
-              <MyPosts
-                posts={posts}
-                handlePostsOpen={handlePostsOpen}
-              />
+              <MyPosts posts={posts} handlePostsOpen={handlePostsOpen} />
             )}
+            {/* Conditional rendering of the delete modal */}
             {openDeleteModal && (
               <DeleteModal
                 showDeleteModal={openDeleteModal}
