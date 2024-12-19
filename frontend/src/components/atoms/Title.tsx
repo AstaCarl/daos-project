@@ -1,3 +1,6 @@
+
+// component for displaying titles, that has 5 different variants
+
 type Props = {
   title: string;
   variant: "red" | "default" | "frontpageHero" | "white" | "blue";

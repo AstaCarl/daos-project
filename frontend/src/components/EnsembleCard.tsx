@@ -3,13 +3,14 @@ import Paragraf from "./atoms/Paragraf";
 import { Button } from "./atoms/Button";
 import Subtitle from "./atoms/Subtitle";
 
+// component for displaying ensemble card, that displays information about an ensemble
+
 type Props = {
   title: string;
   description: string;
   zipcode: string;
   city: string;
   activeUsers: number;
-  href?: string;
 };
 
 export default function EnsembleCard({
@@ -18,7 +19,6 @@ export default function EnsembleCard({
   zipcode,
   city,
   activeUsers,
-  href,
 }: Props) {
   return (
     <div className="border accent-grey shadow-md rounded-lg flex flex-col gap-3">
@@ -40,7 +40,6 @@ export default function EnsembleCard({
           </div>
           <div>
             <Button
-              href={href}
               variant="secondary"
               buttonText="Læs mere"
               size="small"

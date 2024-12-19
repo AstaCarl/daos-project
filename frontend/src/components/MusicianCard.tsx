@@ -6,26 +6,27 @@ import Subtitle from "./atoms/Subtitle";
 import { Title } from "./atoms/Title";
 import { UserIcon } from "./atoms/UserIcon";
 import ContactModal from "./ContactModal";
+import { User } from "../routes/find-musician";
 
-interface User {
-  _id: string;
-  name: string;
-  createdAt: Date;
-  myInstruments: any[];
-  lastname: string;
-}
+// component for displaying a musician card, with user info and instruments
+
 type Props = {
   user: User;
 };
 
 export default function MusicianCard({ user }: Props) {
+  // state for showing and hiding contact modal
+  const [showContactModal, setShowContactModal] = useState(false);
+
+
+  // formatted date to month and year in danish
   const createdAt = user.createdAt;
   const date = new Date(createdAt);
   const month = date.toLocaleString("da-DK", { month: "long" });
   const year = date.getFullYear();
 
-  const [showContactModal, setShowContactModal] = useState(false);
 
+  // function to show and hide contact
   const handleShowModal = () => {
     if (showContactModal) {
       setShowContactModal(false);
@@ -62,6 +63,7 @@ export default function MusicianCard({ user }: Props) {
               onClick={handleShowModal}
             />
           </div>
+          {/* If showContactModal is true then display the modal */}
           {showContactModal && (
             <ContactModal
               handleShowModal={handleShowModal}
@@ -72,6 +74,7 @@ export default function MusicianCard({ user }: Props) {
         </div>
 
         <div className="flex flex-col bg-white gap-2 py-3 px-2">
+          {/* mapping the user to display each user */}
           {user.myInstruments.map((instrument: any, index: number) => (
             <React.Fragment key={index}>
               <div
@@ -87,7 +90,6 @@ export default function MusicianCard({ user }: Props) {
           ))}
         </div>
       </div>
-      {/* kontakt form */}
     </>
   );
 }

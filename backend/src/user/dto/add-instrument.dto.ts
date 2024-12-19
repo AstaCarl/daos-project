@@ -1,7 +1,7 @@
 import { IsNotEmpty } from "class-validator";
 
-export class CreateMyInstrumentsDto {
+// DTO to add an instrument to the user.
+export class AddInstrumentDto {
     @IsNotEmpty()
     _id: string;
-    // instrument: string;
 }

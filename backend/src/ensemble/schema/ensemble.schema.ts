@@ -1,9 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, ObjectId, Types } from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import { Transform } from 'class-transformer';
 import { User } from '../../user/schema/user.schema';
-
-export type EnsembleDocument = Ensemble & Document;
 
 @Schema()
 export class Ensemble {
@@ -25,8 +23,9 @@ export class Ensemble {
   @Prop()
   city: string;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: User.name }] })
-  activeUsers: Types.ObjectId[];
+  // Define a reference to the User model
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'User' })
+  activeUsers: User[];
 
   @Prop()
   genre: string[];

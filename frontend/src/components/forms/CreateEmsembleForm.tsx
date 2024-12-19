@@ -9,6 +9,8 @@ import GenreSelector from "./GenreSelector";
 import useAuthStore from "../../hooks/store/auth-store";
 import { Ensemble } from "../../routes/profile";
 
+// form to handle post request for creating an ensemble
+
 type Props = {
   handleOpenCreateEnsembleForm: () => void;
   onEnsembleCreated: (newEnsemble: Ensemble) => void;
@@ -18,6 +20,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
   handleOpenCreateEnsembleForm,
   onEnsembleCreated,
 }) => {
+  // states to handle form input and errors
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [website, setWebsite] = useState<string>("");
@@ -29,16 +32,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
   const [checkboxStatus, setCheckboxStatus] = useState<string | null>(null);
   const { accessToken } = useAuthStore();
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-
-    if (checkboxStatus === value) {
-      setCheckboxStatus(null);
-    } else {
-      setCheckboxStatus(value);
-    }
-  };
-
+  // hardcoded genres, rehearsal frequencies and playtypes
   const genres = [
     "Barok",
     "Senmoderne",
@@ -59,10 +53,24 @@ const CreateEmsembleForm: React.FC<Props> = ({
     "1 hver anden måned",
   ];
 
+  // Enum for play types, defining the possible values for the type of play
+  // This helps in maintaining type safety and readability in the code
   enum playTypes {
     projectBased = "Projekt baseret",
     continous = "Kontinuerlig",
   }
+
+  // functions to handle change events for each of the input fields, and reset the errors when the input changes
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    if (checkboxStatus === value) {
+      setCheckboxStatus(null);
+    } else {
+      setCheckboxStatus(value);
+    }
+  };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -98,9 +106,11 @@ const CreateEmsembleForm: React.FC<Props> = ({
     setErrors([]);
   };
 
+  // function to handle submitting the form
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
 
+    // Create the data object to be sent in the POST request
     const ensembleData = {
       title: title,
       description: description,
@@ -112,20 +122,22 @@ const CreateEmsembleForm: React.FC<Props> = ({
       playType: checkboxStatus,
     };
 
+    // POST to endpoint /ensemble
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/ensemble`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        // send the auth token in the authorization header
         authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify(ensembleData),
+      body: JSON.stringify(ensembleData), // send the ensemble data as the body
     });
 
+    // If respone is ok, and update the page with the new ensemble data 
     if (response.ok) {
       const newEnsemble = await response.json();
-      console.log("Create ensemble successful:", newEnsemble);
       onEnsembleCreated(newEnsemble);
-      handleOpenCreateEnsembleForm();
+      handleOpenCreateEnsembleForm(); // close the form
     } else {
       const errorData = await response.json();
       console.error("Create ensemble error:", errorData.message);
@@ -230,6 +242,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
               errorMessage: "Øvefrekvens skal udfyldes",
             })}
           >
+            {/*  map over the hardcoded array of rehearsalFrequency */}
             {rehearsalFrequencys.map((rehearsalFrequency) => (
               <option
                 className="font-sans text-dark-grey"
@@ -247,6 +260,7 @@ const CreateEmsembleForm: React.FC<Props> = ({
             onChange={handleCheckboxChange}
             labelText="Projekt baseret"
             inputName="By"
+            // value is the enum value .projectBased
             value={playTypes.projectBased}
             checked={checkboxStatus === playTypes.projectBased}
             id="playType"

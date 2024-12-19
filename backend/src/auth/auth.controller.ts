@@ -1,28 +1,24 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Post,
-  Request,
-  UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { UsersService } from '../user/users.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private usersService: UsersService,
+    // private usersService: UsersService,
   ) {}
 
-  // Sign up route
+  // Login route
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
+    // calls the signIn method from the auth service and sends the email and password from the request body
     return this.authService.signIn(signInDto.email, signInDto.password);
   };
 }

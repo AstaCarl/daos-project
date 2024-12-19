@@ -1,5 +1,7 @@
 import Icon from "./Icon";
 
+// component for displaying 2 kinds of labels
+
 type LabelProps = {
     labelText: string;
     onClick?: () => void;
@@ -20,6 +22,7 @@ export default function Label({
 
   return (
     <div className={`font-bold w-fit flex justify-around rounded items-center gap-3 py-1 px-3 ${variantClasses[variant]}`}>{labelText}
+  {/* If variant is default, it adds the icon with the onclick */}
     {variant === 'default' &&
 <Icon onClick={onClick} variant="closeIconWhite" />
 }

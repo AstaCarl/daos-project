@@ -1,15 +1,19 @@
+
+// paragraf component, that has 4 different variants
+
+
 type Props = {
   variant: "body" | "body-small" | "body-small-red" | "body-grey";
   paragrafText: string | number;
-  children?: React.ReactNode;
   className?: string;
+  children?: React.ReactNode;
 };
 
 export default function Paragraf({
   variant,
   paragrafText,
-  children,
   className,
+  children,
 }: Props) {
   const variantClasses = {
     body: "text-base text-dark-grey",
