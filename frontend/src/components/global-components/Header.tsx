@@ -10,8 +10,8 @@ import useAuthStore from "../../hooks/store/auth-store";
 export default function Header({}) {
   // state for toggling menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // get isLoggedIn and logout from useAuthStore
-  const { isLoggedIn, logout } = useAuthStore();
+  // get logout from useAuthStore
+  const { logout, accessToken } = useAuthStore();
 
   // function for toggling menu
   const toggleMenu = () => {
@@ -78,7 +78,7 @@ export default function Header({}) {
                 variant="navigation"
               />
             </li>
-            {!isLoggedIn ? (
+            {!accessToken ? (
               <>
                 <li
                   onClick={handleCloseMenu}

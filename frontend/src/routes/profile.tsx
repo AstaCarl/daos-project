@@ -60,7 +60,7 @@ export interface Posts {
 export default function profile() {
   // State variables
   const navigate = useNavigate();
-  const { isLoggedIn, user, accessToken } = useAuthStore();
+  const { user, accessToken } = useAuthStore();
   const [openCreateEnsembleForm, setOpenCreateEnsembleForm] = useState(false);
   const [openRegisterEnsembleForm, setOpenRegisterEnsembleForm] =
     useState(false);
@@ -81,10 +81,10 @@ export default function profile() {
 
   // check if the user is logged in, if not redirect to login page,
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!accessToken) {
       navigate("/login");
     }
-  }, [isLoggedIn, navigate]);
+  }, [accessToken, navigate]);
 
   // functions for handling the opening and closing of the different forms and modals
   const handleOpenCreateEnsembleForm = () => {

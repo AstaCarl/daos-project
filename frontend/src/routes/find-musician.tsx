@@ -30,13 +30,13 @@ function FindMusician() {
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [searchParam, setSearchParam] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const { isLoggedIn } = useAuthStore();
+  const { accessToken } = useAuthStore();
   const navigate = useNavigate();
 
 
   // useeffect for checking if the user is logged in
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!accessToken) {
       // alert that remind the user to login
       alert("Du skal være logget ind for at finde musikere");
       navigate("/login");
