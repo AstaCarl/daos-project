@@ -49,22 +49,15 @@ export class UsersService {
     return this.userModel.find(filter).populate('myInstruments').exec();
   }
 
-  //************************ Might not need this ********************//
-  //Get all users that are musicians
-  findMusicians() {
-    return (
-      this.userModel
-        //Search for users that have at least one instrument
-        .find({ myInstruments: { $exists: true, $ne: [] } })
-        .populate('myInstruments')
+  // checks if the instrument is already linked to the user by searching the myInstruments array for the instrument id
+  isInstrumentDuplicate(user: User, newInstrumentId: string): boolean {
+    return user.myInstruments.some(
+      (instrument) => instrument._id.toString() === newInstrumentId,
     );
   }
 
   //Link an instrument to a user, creating a myInstruments array
-  async linkMyInstrumentToUser(
-    id: string,
-    addInstrumentDto: AddInstrumentDto,
-  ) {
+  async linkMyInstrumentToUser(id: string, addInstrumentDto: AddInstrumentDto) {
     return (
       this.userModel
         //Find the user by ID, and push the new instrument to the myInstruments array
@@ -131,7 +124,6 @@ export class UsersService {
 
   //Delete all users, (this is a helper method for testing)
   async deleteMany() {
-
     return this.userModel.deleteMany({}).exec();
   }
 }

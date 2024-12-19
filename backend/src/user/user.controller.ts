@@ -6,7 +6,6 @@ import {
   Delete,
   Param,
   UseGuards,
-  Patch,
   Put,
   Req,
   BadRequestException,
@@ -39,12 +38,6 @@ export class UserController {
     return this.usersService.searchMusician(search);
   }
 
-  //Get all users that are musicians (have at least one instrument), at the endpoint /user
-  @Get('')
-  async find() {
-    //calls the findMusicians() method from the UsersService class
-    return this.usersService.findMusicians();
-  }
 
   //Link an instrument to a user, creating a myInstruments array, at the endpoint /user/:id/my-instruments
   //Uses the AuthGuard to check if the user is authenticated with a valid token
@@ -61,10 +54,8 @@ export class UserController {
     //Extract the instrument id from the request body, and stores it in a new variable
     const newInstrumentId = addInstrumentDto._id;
 
-  // Checks if the instrument already exists in the user's instruments
-    const isDuplicate = user.myInstruments.some(instrument => instrument._id.toString() === newInstrumentId);
-
-    if (isDuplicate) {
+    // checks if the instrument is already linked to the user, by calling the isInstrumentDuplicate() method from the UsersService class
+    if (this.usersService.isInstrumentDuplicate(user, newInstrumentId)) {
       //If the instrument already exists, throw a ConflictException
       throw new ConflictException('Instrument already exists');
     }

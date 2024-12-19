@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { EnsembleModule } from './ensemble/ensemble.module';
 import { InstrumentsModule } from './instruments/instruments.module';
 
+// module only for testing, to make sure we dont delete the real database
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost/daos-test'),
