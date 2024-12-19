@@ -57,7 +57,7 @@ function FindMusician() {
   
 
   // Fetch search data using the useGet hook, using the serach parameter in the endpoint
-  const { data: searchData } = useGet<[]>(
+  const { data: searchData, error } = useGet<[]>(
     `/user/search?instrumentId=${searchParam}`,
   );
 
@@ -65,6 +65,9 @@ function FindMusician() {
     if (searchData) {
       // set the users with the fetched search data
       setUsers(searchData);
+    }
+    if (error) {
+      console.log(error);
     }
     // runs when there is a change in the searchData
   }, [searchData]);

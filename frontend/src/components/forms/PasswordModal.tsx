@@ -1,9 +1,10 @@
 import Subtitle from "../atoms/Subtitle";
 import { Button } from "../atoms/Button";
-import { useGet } from "../../hooks/use-get";
 import useAuthStore from "../../hooks/store/auth-store";
 import { Input } from "../atoms/Input";
 import { useState } from "react";
+
+// Component for the password modal
 
 type Props = {
   handleShowPasswordModal: () => void;
@@ -19,24 +20,31 @@ export default function PasswordModal({
   const [currentPassword, setCurrentPassword] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
 
+  // Function to handle the form submission
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    const userId = user._id;
     event.preventDefault();
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/user/${userId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-      currentPassword: currentPassword,
-      newPassword: newPassword
-      }),
-    });
+
+    const userId = user._id;
+    // Send a PUT request to the endpoint /user/:id to update the user's password
+    const response = await fetch(
+      `${import.meta.env.VITE_BASE_URL}/user/${userId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${accessToken}`, // send access token in the header
+        },
+        // Send the current password and new password in the request body
+        body: JSON.stringify({
+          currentPassword: currentPassword,
+          newPassword: newPassword,
+        }),
+      }
+    );
+    // if the response is ok, log the success message and alert the user
     if (response.ok) {
-      console.log("Updated profile successfully");
       alert("Din adgangskode er blevet ændret");
-      handleShowPasswordModal();
+      handleShowPasswordModal(); // close the modal
     } else {
       const errorData = await response.json();
       console.error("Create post error:", errorData.message);
@@ -76,10 +84,13 @@ export default function PasswordModal({
               id="currentPassword"
               type="text"
               inputPlaceholder="Nuværende adgangskode"
-              {...(errors.includes(
-                "currentPassword should not be empty"
-              ) && {
+              {...(errors.includes("currentPassword should not be empty") && {
                 errorMessage: "Du skal udfylde din nuværende adgangskode",
+              },
+              {
+                ...(errors.includes("Passwords do not match") && {
+                  errorMessage: "Den nuværende adgangskode er forkert",
+                }),
               })}
             />
             <Input
@@ -90,9 +101,7 @@ export default function PasswordModal({
               id="newPassword"
               type="text"
               inputPlaceholder="Ny adgangskode"
-              {...(errors.includes(
-                "newPassword should not be empty"
-              ) && {
+              {...(errors.includes("newPassword should not be empty") && {
                 errorMessage: "Du skal udfylde din nye adgangskode",
               })}
             />

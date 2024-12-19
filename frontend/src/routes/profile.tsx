@@ -194,7 +194,7 @@ export default function profile() {
         import.meta.env.VITE_BASE_URL
       }/user/${userId}/my-instruments/${selectedInstrumentId}`,
       {
-        method: "PATCH",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           // Authorization header with the access token

@@ -11,6 +11,7 @@ import { useGet } from "../../hooks/use-get";
 import useAuthStore from "../../hooks/store/auth-store";
 import Paragraf from "../atoms/Paragraf";
 
+
 type Props = {
   handlePostsOpen: () => void;
   ensembles: Ensemble[];

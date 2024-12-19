@@ -74,7 +74,7 @@ export class UserController {
 
   //Update a user's myInstruments (remove one instrument) at the endpoint /user/:id/my-instruments/:myInstrumentId
   @UseGuards(AuthGuard)
-  @Patch('/:id/my-instruments/:myInstrumentId')
+  @Delete('/:id/my-instruments/:myInstrumentId')
   removeMyInstrument(
     @Param('id') id: string,
     @Param('myInstrumentId') myInstrumentId: string,

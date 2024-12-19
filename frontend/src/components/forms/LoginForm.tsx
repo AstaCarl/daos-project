@@ -8,7 +8,9 @@ import useAuthStore from "../../hooks/store/auth-store.ts";
 import { useNavigate } from "react-router-dom";
 import { usePost } from "../../hooks/use-post.ts";
 
-type AuthResponse = {
+// Component for the login form
+
+type LoginResponse = {
   message: string;
   access_token: string;
   user: {
@@ -16,11 +18,11 @@ type AuthResponse = {
     name: string;
     lastname: string;
     email: string;
-    // Add other properties that your user object might have
   };
 };
 
 export default function LoginForm({}) {
+  // states for the email, password, type of password, and errors
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [type, setType] = useState("password");
@@ -28,14 +30,7 @@ export default function LoginForm({}) {
   const { login } = useAuthStore();
   const navigate = useNavigate();
 
-  const { data, error, loading, postData } = usePost<
-    AuthResponse,
-    { email: string; password: string }
-  >(
-    "/auth/login", // API endpoint
-    { email: email, password: password } // Body data to be sent in the POST request
-  );
-
+  // Function to toggle the password visibility
   const handleToggle = () => {
     if (type === "password") {
       setType("text");
@@ -44,6 +39,7 @@ export default function LoginForm({}) {
     }
   };
 
+  // functions to handle change in email and password input fields
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -52,19 +48,34 @@ export default function LoginForm({}) {
     setPassword(event.target.value);
   };
 
+ // Use custom hook to send a POST request to the endpoint /auth/login
+  const { data, error, postData } = usePost<
+  LoginResponse,
+  { email: string; password: string }
+>(
+  "/auth/login", // API endpoint
+  { email: email, password: password } // data to be sent in the body of the POST request
+);
+
+// Function to handle the form submission
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // Call the postData function to send the POST request
     postData();
   };
 
+  // useEffect to handle the response from the POST request
   useEffect(() => {
     if (data) {
+      // If the data is received, extract the user and token from the response
       const user = data.user;
       const token = data.access_token;
+      // Call the login function from the store to set the user and token in the
       login(user, token);
+      // Navigate to the profile page
       navigate("/profile");
     }
-
+    // If there is an error, log the error
     if (error) {
       console.error(error);
     if (error) {

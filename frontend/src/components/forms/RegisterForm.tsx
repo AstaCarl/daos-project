@@ -76,7 +76,6 @@ export function RegisterForm({}) {
     }
 
     if (error) {
-      console.log("hello", error);
       setErrors(error);
     }
   }, [data, error]);
