@@ -17,8 +17,14 @@ export class PostsService {
     return createdPost.save();
   }
 
-  findAll() {
-   return this.postModel.find().populate('instrument').populate('ensemble').populate('user').sort({ createdAt: -1 }).exec();
+  async findAll() {
+   const posts = await this.postModel.find().populate('instrument').populate('ensemble').populate('user').sort({ createdAt: -1 }).exec();
+if (posts.length === 0) {
+  return [];
+}
+else {
+  return posts;
+}
   }
 
   async findOneByUserId(id: string) {
