@@ -4,16 +4,23 @@ import Paragraf from "./atoms/Paragraf";
 import { Title } from "./atoms/Title";
 import useAuthStore from "../hooks/store/auth-store";
 
+// component for displaying the profile header with user info
+
 type Props = {
+  // handles the opening of the settings modal
   handleSettingsOpen: () => void;
 }
 
 export default function ProfileHeader({ handleSettingsOpen }: Props) {
+  // retreiving user info from the auth store
   const { user } = useAuthStore();
 
+  // destructuring user info
   const userName = user.name;
   const userLastname = user.lastname;
   const createdAt = user.createdAt;
+
+  // formatted date to month and year in danish
   const date = new Date(createdAt);
   const month = date.toLocaleString("da-DK", { month: "long" });
   const year = date.getFullYear();
@@ -39,7 +46,8 @@ export default function ProfileHeader({ handleSettingsOpen }: Props) {
 
       <div className="flex item-center justify-start gap-3 w-full">
         <Button variant="secondary" buttonText="Rediger profil" size="small" />
-        <Button variant="secondary" buttonText="Indstillinger" size="small" onClick={handleSettingsOpen} />
+        <Button variant="secondary" buttonText="Indstillinger" size="small" 
+        onClick={handleSettingsOpen} />
       </div>
     </div>
   );

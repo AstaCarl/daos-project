@@ -51,7 +51,6 @@ export default function MyEnsembles({
             zipcode={ensemble.zipcode}
             city={ensemble.city}
             activeUsers={ensemble.activeUsers.length}
-            href={ensemble.website}
           />
         ))}
       </section>

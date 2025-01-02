@@ -3,6 +3,8 @@ import Paragraf from "./atoms/Paragraf";
 import { Button } from "./atoms/Button";
 import Subtitle from "./atoms/Subtitle";
 
+// component for displaying action card, handles the layout of adding new posts, adding new instruments and adding new ensembles
+
 type Props = {
   buttonTextCreate: string;
   buttonTextRegister?: string;

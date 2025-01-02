@@ -1,10 +1,14 @@
 import Subtitle from "./atoms/Subtitle";
 import { Button } from "./atoms/Button";
 
+// component for displaying a modal with delete confirmation
+
 type Props = {
+  // props to hide and show the modal
   handleShowModal?: () => void;
   showDeleteModal?: boolean;
   subtitle: string;
+  // function to run when confirm button is clicked
   onClick?: () => void;
 };
 
@@ -14,7 +18,6 @@ export default function DeleteModal({
   subtitle,
   onClick,
 }: Props) {
-
 
 
   return (

@@ -3,7 +3,9 @@ import Icon from "../atoms/Icon";
 import Subtitle from "../atoms/Subtitle";
 import musicIcon from "../../assets/footer-music.svg";
 
-export default function Footer({}) {
+// component for displaying footer
+
+export default function Footer() {
   return (
     <footer className="bg-red flex flex-col gap-6 py-7 ps-3">
       <Subtitle variant="footer" subtitle="Musik samspil" />

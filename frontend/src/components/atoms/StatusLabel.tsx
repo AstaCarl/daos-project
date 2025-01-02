@@ -1,6 +1,8 @@
 import Icon from "./Icon";
 import Paragraf from "./Paragraf";
 
+// component for displaying user status labels
+
 type Props = {
   labelText: string | number;
   varient: "true" | "false";

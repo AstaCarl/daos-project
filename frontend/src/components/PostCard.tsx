@@ -7,25 +7,31 @@ import { Posts } from "../routes/profile";
 import { Button } from "./atoms/Button";
 import ContactModal from "./ContactModal";
 
+// component for displaying a post card
 
 type Props = {
+  // posts prop is an array of Posts objects
   posts: Posts[] | undefined;
 };
 
 export default function PostCard({ posts }: Props) {
+  // state for showing and hiding contact modal
   const [showContactModal, setShowContactModal] = useState(false);
 
+  // function to show and hide contact modal
   const handleShowModal = () => {
     if (showContactModal) {
       setShowContactModal(false);
     } else setShowContactModal(true);
   };
 
+  // mapping the posts array to retrieve the user object
   const user = posts?.map((post: Posts) => post.user);
 
   return (
     <>
       <div className="flex overflow-x-auto space-x-4">
+        {/* mapping the posts array to display them in a listed form */}
         {posts &&
           posts.map((post: Posts, index: number) => (
             <React.Fragment key={index}>
@@ -68,13 +74,21 @@ export default function PostCard({ posts }: Props) {
             </React.Fragment>
           ))}
       </div>
+      {/* if showContactModal is true, then diaplay modal */}
       {showContactModal && (
-  <>
-    {user && user.map((user: any, index: number) => (
-      <ContactModal key={index} showContactModal={showContactModal} handleShowModal={handleShowModal} user={user} />
-    ))}
-  </>
-)}
+        <>
+        {/* Render a ContactModal for each user in the user array if the user array is not null or undefined */}
+          {user &&
+            user.map((user: any, index: number) => (
+              <ContactModal
+                key={index}
+                showContactModal={showContactModal}
+                handleShowModal={handleShowModal}
+                user={user}
+              />
+            ))}
+        </>
+      )}
     </>
   );
 }

@@ -14,8 +14,10 @@ import contactIcon from "../../assets/contact-icon.svg";
 import quoteIcon from "../../assets/quote-icon.svg";
 import userIconMikkel from "../../assets/user-icon-mikkel.svg";
 import userIconKaren from "../../assets/user-icon-karen.svg";
+import instrumentIcon from "../../assets/instruments.svg";
 
 type Props = {
+  // onClick function that takes a string as an argument if it is defined
   onClick?: (myInstrumentId?: string) => void;
   myInstrumentId?: string;
   variant:
@@ -34,7 +36,8 @@ type Props = {
     | "contactIcon"
     | "quoteIcon"
     | "userIconMikkel"
-    | "userIconKaren";
+    | "userIconKaren"
+    | "instrumentIcon";
 };
 
 export default function Icon({ variant, onClick, myInstrumentId }: Props) {
@@ -55,7 +58,10 @@ export default function Icon({ variant, onClick, myInstrumentId }: Props) {
     quoteIcon: quoteIcon,
     userIconMikkel: userIconMikkel,
     userIconKaren: userIconKaren,
+    instrumentIcon: instrumentIcon,
   };
+
+  // If onClick is defined, call the function with the myInstrumentId as an argument
   const handleClick = () => {
     if (onClick) {
       onClick(myInstrumentId);

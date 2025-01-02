@@ -2,6 +2,8 @@ import frontpageHero from "../assets/frontpage-hero.svg";
 import { Title } from "./atoms/Title";
 import FindCard from "./Find-card";
 
+// component for frontpage hero section
+
 export default function FrontpageHero() {
   return (
     <div>

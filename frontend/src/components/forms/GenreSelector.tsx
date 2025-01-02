@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Label from "../atoms/Label";
 import Select from "../atoms/Select";
 
+// Component for the input element for selecting genres
+
 type GenreSelectorProps = {
   genres: string[];
   selectedGenres: string[];
@@ -17,6 +19,7 @@ export default function GenreSelector({
 }: GenreSelectorProps) {
   const [genre, setGenre] = useState<string>("");
 
+  // Function to handle the genre change
   const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setGenre(event.target.value); // Update the genre state with the selected value
   };
@@ -28,8 +31,11 @@ export default function GenreSelector({
       // Update the selectedGenres state by adding the new genre
       setSelectedGenres((prevSelectedGenres) => [...prevSelectedGenres, genre]);
     }
+    // runs when genre changes
   }, [genre, setSelectedGenres]);
 
+
+  // Function to handle removing a genre from the selectedGenres array
   const handleRemoveGenre = (genreToRemove: string) => {
     // Update the selectedGenres state by filtering out the genre to be removed
     setSelectedGenres((prevSelectedGenres) =>
@@ -51,13 +57,15 @@ export default function GenreSelector({
         {...(errors.includes("genre should not be empty") && {
           errorMessage: "Genre skal udfyldes",
         })}
-      >
+      > 
+      {/* Maps over the available genres */}
         {availableGenres.map((genre) => (
           <option key={genre} value={genre}>
             {genre}
           </option>
         ))}
       </Select>
+      {/* Maps over the selected genres */}
       {selectedGenres.length > 0 && (
         <div className="flex flex-wrap gap-3 pt-4">
           {selectedGenres.map((selectedGenre) => {
@@ -67,6 +75,7 @@ export default function GenreSelector({
                 variant="default"
                 key={selectedGenre}
                 labelText={selectedGenre}
+                // onclick to remove the genre from the selectedGenres array
                 onClick={() => handleRemoveGenre(selectedGenre)}
               />
             );

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useFetch } from "../hooks/use-fetch";
+import { useGet } from "../hooks/use-get";
 import { Title } from "../components/atoms/Title";
 import Paragraf from "../components/atoms/Paragraf";
 import MusicianCard from "../components/MusicianCard";
@@ -8,12 +8,14 @@ import { Button } from "../components/atoms/Button";
 import useAuthStore from "../hooks/store/auth-store";
 import { useNavigate } from "react-router-dom";
 
+// Find musician page, that renders a form for searching for musicians
+
 interface Instrument {
   _id: string;
   name: string;
 }
 
-interface User {
+export interface User {
   _id: string;
   name: string;
   createdAt: Date;
@@ -23,54 +25,58 @@ interface User {
 }
 
 function FindMusician() {
+  // state variables
   const [users, setUsers] = useState<User[]>([]);
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [searchParam, setSearchParam] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const { isLoggedIn } = useAuthStore();
+  const { accessToken } = useAuthStore();
   const navigate = useNavigate();
 
+
+  // useeffect for checking if the user is logged in
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!accessToken) {
+      // alert that remind the user to login
       alert("Du skal være logget ind for at finde musikere");
       navigate("/login");
     }
   }, []);
 
-  const { data: instrumentsData } = useFetch<Instrument[]>(
+  // Fetch instruments using the useGet hook
+  const { data: instrumentsData } = useGet<Instrument[]>(
     "/instruments",
-    "GET"
-  );
-  const queryParams = new URLSearchParams({
-    instrumentId: searchQuery,
-  }).toString();
-
-  const { data: searchData } = useFetch<[]>(
-    `/user/search?${queryParams}`,
-    "GET"
   );
 
   useEffect(() => {
     if (instrumentsData) {
       setInstruments(instrumentsData);
-      console.log("Get instruments successful:", instrumentsData);
     }
+    // runs when there is a change in the instrumentsData
   }, [instrumentsData]);
+  
+
+  // Fetch search data using the useGet hook, using the serach parameter in the endpoint
+  const { data: searchData, error } = useGet<[]>(
+    `/user/search?instrumentId=${searchParam}`,
+  );
 
   useEffect(() => {
     if (searchData) {
+      // set the users with the fetched search data
       setUsers(searchData);
-      console.log("Search data:", searchData);
     }
+    if (error) {
+      console.log(error);
+    }
+    // runs when there is a change in the searchData
   }, [searchData]);
 
-  const handleSearchParamChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSearchParam(e.target.value);
-  };
-
+  // function for handling the search
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSearchQuery(searchParam);
+    // set the chosen instrument as the search parameter
+    setSearchParam(searchQuery);
   };
 
   return (
@@ -87,7 +93,8 @@ function FindMusician() {
           <Select
             name="instrument"
             defaultValue="Vælg et instrument"
-            onChange={handleSearchParamChange}
+            // Set the chosen instrument as the search query
+            onChange={(e) => setSearchQuery(e.target.value)}
           >
             {instruments.map((instrument: any) => (
               <option key={instrument._id} value={instrument._id}>
@@ -99,6 +106,7 @@ function FindMusician() {
         </form>
 
         <div className="flex flex-col gap-6">
+          {/* Maps over the users to render a musicianCard for every user */}
           {users.map((user, index: number) => (
             <MusicianCard key={index} user={user} />
           ))}

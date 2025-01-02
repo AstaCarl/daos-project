@@ -5,7 +5,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UseGuards,
   Req,
 } from '@nestjs/common';
@@ -27,10 +26,15 @@ export class EnsembleController {
   @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createEnsembleDto: CreateEnsembleDto, @Req() req) {
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.decode(token) as any;
-    const email = decodedToken.email;
+    // Get the payload from the token in the headers
+    const payload = req.headers.authorization.split(' ')[1];
+    // decode the payload to get the email
+    const decodedPayload = jwt.decode(payload) as any;
+    // get the email from the decoded payload
+    const email = decodedPayload.email;
+    // find the user by email
     const userResponse = await this.usersService.findByEmail(email);
+    // get the user is from find user response
     const userId = userResponse._id;
 
     return this.ensembleService.createEnsemble(createEnsembleDto, userId);
@@ -61,11 +65,5 @@ export class EnsembleController {
     const userResponse = await this.usersService.findByEmail(email);
     const userId = userResponse._id;
     return this.ensembleService.updateEnsemble(id, updateEnsembleDto, userId);
-  }
-
-  //Delete ensemble by id
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ensembleService.removeEnsemble(+id);
   }
 }

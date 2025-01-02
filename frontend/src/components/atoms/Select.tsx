@@ -1,3 +1,5 @@
+// component for select input, that has a label, error message and default value
+
 type SelectProps = {
   name: string;
   label?: string;
@@ -28,7 +30,11 @@ export default function Select({
         id="select"
         onChange={onChange}
         name={name}
-      ><option disabled selected value="">{defaultValue}</option>
+      >
+        {/* Default value option, to show before chosing any option */}
+        <option disabled selected value="">
+          {defaultValue}
+        </option>
         {children}
       </select>
       {errorMessage && <span className="text-red text-sm">{errorMessage}</span>}

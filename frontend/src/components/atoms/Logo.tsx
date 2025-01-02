@@ -1,6 +1,8 @@
 import Paragraf from "./Paragraf";
 import { Title } from "./Title";
 
+// Logo component
+
 export function Logo() {
   return (
     <a href="/">

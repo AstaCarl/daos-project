@@ -1,4 +1,7 @@
 import Icon from "../atoms/Icon";
+
+// component for displaying user icon, as profile picture
+
 export function UserIcon() {
   return (
     <>

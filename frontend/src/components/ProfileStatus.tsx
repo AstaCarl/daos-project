@@ -3,6 +3,8 @@ import { Button } from "./atoms/Button";
 import StatusLabel from "./atoms/StatusLabel";
 import { useEffect, useState } from "react";
 
+// component for displaying profile status section(hardcode if we need)
+
 type Props = {
   user: any;
 };
@@ -16,10 +18,6 @@ export default function ProfileStatus({ user }: Props) {
   const [profileText, setProfileText] = useState<boolean>(false);
   const [date, setDate] = useState<boolean>(false);
 
-  // if (user) {
-  //   setName(<StatusLabel labelText="Navn" varient="true" />),;
-  // }
-
   useEffect(() => {
     if (user) {
       setName(true), setProfileImage(true), setEmail(true), setAddress(true), setPhoneNumber(true), setProfileText(true), setDate(true);
@@ -27,7 +25,7 @@ export default function ProfileStatus({ user }: Props) {
   }, [name, profileImage, email, address]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 padding bg-white border-y border-accent-grey">
       <Title variant="default" title="Din profilstatus" />
       <StatusLabel labelText="Navn" varient={name ? "true" : "false"} />
       <StatusLabel

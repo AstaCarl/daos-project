@@ -1,42 +1,33 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
 
+// Controler decorator, base route for posts
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
+  // Create a new post
   @Post()
   async create(@Body() createPostDto: CreatePostDto) {
-    return await this.postsService.create(createPostDto);
+    return await this.postsService.createPost(createPostDto);
   }
 
+  // Get all posts
   @Get()
   findAll() {
     return this.postsService.findAll();
   }
 
+  // Get a post by user id
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.postsService.findOneByUserId(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postsService.update(+id, updatePostDto);
-  }
+  //*********** Not made yet ***********//
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postsService.remove(+id);
-  }
+  // update a post
+
+  // delete a post
 }
