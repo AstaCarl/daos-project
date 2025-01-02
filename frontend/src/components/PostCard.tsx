@@ -32,7 +32,7 @@ export default function PostCard({ posts }: Props) {
     <>
       <div className="flex overflow-x-auto space-x-4">
         {/* mapping the posts array to display them in a listed form */}
-        {posts &&
+        {posts && posts &&
           posts.map((post: Posts, index: number) => (
             <React.Fragment key={index}>
               <div className="flex flex-col min-w-[280px] h-full space-x border  border-accent-grey w-full rounded-md">
