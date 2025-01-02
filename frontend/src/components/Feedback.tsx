@@ -30,8 +30,9 @@ export function Feedback() {
       </div>
       <div className="flex overflow-x-auto space-x-4">
         {/* Mapping the feedback objects to the feedback card */}
-        {feedback.map((feedback) => (
+        {feedback.map((feedback, index: number) => (
           <FeedbackCard
+          key={index}
             feedbackText={feedback.feedbackText}
             userIcon={feedback.userIcon}
             userName={feedback.userName}

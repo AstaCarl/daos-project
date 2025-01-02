@@ -14,6 +14,7 @@ import ProfileSetting from "../components/ProfileSetting";
 import DeleteModal from "../components/DeleteModal";
 import CreatePostForm from "../components/forms/CreatePostForm";
 import MyPosts from "../components/MyPosts";
+import { access } from "fs";
 
 // Profile page, that renders the user profile
 
@@ -76,8 +77,6 @@ export default function profile() {
   const [fetchTrigger, setFetchTrigger] = useState(false);
   const [openCreatePostForm, setOpenCreatePostForm] = useState(false);
   const [posts, setPosts] = useState<Posts[]>([]);
-  // get the user id from the user object
-  const userId = user._id;
 
   // check if the user is logged in, if not redirect to login page,
   useEffect(() => {
@@ -85,6 +84,14 @@ export default function profile() {
       navigate("/login");
     }
   }, [accessToken, navigate]);
+
+  if (!accessToken) {
+    return null; // Prevent rendering the rest of the component
+  }
+
+  // get the user id from the user object
+  const userId = user._id;
+
 
   // functions for handling the opening and closing of the different forms and modals
   const handleOpenCreateEnsembleForm = () => {
