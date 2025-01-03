@@ -29,9 +29,13 @@ function Index() {
         <FrontpageHero />
         <Feedback />
         <div className="space-y-4">
-        <Title variant="blue" title="Opslag" />
-        {/* Sending the posts as a prop to the card component */}
-        <PostCard posts={posts} />
+          {!posts && (
+            <>
+              <Title variant="blue" title="Opslag" />
+              {/* Sending the posts as a prop to the card component */}
+              <PostCard posts={posts} />
+            </>
+          )}
         </div>
       </main>
     </>
