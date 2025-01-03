@@ -4,6 +4,7 @@ import { Button } from "../atoms/Button";
 import Icon from "../atoms/Icon";
 import { useState } from "react";
 import useAuthStore from "../../hooks/store/auth-store";
+import { useNavigate } from "react-router-dom";
 
 // Header component
 
@@ -12,6 +13,7 @@ export default function Header({}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // get logout from useAuthStore
   const { logout, accessToken } = useAuthStore();
+  const navigate = useNavigate();
 
   // function for toggling menu
   const toggleMenu = () => {
@@ -26,6 +28,7 @@ export default function Header({}) {
   // handle logout function
   const handleLogout = () => {
     logout();
+    navigate("/login");
   };
 
   return (

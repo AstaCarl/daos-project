@@ -14,7 +14,6 @@ import ProfileSetting from "../components/ProfileSetting";
 import DeleteModal from "../components/DeleteModal";
 import CreatePostForm from "../components/forms/CreatePostForm";
 import MyPosts from "../components/MyPosts";
-import { access } from "fs";
 
 // Profile page, that renders the user profile
 
@@ -158,7 +157,7 @@ export default function profile() {
   // fetch the ensembles, instruments and posts for the specific user
   const { data: ensembleData } = useGet<Ensemble[]>(`/ensemble/${userId}`);
 
-  const { data: postsData } = useGet<Posts[]>(`/posts/${userId}`);
+  const { data: postsData } = useGet<Posts[]>(`/posts/${userId}`)
 
   const { data: myInstrumentsData } = useGet<UserInstrumentsData>(
     `/user/${userId}`,
