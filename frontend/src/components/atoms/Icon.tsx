@@ -15,6 +15,7 @@ import quoteIcon from "../../assets/quote-icon.svg";
 import userIconMikkel from "../../assets/user-icon-mikkel.svg";
 import userIconKaren from "../../assets/user-icon-karen.svg";
 import instrumentIcon from "../../assets/instruments.svg";
+import checkIconFalse from "../../assets/check-icon-false.svg";
 
 type Props = {
   // onClick function that takes a string as an argument if it is defined
@@ -37,7 +38,8 @@ type Props = {
     | "quoteIcon"
     | "userIconMikkel"
     | "userIconKaren"
-    | "instrumentIcon";
+    | "instrumentIcon"
+    | "checkIconFalse";
 };
 
 export default function Icon({ variant, onClick, myInstrumentId }: Props) {
@@ -59,6 +61,7 @@ export default function Icon({ variant, onClick, myInstrumentId }: Props) {
     userIconMikkel: userIconMikkel,
     userIconKaren: userIconKaren,
     instrumentIcon: instrumentIcon,
+    checkIconFalse: checkIconFalse,
   };
 
   // If onClick is defined, call the function with the myInstrumentId as an argument

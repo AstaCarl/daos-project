@@ -20,7 +20,7 @@ export default function ProfileStatus({ user }: Props) {
 
   useEffect(() => {
     if (user) {
-      setName(true), setProfileImage(true), setEmail(true), setAddress(true), setPhoneNumber(true), setProfileText(true), setDate(true);
+      setName(true), setProfileImage(false), setEmail(true), setAddress(false), setPhoneNumber(false), setProfileText(false), setDate(false);
     }
   }, [name, profileImage, email, address]);
 
