@@ -78,10 +78,7 @@ export default function LoginForm({}) {
     // If there is an error, log the error
     if (error) {
       console.error(error);
-    if (error) {
-      console.error(error);
       setErrors(["Ugyldig email eller adgangskode."]);
-    }
     }
   }, [data, error]);
 
