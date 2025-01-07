@@ -79,7 +79,7 @@ export default function LoginForm({}) {
     if (error) {
       console.error(error);
     if (error) {
-      console.error(error === "HTTP error! Status: 401");
+      console.error(error);
       setErrors(["Ugyldig email eller adgangskode."]);
     }
     }
